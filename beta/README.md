@@ -28,6 +28,10 @@ Limites da beta: 5.000 lançamentos, 1.000 metas, backup até 2 MB. Um registro 
 - Semanas: blocos de dias 1–7, 8–14, 15–21, 22–28 e restante do mês.
 - Tabela: totais por vendedor. Metas individuais e distribuição semanal de metas não fazem parte desta beta.
 
+## Tela e moldura
+
+O fundo externo permanece claro mesmo com o navegador em tema escuro. Em monitores largos, o conteúdo pode crescer até 1680 px; em telas pequenas, ocupa a largura disponível sem margem externa.
+
 ## Interações e validação
 
 Transições curtas em botões, cards e gráficos; foco visível, resposta ao salvar, confirmação de exclusão, movimento reduzido e superfícies alternativas para transparência reduzida. Formulários funcionam sem liberar navegação de formulários no sandbox.
