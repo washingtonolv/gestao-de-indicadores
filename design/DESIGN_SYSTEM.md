@@ -1,6 +1,6 @@
 # Gestão de indicadores — Design system
 
-Versão 0.4 • Proposta visual • 03/10/2026
+Versão 0.5 • Proposta visual • 03/10/2026
 
 ## Refinamento pelas referências de dashboard
 
@@ -31,11 +31,11 @@ Interface clara e leve. A preferência atual pela nova paleta e transparência s
 | brand | #FF5E2C | Identidade, ações e pequenos destaques |
 | border | #FFFFFFE0 | Contorno suave dos cartões |
 | control-border | #4D4D4D | Controles interativos |
-| urgent-mark | #B91C1C | Marca gráfica de urgência |
+| urgent-mark | #FF0000 | Marca gráfica de urgência |
 | urgent-surface | #FEE2E2 | Fundo do estado Urgente; texto preto profundo |
-| attention-mark | #A16207 | Amarelo-ocre de marcas pequenas com contraste |
+| attention-mark | #FFE100 | Amarelo solicitado para atenção, acompanhado de contorno e rótulo |
 | attention-surface | #FEF3C7 | Fundo amarelo do estado Atenção; texto preto profundo |
-| good-mark | #15803D | Marca gráfica de bom resultado |
+| good-mark | #00FF00 | Marca gráfica de bom resultado |
 | good-surface | #DCFCE7 | Fundo do estado Bom resultado; texto preto profundo |
 | neutral-surface | #F3F4F6 | Sem meta, sem comparação e dados indisponíveis |
 | neutral-mark | #4D4D4D | Marca de estado neutro |
@@ -147,4 +147,6 @@ Validar as faixas de status, a comparação por período, as metas próprias de 
 
 ## Cores dos gráficos
 
-Vermelho #B91C1C para urgência, amarelo #A16207 para atenção e verde #15803D para bom resultado. O medidor atual permanece amarelo (84,6%). A série de planejamento e as barras semanais usam verde como identificação visual, sem diagnosticar desempenho; o gráfico informa essa distinção. Nenhum gráfico usa o laranja da marca.
+Vermelho #FF0000 para urgência, amarelo #FFE100 para atenção e verde #00FF00 para bom resultado. O medidor atual permanece amarelo (84,6%). A série de planejamento e as barras semanais usam verde como identificação visual, sem diagnosticar desempenho; o gráfico informa essa distinção. Nenhum gráfico usa o laranja da marca.
+
+O medidor calcula a cor pelo percentual exato: abaixo de 80% vermelho, de 80% até menos de 100% amarelo, a partir de 100% verde. Faixas continuam propostas. Contorno cinza-escuro delimita o arco claro; texto preto e legenda acompanham a cor.
