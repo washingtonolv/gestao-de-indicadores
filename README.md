@@ -1,6 +1,6 @@
 # Gestão de indicadores
 
-[Abrir beta publicada](https://gestao-indicadores-design-system.d-d-cosm-tic-7623.chatgpt.site)
+[Abrir painel beta](https://washingtonolv.github.io/gestao-de-indicadores/)
 
 Beta com lançamentos manuais, metas por loja e mês, indicadores calculados, histórico editável, backup e restauração. Os dados ficam no navegador; não há banco no servidor ou sincronização entre dispositivos. Acesso privado do Sites preservado.
 
@@ -12,3 +12,4 @@ Paleta neutra e cards translúcidos. #FF5E2C para destaques; #FF0000, #FFE100 e 
 
 ![Painel em modo de exemplo](design/preview-painel.png)
 ![Lançamentos](design/preview-lancamentos.png)
+
