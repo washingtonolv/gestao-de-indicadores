@@ -1,10 +1,10 @@
 # Gestão de indicadores — Design system
 
-Versão 0.2 • Proposta visual • 03/10/2026
+Versão 0.3 • Proposta visual • 03/10/2026
 
 ## Refinamento pelas referências de dashboard
 
-As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A identidade continua usando #F7EEEE, #070101 e #E58222, com superfícies auxiliares quase brancas (#FFFCFC) e laranja suavizado (#FBE4CD). A proporção 60 / 10 / 30 continua sendo uma orientação de peso visual, sem obrigar grandes áreas de laranja sólido.
+As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A nova referência define preto #171717, laranja #F25623, cinza-escuro #4D4D4D e cinza-claro #DEDEDE. Fundos claros, cartões translúcidos, bordas brancas e gradientes suaves dão leveza ao painel. O laranja fica concentrado em gráficos e pequenos destaques.
 
 O painel passa a abrir primeiro. A navegação lateral mantém Painel, Design e Estados; em telas pequenas, transforma-se em navegação horizontal. Os cartões superiores mostram meta mensal, vendas, TM e PA. O valor faltante acompanha o medidor para evitar duplicar o atingimento em dois lugares.
 
@@ -18,19 +18,19 @@ Definir identidade visual, componentes, organização do painel e estados de int
 
 ## Direção visual
 
-Interface clara com a distribuição solicitada de 60 / 10 / 30: 60% de #F7EEEE nos fundos e superfícies; 10% de #070101 nos textos e contornos; 30% de #E58222 em áreas de destaque, identidade e ações. As proporções orientam o peso visual e não são quotas rígidas de pixels. Vermelho, amarelo e verde ficam reservados ao significado dos resultados. O laranja da marca não indica atenção ou urgência. Priorizar números, contexto de comparação e ações necessárias; evitar navegação lateral sem uma necessidade real.
+Interface clara e leve. A preferência atual pela nova paleta e transparência substitui a distribuição anterior de cores sólidas. Preto para números e títulos; cinza-escuro para apoio; cinza-claro e branco translúcido nas superfícies. Vermelho, amarelo e verde continuam reservados ao significado dos resultados. O laranja da marca não indica atenção ou urgência.
 
 ## Cores
 
 | Token | HEX | Uso |
 | --- | --- | --- |
-| text | #070101 | Todo texto, inclusive títulos, rótulos, valores e botões |
-| canvas | #F7EEEE | Fundo da página |
-| surface | #F7EEEE | Cartões e campos |
-| brand | #E58222 | Seleção e ação principal, com texto preto profundo |
-| brand-support | #E58222 | Áreas de apoio e metas semanais; compõe os 30% de destaque |
-| border | #D1C5C5 | Divisores estruturais, sem depender deles para identificar controles |
-| control-border | #767676 | Limite de campos e controles |
+| text | #171717 | Títulos, valores e controles |
+| text-support | #4D4D4D | Informações de apoio |
+| canvas | #DEDEDE | Base cinza-clara, suavizada com branco em gradiente |
+| surface | #FFFFFFCC → #FFFFFF85 | Cartões translúcidos, com desfoque de fundo de 18 px |
+| brand | #F25623 | Gráficos, identidade e pequenos destaques |
+| border | #FFFFFFE0 | Contorno suave dos cartões |
+| control-border | #4D4D4D | Controles interativos |
 | urgent-mark | #B91C1C | Marca gráfica de urgência |
 | urgent-surface | #FEE2E2 | Fundo do estado Urgente; texto preto profundo |
 | attention-mark | #A16207 | Amarelo-ocre de marcas pequenas com contraste |
@@ -38,9 +38,9 @@ Interface clara com a distribuição solicitada de 60 / 10 / 30: 60% de #F7EEEE 
 | good-mark | #15803D | Marca gráfica de bom resultado |
 | good-surface | #DCFCE7 | Fundo do estado Bom resultado; texto preto profundo |
 | neutral-surface | #F3F4F6 | Sem meta, sem comparação e dados indisponíveis |
-| neutral-mark | #525252 | Marca de estado neutro |
+| neutral-mark | #4D4D4D | Marca de estado neutro |
 
-Não colocar texto sobre vermelho ou verde escuros. Usar texto preto profundo sobre as superfícies claras e marcas escuras para pontos, barras e ícones. Não usar transparência para tornar textos secundários cinza; diferenciar por tamanho, peso e espaço.
+Não colocar texto sobre vermelho ou verde escuros. Usar texto preto profundo sobre as superfícies claras e marcas escuras para pontos, barras e ícones. Usar #4D4D4D sólido no texto de apoio. A transparência se aplica às superfícies, não aos números ou textos. Alertas mantêm fundos semitransparentes apenas onde não prejudicam a leitura; badges têm fundos opacos.
 
 ## Tipografia e composição
 
@@ -52,7 +52,7 @@ Não colocar texto sobre vermelho ou verde escuros. Usar texto preto profundo so
 - Escala de espaços: 4, 8, 12, 16, 24, 32 e 48 px.
 - Cartões: raio 16 px, preenchimento interno 20–24 px, borda estrutural de 1 px. Botões e campos: raio 10 px. Badges: raio máximo arredondado.
 - Interações: área de toque de pelo menos 44 × 44 px como padrão do produto. Foco preto visível, afastado do controle.
-- Sem sombras pesadas, gradientes decorativos, efeitos 3D, números piscando ou animações contínuas.
+- Gradientes suaves no fundo, cartões e barras, com sombras discretas e borda interna clara. Sem números piscando ou animações contínuas. Se o navegador não oferecer desfoque de fundo, usar superfícies quase opacas; respeitar a preferência de transparência reduzida.
 
 ## Organização do painel
 
@@ -143,4 +143,4 @@ Referência normativa: [WCAG 2.2 — W3C](https://www.w3.org/TR/WCAG22/), crité
 
 ## Antes do código da aplicação
 
-Validar as faixas de status, a comparação por período, as metas próprias de TM/PA e a direção visual. Depois implementar os componentes e o acesso aos dados conforme esse contrato. Esta etapa não inclui publicação de site.
+Validar as faixas de status, a comparação por período, as metas próprias de TM/PA e a direção visual. Depois implementar os componentes e o acesso aos dados conforme esse contrato. O protótipo está publicado no Sites; a integração com dados reais permanece para uma etapa posterior.
