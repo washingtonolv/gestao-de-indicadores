@@ -1,10 +1,10 @@
 # Gestão de indicadores — Design system
 
-Versão 0.3 • Proposta visual • 03/10/2026
+Versão 0.4 • Proposta visual • 03/10/2026
 
 ## Refinamento pelas referências de dashboard
 
-As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A nova referência define preto #171717, laranja #F25623, cinza-escuro #4D4D4D e cinza-claro #DEDEDE. Fundos claros, cartões translúcidos, bordas brancas e gradientes suaves dão leveza ao painel. O laranja fica concentrado em gráficos e pequenos destaques.
+As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A nova referência define preto #171717, laranja #FF5E2C, cinza-escuro #4D4D4D e cinza-claro #DEDEDE. Fundos claros, cartões translúcidos, bordas brancas e gradientes suaves dão leveza ao painel. O laranja fica restrito aos destaques e ações. Gráficos usam a paleta de indicadores: vermelho, amarelo e verde.
 
 O painel passa a abrir primeiro. A navegação lateral mantém Painel, Design e Estados; em telas pequenas, transforma-se em navegação horizontal. Os cartões superiores mostram meta mensal, vendas, TM e PA. O valor faltante acompanha o medidor para evitar duplicar o atingimento em dois lugares.
 
@@ -28,7 +28,7 @@ Interface clara e leve. A preferência atual pela nova paleta e transparência s
 | text-support | #4D4D4D | Informações de apoio |
 | canvas | #DEDEDE | Base cinza-clara, suavizada com branco em gradiente |
 | surface | #FFFFFFCC → #FFFFFF85 | Cartões translúcidos, com desfoque de fundo de 18 px |
-| brand | #F25623 | Gráficos, identidade e pequenos destaques |
+| brand | #FF5E2C | Identidade, ações e pequenos destaques |
 | border | #FFFFFFE0 | Contorno suave dos cartões |
 | control-border | #4D4D4D | Controles interativos |
 | urgent-mark | #B91C1C | Marca gráfica de urgência |
@@ -144,3 +144,7 @@ Referência normativa: [WCAG 2.2 — W3C](https://www.w3.org/TR/WCAG22/), crité
 ## Antes do código da aplicação
 
 Validar as faixas de status, a comparação por período, as metas próprias de TM/PA e a direção visual. Depois implementar os componentes e o acesso aos dados conforme esse contrato. O protótipo está publicado no Sites; a integração com dados reais permanece para uma etapa posterior.
+
+## Cores dos gráficos
+
+Vermelho #B91C1C para urgência, amarelo #A16207 para atenção e verde #15803D para bom resultado. O medidor atual permanece amarelo (84,6%). A série de planejamento e as barras semanais usam verde como identificação visual, sem diagnosticar desempenho; o gráfico informa essa distinção. Nenhum gráfico usa o laranja da marca.
