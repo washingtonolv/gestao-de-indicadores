@@ -4,6 +4,8 @@ Painel de vendas, metas e desempenho da equipe.
 
 ## Etapa atual: design
 
+[Abrir protótipo publicado](https://gestao-indicadores-design-system.d-d-cosm-tic-7623.chatgpt.site) — v0.2, com navegação compacta, gráfico de metas e medidor semicircular. Acesso privado preservado.
+
 - [Design system](design/DESIGN_SYSTEM.md): cores, tipografia, componentes, responsividade, acessibilidade e regras propostas de status.
 - [Protótipo de revisão](design/prototipo.html): abrir o arquivo no navegador para navegar por Fundamentos, Painel e Estados. O GitHub exibe o código do documento; baixe-o para visualizar.
 

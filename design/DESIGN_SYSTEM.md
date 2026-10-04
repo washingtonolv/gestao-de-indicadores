@@ -1,6 +1,16 @@
 # Gestão de indicadores — Design system
 
-Versão 0.1 • Proposta visual • 03/10/2026
+Versão 0.2 • Proposta visual • 03/10/2026
+
+## Refinamento pelas referências de dashboard
+
+As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A identidade continua usando #F7EEEE, #070101 e #E58222, com superfícies auxiliares quase brancas (#FFFCFC) e laranja suavizado (#FBE4CD). A proporção 60 / 10 / 30 continua sendo uma orientação de peso visual, sem obrigar grandes áreas de laranja sólido.
+
+O painel passa a abrir primeiro. A navegação lateral mantém Painel, Design e Estados; em telas pequenas, transforma-se em navegação horizontal. Os cartões superiores mostram meta mensal, vendas, TM e PA. O valor faltante acompanha o medidor para evitar duplicar o atingimento em dois lugares.
+
+O gráfico alterna entre as metas semanais e seu acumulado: R$ 32.000,00; R$ 74.240,00; R$ 104.960,00; R$ 128.000,00. Esses valores são planejamento, não uma série de vendas realizadas. Não foram inventados históricos diários, comparativos com meses anteriores, novas categorias ou novos resultados.
+
+A versão mantém os dados, os status propostos, o sandbox do iframe e a CSP. Revisada em larguras de 320, 360, 768, 1280 e 1440 px, com navegação, alternância do gráfico e estados locais verificados. Não inclui conexão com dados reais.
 
 ## Escopo desta etapa
 
@@ -46,10 +56,10 @@ Não colocar texto sobre vermelho ou verde escuros. Usar texto preto profundo so
 
 ## Organização do painel
 
-1. Título e período, com indicação de mês encerrado ou em andamento.
-2. Quatro cartões: meta do mês, vendas realizadas, falta para a meta e atingimento.
-3. Coluna compacta com ticket médio e peças por atendimento; tabela de vendedoras ao lado.
-4. Distribuição semanal com quatro semanas, percentuais e valores. Total deve reconciliar com a meta mensal.
+1. Navegação compacta, título e período, com indicação de mês encerrado ou em andamento.
+2. Quatro cartões: meta do mês, vendas realizadas, ticket médio e peças por atendimento.
+3. Gráfico do planejamento semanal ao lado do medidor de atingimento, com o saldo faltante.
+4. Tabela da equipe e distribuição semanal. O total semanal deve reconciliar com a meta mensal.
 5. Origem, data de atualização e eventuais limitações dos dados em posição discreta, mas visível.
 
 ### Responsividade
