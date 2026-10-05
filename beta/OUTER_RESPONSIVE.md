@@ -1,5 +1,5 @@
 # Moldura externa responsiva
 
-A moldura do documento deixa de acompanhar o tema escuro do navegador. O fundo da página externa permanece cinza-claro em qualquer esquema de cores, para evitar as faixas pretas ao redor do iframe. O iframe ocupa a largura disponível e cresce até 1680 px; em celulares não há margem externa. A altura continua acompanhando o conteúdo do iframe por meio da mensagem de medida existente.
+A moldura externa permanece clara em qualquer esquema de cores. O iframe ocupa a largura disponível e cresce até 1680 px. Em celulares, ocupa a altura da tela e permite a rolagem do documento interno; assim, a navegação inferior fixa acompanha a tela e o conteúdo reserva espaço para não ficar encoberto. Em telas maiores, a altura acompanha o conteúdo pela mensagem de medida existente.
 
 A CSP e o atributo `sandbox="allow-scripts"` foram mantidos.
