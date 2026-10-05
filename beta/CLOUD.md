@@ -18,7 +18,7 @@ O salvamento calcula diferenças em relação aos registros carregados e envia a
 
 ## Limitações explícitas
 
-- Administradores criam contas em Admin → Usuários e perfis. Administrador exige e-mail; gestor/vendedor exigem login de 3–40 caracteres. Senha de 12–128 caracteres. Mudanças de perfil/status de contas existentes e recuperação de senha ainda são feitas pelo proprietário no Supabase. Não há cadastro público nem envio de convites.
+- Administradores criam contas em Admin → Usuários e perfis. Administrador exige e-mail; gestor/vendedor exigem login de 3–40 caracteres. Senha de 8–128 caracteres. Mudanças de perfil/status de contas existentes e recuperação de senha ainda são feitas pelo proprietário no Supabase. Não há cadastro público nem envio de convites.
 - Restauração/importação de backups está desativada no modo online. Na tela de login, **Baixar meus dados da beta local** aparece quando há dados antigos naquele navegador. A migração depende de revisão e conversão de IDs locais; não foi realizada.
 - O painel não funciona offline. Uma falha de rede não é exibida como salvamento confirmado.
 - A consulta traz o histórico acessível dentro dos limites da beta; paginação por período no servidor será necessária para volumes maiores.

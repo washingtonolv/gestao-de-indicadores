@@ -13,7 +13,7 @@ export function validateAccount(body) {
  if(role!=='admin'&&!/^[a-z0-9][a-z0-9._-]{2,39}$/.test(username))throw Error('Use um login de 3 a 40 caracteres: letras sem acentos, números, ponto, hífen ou sublinhado.');
  const email=role==='admin'?suppliedEmail:username+'@usuarios.gi.invalid';
  const loginName=role==='admin'?suppliedEmail:username;
- if(typeof password!=='string'||password.length<12||password.length>128)throw Error('Use uma senha de 12 a 128 caracteres.');
+ if(typeof password!=='string'||password.length<8||password.length>128)throw Error('Use uma senha de 8 a 128 caracteres.');
  if(!['admin','manager','seller'].includes(role))throw Error('Perfil inválido.');
  const storeId=role==='admin'?null:body.storeId;
  const sellerId=role==='seller'?body.sellerId:null;

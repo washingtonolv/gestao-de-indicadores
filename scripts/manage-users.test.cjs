@@ -19,6 +19,9 @@ async function call(body=base,settings={}){scenario=settings;creates=0;inserted=
  assert.equal((await call(base,{blocked:true})).status,403);assert.equal(creates,0);
  assert.equal((await call(base,{unauth:true})).status,401);
  assert.equal((await call({...base,password:'short'})).status,400);assert.equal(creates,0);
+ for(const length of [0,7,129]){assert.equal((await call({...base,password:'x'.repeat(length)})).status,400);assert.equal(creates,0);}
+ for(const length of [8,11,12,128]){assert.equal((await call({...base,password:'x'.repeat(length)})).status,201);assert.equal(creates,1);}
+ assert.match(fs.readFileSync('beta/admin.html','utf8'),/id="admin-password"[^>]*minlength="8"/);
  assert.equal((await call(base)).status,201);assert.equal(inserted.login_name,base.email);assert.equal(inserted.role,'admin');assert.ok(!('password'in inserted));
  const seller={...base,email:'',username:'Ana.Silva',role:'seller',storeId:uuid,sellerId:uuid};
  assert.equal((await call(seller)).status,201);assert.equal(inserted.login_name,'ana.silva');assert.equal(inserted.store_id,uuid);
