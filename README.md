@@ -2,7 +2,9 @@
 
 [Abrir painel beta](https://washingtonolv.github.io/gestao-de-indicadores/)
 
-Beta com lançamentos manuais, metas por loja e mês, indicadores calculados, histórico editável, backup e restauração. Os dados ficam no navegador; não há banco no servidor ou sincronização entre dispositivos. Acesso privado do Sites preservado.
+Beta com login Supabase, lançamentos manuais, metas por loja e vendedor, indicadores e histórico. Os dados online podem ser consultados em outros dispositivos com a mesma conta. Dados da beta local permanecem preservados e não foram importados automaticamente.
+
+- [Integração online, uso e limitações](beta/CLOUD.md)
 
 - [Guia da beta e limitações](beta/README.md)
 - [Estrutura do banco e regras de acesso](supabase/README.md)

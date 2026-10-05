@@ -1,8 +1,8 @@
 # Banco de dados — Gestão de indicadores
 
-Projeto: `wyvtuvmsgncllwxxotjp` (Gestaoindicadores). Um negócio por projeto, com várias lojas. O site continua na beta local até a integração de autenticação e persistência ser concluída; adicionar as tabelas não sincroniza o painel automaticamente.
+Projeto: `wyvtuvmsgncllwxxotjp` (Gestaoindicadores). Um negócio por projeto, com várias lojas. Login e persistência integrados ao painel. Consulte `beta/CLOUD.md` para uso, testes e limitações. A importação de dados da beta local continua pendente.
 
-Migração inicial aplicada no projeto pelo SQL Editor e verificada em 04/10/2026 (São Paulo): sete tabelas, RLS ativo em todas, 22 políticas e nenhum privilégio de tabela para `anon`. A consulta reproduzível está em `verify.sql`. Nenhum usuário foi habilitado e nenhum dado local foi importado. Os 64 testes de autorização foram executados localmente em PGlite; a verificação remota conferiu a estrutura e os privilégios, ainda sem sessões reais do aplicativo.
+Migração inicial aplicada no projeto pelo SQL Editor e verificada em 04/10/2026 (São Paulo): sete tabelas, RLS ativo em todas, 22 políticas e nenhum privilégio de tabela para `anon`. A consulta reproduzível está em `verify.sql`. Posteriormente, o primeiro administrador foi habilitado com confirmação do proprietário. Nenhum dado local foi importado. Os 64 testes de autorização foram executados localmente em PGlite; a verificação remota conferiu a estrutura e os privilégios, ainda sem sessões reais do aplicativo.
 
 ## Estrutura
 
@@ -37,7 +37,7 @@ Execute a migração `migrations/202610050001_initial.sql` uma vez no SQL Editor
 
 Depois, confira sete tabelas com RLS, políticas e ausência de acesso `anon`. Não crie perfis reais antes de confirmar os usuários e seus vínculos.
 
-## Primeiro administrador e login (etapa pendente)
+## Provisionamento de contas
 
 1. Configurar a URL do site e os redirecionamentos permitidos no Supabase Auth.
 2. Criar a conta pelo fluxo de autenticação do Supabase. Senhas não pertencem a estas tabelas.
@@ -58,3 +58,5 @@ Exportar backup antes de migrar. Validar com `validateDB`; apresentar resumo e r
 `scripts/database.test.mjs` executa PostgreSQL via PGlite em memória com usuários fictícios e uma função `auth.uid()` de teste. Verifica anonimato, conta sem perfil, isolamento por loja/vendedor, bloqueio de escrita pelo vendedor, promoção indevida, criação/correção/exclusão pelo gestor, metadados de auditoria, arquivamento, valores e referências inválidas. Não acessa dados reais e não substitui o teste final do Supabase Auth/REST no projeto remoto.
 
 Referência: [Supabase — Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security).
+
+A migração `202610050002_atomic_changes.sql` foi aplicada e o teste remoto `verify-save.sql` confirmou gravação e auditoria sob o papel authenticated, com rollback dos dados de teste.

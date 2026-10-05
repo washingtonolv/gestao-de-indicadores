@@ -16,11 +16,11 @@ function adminFields(){
  $('#admin-form-help').textContent=user?'Pré-cadastro local, sem senha, convite ou autenticação.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
-function renderAdmin(){
+function renderAdmin(){if(cloudProfile&&adminTab==='users'){renderCloudProfiles();return;}
  const a=adminState();$('#admin-counts').innerHTML=[['Lojas ativas',a.stores.filter(x=>x.active).length],['Vendedores ativos',a.sellers.filter(x=>x.active).length],['Usuários cadastrados',a.users.length]].map(([label,count])=>`<div class="card"><strong>${count}</strong>${label}</div>`).join('');
  $('#admin-form').hidden=adminTab==='audit';$('#admin-permissions').hidden=adminTab!=='users';
  $('#admin-list-title').textContent={stores:'Lojas cadastradas',sellers:'Vendedores cadastrados',users:'Usuários cadastrados',audit:'Histórico de alterações'}[adminTab];
- $('#admin-list-help').textContent=adminTab==='audit'?'Últimas 200 alterações salvas. Operador local: sem identificação autenticada nesta beta.':adminTab==='users'?'Status e perfis são preparatórios. O bloqueio de acesso depende da futura autenticação.':'Arquivar impede novos lançamentos com o cadastro e preserva o histórico.';
+ $('#admin-list-help').textContent=adminTab==='audit'?'Últimas 200 alterações registradas pelo banco, com identificação do responsável.':adminTab==='users'?'Status e perfis são preparatórios. O bloqueio de acesso depende da futura autenticação.':'Arquivar impede novos lançamentos com o cadastro e preserva o histórico.';
  all('[data-admin-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.adminTab===adminTab)));
  const query=$('#admin-search').value.trim().toLocaleLowerCase('pt-BR');
  if(adminTab==='audit'){
@@ -38,7 +38,7 @@ root.addEventListener('click',async e=>{
  if(b.dataset.adminToggle){try{const next=validateDB(clone()),item=next.admin[adminTab].find(x=>x.id===b.dataset.adminToggle);if(!item)return;item.active=!item.active;await save(next,`${item.active?'Reativou':'Desativou'} ${adminLabels[adminTab]}: ${item.name}`);$('#admin-feedback').textContent='Status do cadastro atualizado.';}catch(err){$('#admin-feedback').textContent=err.message;}}
 });
 $('#admin-form').onsubmit=async e=>{
- e.preventDefault();$('#admin-error').textContent='';try{
+ e.preventDefault();if(cloudProfile&&adminTab==='users')return;$('#admin-error').textContent='';try{
   const next=validateDB(clone()),a=next.admin,list=a[adminTab],id=$('#admin-id').value||crypto.randomUUID(),old=list.find(x=>x.id===id);
   const item={id,name:normal($('#admin-name').value),active:old?.active??true};
   if(!item.name)throw Error('Informe um nome.');
@@ -54,7 +54,7 @@ $('#admin-form').onsubmit=async e=>{
    const store=a.stores.find(x=>x.id===old.storeId);for(const x of next.entries)if(same(x.store,store.name)&&same(x.seller,old.name))x.seller=item.name;
   }
   if(old)list[list.indexOf(old)]=item;else list.push(item);
-  await save(next,`${old?'Editou':'Cadastrou'} ${adminLabels[adminTab]}: ${item.name}`);resetAdmin();renderAdmin();$('#admin-feedback').textContent='Cadastro salvo neste navegador.';
+  await save(next,`${old?'Editou':'Cadastrou'} ${adminLabels[adminTab]}: ${item.name}`);resetAdmin();renderAdmin();$('#admin-feedback').textContent='Cadastro salvo no Supabase.';
  }catch(err){$('#admin-error').textContent=err.message;}
 };
 $('#admin-form button[type=submit]').addEventListener('click',e=>{e.preventDefault();if($('#admin-form').reportValidity())$('#admin-form').onsubmit(e);});

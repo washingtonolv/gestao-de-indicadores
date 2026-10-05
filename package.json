@@ -2,9 +2,14 @@
   "name": "gestao-de-indicadores",
   "private": true,
   "scripts": {
-    "test": "node scripts/schema.test.cjs && node scripts/evolution.test.cjs && node scripts/database.test.mjs"
+    "test": "node scripts/schema.test.cjs && node scripts/evolution.test.cjs && node scripts/database.test.mjs && node scripts/cloud-model.test.mjs"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "0.5.8"
-  }
+    "@electric-sql/pglite": "0.5.8",
+    "esbuild": "^0.28.2"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2"
+  },
+  "type": "module"
 }
