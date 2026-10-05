@@ -9,6 +9,10 @@ O item **Admin** reúne lojas, vendedores, usuários e o histórico das últimas
 - Histórico: ação e horário, identificados como Operador local. Não é uma trilha autenticada ou inviolável.
 - Backup: inclui cadastros e histórico. Backups antigos são aceitos e reconstruídos a partir dos resultados; a restauração substitui também os cadastros administrativos, como informado na prévia.
 
+## Responsabilidades dos perfis
+
+O gestor registra e corrige os resultados dos vendedores de sua loja. O vendedor apenas consulta a evolução dos próprios resultados, sem criar, editar ou excluir lançamentos. O administrador mantém a gestão geral. Essa política será aplicada no servidor quando a autenticação for integrada.
+
 ## Construção
 
 Execute `python scripts/build.py` para incorporar os fontes nos dois documentos publicados. O parser decodifica o atributo do iframe uma única vez para preservar entidades usadas pelo JavaScript. CSP e sandbox permanecem no documento original.
