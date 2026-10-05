@@ -1,0 +1,10 @@
+{
+  "name": "gestao-de-indicadores",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/schema.test.cjs && node scripts/evolution.test.cjs && node scripts/database.test.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

@@ -5,6 +5,7 @@
 Beta com lançamentos manuais, metas por loja e mês, indicadores calculados, histórico editável, backup e restauração. Os dados ficam no navegador; não há banco no servidor ou sincronização entre dispositivos. Acesso privado do Sites preservado.
 
 - [Guia da beta e limitações](beta/README.md)
+- [Estrutura do banco e regras de acesso](supabase/README.md)
 - [Documento navegável](design/prototipo.html)
 - [Especificação visual anterior](design/DESIGN_SYSTEM.md)
 
