@@ -2,6 +2,8 @@
 
 Projeto: `wyvtuvmsgncllwxxotjp` (Gestaoindicadores). Um negócio por projeto, com várias lojas. O site continua na beta local até a integração de autenticação e persistência ser concluída; adicionar as tabelas não sincroniza o painel automaticamente.
 
+Migração inicial aplicada no projeto pelo SQL Editor e verificada em 04/10/2026 (São Paulo): sete tabelas, RLS ativo em todas, 22 políticas e nenhum privilégio de tabela para `anon`. A consulta reproduzível está em `verify.sql`. Nenhum usuário foi habilitado e nenhum dado local foi importado. Os 64 testes de autorização foram executados localmente em PGlite; a verificação remota conferiu a estrutura e os privilégios, ainda sem sessões reais do aplicativo.
+
 ## Estrutura
 
 | Tabela | Conteúdo |
