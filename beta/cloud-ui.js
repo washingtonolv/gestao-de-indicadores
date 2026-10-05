@@ -1,11 +1,12 @@
 let cloudProfile=null,cloudProfiles=[];
 function acceptCloud(result){db=validateDB(result.data);revision=result.revision;cloudProfile=result.profile;cloudProfiles=result.profiles||[];}
 function renderCloudProfiles(){
- $('#admin-form').hidden=true;$('#admin-permissions').hidden=true;
+ $('#admin-form').hidden=false;$('#admin-permissions').hidden=false;adminOptions();adminFields();
  $('#admin-list-title').textContent='Contas com acesso ao painel';
- $('#admin-list-help').textContent='Nesta etapa, criação de contas e alterações de permissão são feitas no Supabase pelo proprietário do projeto.';
+ $('#admin-list-help').textContent='Cadastre uma conta usando o formulário. Senhas são protegidas pelo serviço de autenticação e não podem ser consultadas.';
  all('[data-admin-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.adminTab==='users')));
- $('#admin-list').innerHTML=cloudProfiles.map(p=>`<div class="admin-row"><div><strong>${esc(p.name)}</strong><small>${esc(roleLabels[p.role])} · ${p.active?'Ativo':'Bloqueado'}</small></div></div>`).join('')||'<p>Nenhuma conta acessível.</p>';
+ const search=$('#admin-search').value.trim().toLowerCase();
+ $('#admin-list').innerHTML=cloudProfiles.filter(p=>(p.name+' '+(p.login||'')).toLowerCase().includes(search)).map(p=>`<div class="admin-row"><div><strong>${esc(p.name)}</strong><small>${esc(roleLabels[p.role])} · ${esc(p.login||'Login cadastrado')} · ${p.active?'Ativo':'Bloqueado'}</small></div></div>`).join('')||'<p>Nenhuma conta acessível.</p>';
 }
 function renderCloudUI(){
  $('#storage-status').textContent=demo?'Exemplo · não salvo':ready?'Dados do Supabase':'Conectando…';
@@ -19,4 +20,14 @@ function renderCloudUI(){
  if(seller){$('#evo-mode').value='individual';$('#evo-mode').disabled=true;$('#evo-seller').value=cloudProfile.sellerId;$('#evo-seller').disabled=true;renderEvolution();}
  const counts=all('#admin-counts strong');if(counts[2])counts[2].textContent=cloudProfiles.length;
  if(cloudProfile.role==='manager')$('#entry-store').value=db.admin.stores.find(s=>s.id===cloudProfile.storeId)?.name||'';
+}
+
+async function createCloudAccount(){
+ $('#admin-error').textContent='';if(busy)return;
+ if(cloudProfile?.role!=='admin'){$('#admin-error').textContent='Somente administradores podem cadastrar usuários.';return;}
+ const payload={name:normal($('#admin-name').value),email:$('#admin-email').value.trim(),username:$('#admin-username').value.trim(),password:$('#admin-password').value,role:$('#admin-role').value,storeId:$('#admin-store').value,sellerId:$('#admin-seller').value};
+ const button=$('#admin-form button[type=submit]');busy=true;button.disabled=true;
+ try{const response=await request('create-account',payload);acceptCloud(response);resetAdmin();render();$('#admin-feedback').textContent='Conta criada. O usuário já pode entrar com as credenciais cadastradas.';}
+ catch(e){$('#admin-error').textContent=e.message;}
+ finally{$('#admin-password').value='';payload.password='';busy=false;button.disabled=false;}
 }

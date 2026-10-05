@@ -1,6 +1,6 @@
 # Integração Supabase
 
-O painel exige e-mail e senha de uma conta já cadastrada no Supabase Auth e um vínculo ativo em `gi_profiles`. O SDK oficial é empacotado no documento; somente a chave publicável está no cliente. A sessão usa `sessionStorage`, permanece após recarregar a mesma aba e tem renovação automática. Senhas não são gravadas pela aplicação. Dados antigos da beta local permanecem no armazenamento original, sem envio automático.
+O painel exige e-mail e senha para administradores, ou usuário e senha para gestores/vendedores, de uma conta cadastrada no Supabase Auth e um vínculo ativo em `gi_profiles`. O SDK oficial é empacotado no documento; somente a chave publicável está no cliente. A sessão usa `sessionStorage`, permanece após recarregar a mesma aba e tem renovação automática. Senhas não são gravadas pela aplicação. Dados antigos da beta local permanecem no armazenamento original, sem envio automático.
 
 O documento pai faz autenticação e requisições. O iframe mantém `sandbox="allow-scripts"` e sua CSP original; a CSP do pai libera somente o endpoint HTTPS do projeto para a nova conexão. Tokens nunca são enviados ao iframe. A ponte verifica origem opaca e a janela de origem.
 
@@ -18,7 +18,7 @@ O salvamento calcula diferenças em relação aos registros carregados e envia a
 
 ## Limitações explícitas
 
-- Criação de contas, convites e mudanças de perfil/status de acesso continuam no Supabase, pelo proprietário. A aba Usuários exibe os perfis autorizados para consulta. Não há formulário de cadastro de conta público nem recuperação de senha no painel nesta entrega.
+- Administradores criam contas em Admin → Usuários e perfis. Administrador exige e-mail; gestor/vendedor exigem login de 3–40 caracteres. Senha de 12–128 caracteres. Mudanças de perfil/status de contas existentes e recuperação de senha ainda são feitas pelo proprietário no Supabase. Não há cadastro público nem envio de convites.
 - Restauração/importação de backups está desativada no modo online. Na tela de login, **Baixar meus dados da beta local** aparece quando há dados antigos naquele navegador. A migração depende de revisão e conversão de IDs locais; não foi realizada.
 - O painel não funciona offline. Uma falha de rede não é exibida como salvamento confirmado.
 - A consulta traz o histórico acessível dentro dos limites da beta; paginação por período no servidor será necessária para volumes maiores.
@@ -31,3 +31,14 @@ O salvamento calcula diferenças em relação aos registros carregados e envia a
 - Fluxos dos demais papéis verificados em PostgreSQL local com usuários fictícios; contas reais de gestor e vendedor ainda não foram cadastradas para um teste ponta a ponta.
 
 Construção: `npm ci --ignore-scripts`, `python scripts/build.py`. O build inclui o SDK e o adaptador no HTML publicado, sem CDN de autenticação em tempo de execução.
+
+
+## Cadastro de contas no painel
+
+A Edge Function `manage-users` valida o token pelo Supabase Auth (`getUser`) e consulta o perfil ativo de administrador antes de usar a API privilegiada de criação. A chave de serviço permanece no ambiente do servidor. O perfil é inserido com o JWT do administrador para respeitar RLS e registrar o autor na auditoria. Falha no vínculo tenta remover somente a conta recém-criada; nenhuma senha é gravada em `gi_profiles`, no histórico ou nos logs da função.
+
+Gestores e vendedores recebem internamente um identificador de autenticação no domínio reservado `.invalid`; não precisam de e-mail e nenhum e-mail é enviado. A tela converte o login para esse identificador. `login_name` guarda apenas o identificador exibido na lista, nunca a senha.
+
+A verificação antiga do gateway, restrita ao segredo JWT legado, fica desativada; a função exige e valida a sessão diretamente no Auth e verifica o papel no banco. Requisições sem autenticação recebem 401 e perfis não administradores recebem 403. As origens permitidas são o GitHub Pages e o endereço local de teste. Código e configuração ficam em `supabase/functions/manage-users` e `supabase/config.toml`.
+
+Verificação: testes locais de administrador/gestor/vendedor, conta bloqueada, campos por perfil, loja/vendedor inativos, duplicidade e falha de vínculo. Endpoint publicado respondeu 401 ao teste anônimo. Nenhuma conta real foi criada automaticamente durante esses testes; o primeiro cadastro com senha deve ser feito pelo administrador.

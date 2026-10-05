@@ -5,14 +5,15 @@ const db = new PGlite();
 const id = n => `00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const qid = n => `'${id(n)}'`;
 await db.exec(`create role anon; create role authenticated; create schema auth;
- create table auth.users(id uuid primary key);
+ create table auth.users(id uuid primary key,email text);
  create function auth.uid() returns uuid language sql stable as $$
  select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
  grant usage on schema auth to authenticated,anon;
  grant execute on function auth.uid() to authenticated,anon;`);
 await db.exec(readFileSync(new URL('../supabase/migrations/202610050001_initial.sql',import.meta.url),'utf8'));
 await db.exec(readFileSync(new URL('../supabase/migrations/202610050002_atomic_changes.sql',import.meta.url),'utf8'));
-await db.exec(`insert into auth.users values (${qid(1)}),(${qid(2)}),(${qid(3)}),(${qid(4)}),(${qid(5)});
+await db.exec(readFileSync(new URL('../supabase/migrations/202610050003_user_logins.sql',import.meta.url),'utf8'));
+await db.exec(`insert into auth.users(id) values (${qid(1)}),(${qid(2)}),(${qid(3)}),(${qid(4)}),(${qid(5)});
  insert into public.gi_stores(id,name) values (${qid(11)},'Centro'),(${qid(12)},'Norte');
  insert into public.gi_sellers(id,store_id,name) values (${qid(21)},${qid(11)},'Ana'),(${qid(22)},${qid(11)},'Bia'),(${qid(23)},${qid(12)},'Caio');
  insert into public.gi_profiles(id,name,role,store_id,seller_id) values

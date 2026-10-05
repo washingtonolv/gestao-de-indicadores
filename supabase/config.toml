@@ -1,0 +1,4 @@
+[functions.manage-users]
+# Auth.getUser validates the bearer token; active admin membership is checked
+# before privileged operations. This accepts current asymmetric JWT signing keys.
+verify_jwt = false

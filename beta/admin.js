@@ -10,10 +10,10 @@ function adminOptions(){
 }
 function adminFields(){
  const user=adminTab==='users',seller=adminTab==='sellers',role=$('#admin-role').value;
- for(const [id,visible] of [['email',user],['role',user],['store',seller||(user&&role!=='admin')],['seller',user&&role==='seller']]){
+ for(const [id,visible] of [['email',user&&role==='admin'],['username',user&&role!=='admin'],['password',user],['role',user],['store',seller||(user&&role!=='admin')],['seller',user&&role==='seller']]){
   $('#admin-'+id+'-label').hidden=!visible;$('#admin-'+id).disabled=!visible;$('#admin-'+id).required=visible;
  }
- $('#admin-form-help').textContent=user?'Pré-cadastro local, sem senha, convite ou autenticação.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
+ $('#admin-form-help').textContent=user?'Administrador usa e-mail; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
 function renderAdmin(){if(cloudProfile&&adminTab==='users'){renderCloudProfiles();return;}
@@ -38,7 +38,7 @@ root.addEventListener('click',async e=>{
  if(b.dataset.adminToggle){try{const next=validateDB(clone()),item=next.admin[adminTab].find(x=>x.id===b.dataset.adminToggle);if(!item)return;item.active=!item.active;await save(next,`${item.active?'Reativou':'Desativou'} ${adminLabels[adminTab]}: ${item.name}`);$('#admin-feedback').textContent='Status do cadastro atualizado.';}catch(err){$('#admin-feedback').textContent=err.message;}}
 });
 $('#admin-form').onsubmit=async e=>{
- e.preventDefault();if(cloudProfile&&adminTab==='users')return;$('#admin-error').textContent='';try{
+ e.preventDefault();if(cloudProfile&&adminTab==='users'){await createCloudAccount();return;}$('#admin-error').textContent='';try{
   const next=validateDB(clone()),a=next.admin,list=a[adminTab],id=$('#admin-id').value||crypto.randomUUID(),old=list.find(x=>x.id===id);
   const item={id,name:normal($('#admin-name').value),active:old?.active??true};
   if(!item.name)throw Error('Informe um nome.');
