@@ -49,3 +49,11 @@
 #gi-beta .operation-alert span{min-width:0;overflow-wrap:anywhere}
 #gi-beta .operation-alert button{flex:none;font-size:11px;padding:8px 10px}
 @media(max-width:1000px){#gi-beta .operation-grid{grid-template-columns:1fr}#gi-beta .operation-grid>.card{height:auto}#gi-beta #operation-alerts{max-height:320px;flex:auto}#gi-beta .operation-grid .table-wrap{max-height:400px;flex:auto}}
+
+#gi-beta #evo-chart{position:relative}
+#gi-beta #evo-stats>.stat{--text-secondary:#374151;border-color:transparent}
+#gi-beta #evo-stats>.stat:nth-child(1){background:#6EE7B7}
+#gi-beta #evo-stats>.stat:nth-child(2){background:#93C5FD}
+#gi-beta #evo-stats>.stat:nth-child(3){background:#C4B5FD}
+#gi-beta #evo-stats>.stat:nth-child(4){background:#FDBA74}
+#gi-beta #evo-stats>.stat>small{border-color:#1F29371A}
