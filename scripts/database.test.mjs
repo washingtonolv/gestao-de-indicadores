@@ -13,6 +13,7 @@ await db.exec(`create role anon; create role authenticated; create schema auth;
 await db.exec(readFileSync(new URL('../supabase/migrations/202610050001_initial.sql',import.meta.url),'utf8'));
 await db.exec(readFileSync(new URL('../supabase/migrations/202610050002_atomic_changes.sql',import.meta.url),'utf8'));
 await db.exec(readFileSync(new URL('../supabase/migrations/202610050003_user_logins.sql',import.meta.url),'utf8'));
+await db.exec(readFileSync(new URL('../supabase/migrations/202610060001_delete_unused_sellers.sql',import.meta.url),'utf8'));
 await db.exec(`insert into auth.users(id) values (${qid(1)}),(${qid(2)}),(${qid(3)}),(${qid(4)}),(${qid(5)});
  insert into public.gi_stores(id,name) values (${qid(11)},'Centro'),(${qid(12)},'Norte');
  insert into public.gi_sellers(id,store_id,name) values (${qid(21)},${qid(11)},'Ana'),(${qid(22)},${qid(11)},'Bia'),(${qid(23)},${qid(12)},'Caio');
@@ -89,6 +90,13 @@ const expected=(await db.query(`select updated_at::text from public.gi_entries w
 await rpc([{table:'gi_entries',action:'update',row:{...rpcRow,cents:200},expected}]);
 assert.equal(Number((await db.query(`select cents from public.gi_entries where id=${qid(41)}`)).rows[0].cents),200);checks++;
 await as(null,'anon');await assert.rejects(()=>rpc([]),e=>e.code==='42501');checks++;
+await as(1);
+await db.exec(`insert into public.gi_sellers(id,store_id,name) values (${qid(90)},${qid(12)},'Disposable seller')`);
+const sellerVersion=(await db.query(`select updated_at::text from public.gi_sellers where id=${qid(90)}`)).rows[0].updated_at;
+await as(2);await assert.rejects(()=>rpc([{table:'gi_sellers',action:'delete',row:{id:id(90)},expected:sellerVersion}]));checks++;
+await as(1);await rpc([{table:'gi_sellers',action:'delete',row:{id:id(90)},expected:sellerVersion}]);checks++;
+assert.equal((await db.query(`select count(*)::int n from public.gi_sellers where id=${qid(90)}`)).rows[0].n,0);checks++;
+await denied(`delete from public.gi_sellers where id=${qid(21)}`,'23503');
 await db.close();
 console.log(`Database: ${checks} checks passed (PostgreSQL/PGlite, isolated auth fixtures).`);
 

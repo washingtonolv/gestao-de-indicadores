@@ -9,6 +9,8 @@
 <style>:root{color-scheme:light;background:#F3F4F6}html,body{margin:0;min-height:100%;background:#F3F4F6}body{box-sizing:border-box;min-height:100dvh;padding:12px}iframe{display:block;width:100%;max-width:1680px;height:calc(100vh - 24px);min-height:calc(100dvh - 24px);margin:0 auto;border:0;background:#F3F4F6}@media(max-width:760px), (max-width:1000px) and (max-height:500px){body{padding:0}iframe{height:100vh;min-height:100dvh}}@media(min-width:1681px){body{padding:16px}}</style>
 
 
+
+
 <!-- PWA_HEAD -->
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" type="image/png" href="./icons/icon-192.png">
@@ -2030,7 +2032,7 @@ function renderAdmin(){if(cloudProfile&amp;&amp;adminTab===&#x27;users&#x27;){re
   $(&#x27;#admin-list&#x27;).innerHTML=a.audit.slice().reverse().filter(x=&gt;(x.action+&#x27; &#x27;+x.actor).toLocaleLowerCase(&#x27;pt-BR&#x27;).includes(query)).map(x=&gt;`&lt;div class=&quot;admin-row&quot;&gt;&lt;div&gt;&lt;strong&gt;${esc(x.action)}&lt;/strong&gt;&lt;small&gt;${new Date(x.at).toLocaleString(&#x27;pt-BR&#x27;)} · ${esc(x.actor)}&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)||&#x27;&lt;p&gt;Nenhuma alteração encontrada.&lt;/p&gt;&#x27;;return;
  }
  const rows=a[adminTab].filter(x=&gt;(x.name+&#x27; &#x27;+(x.email||&#x27;&#x27;)).toLocaleLowerCase(&#x27;pt-BR&#x27;).includes(query));
- $(&#x27;#admin-list&#x27;).innerHTML=rows.map(x=&gt;{const store=a.stores.find(s=&gt;s.id===x.storeId),details=adminTab===&#x27;users&#x27;?`${roleLabels[x.role]} · ${x.email}${store?&#x27; · &#x27;+store.name:&#x27;&#x27;}`:adminTab===&#x27;sellers&#x27;?store?.name||&#x27;Loja não encontrada&#x27;:&#x27;Disponível para metas e lançamentos&#x27;;return `&lt;div class=&quot;admin-row&quot;&gt;&lt;div&gt;&lt;strong&gt;${esc(x.name)}&lt;/strong&gt;&lt;small&gt;${esc(details)}&lt;/small&gt;&lt;span class=&quot;admin-status&quot;&gt;${x.active?&#x27;Ativo&#x27;:adminTab===&#x27;users&#x27;?&#x27;Bloqueado (pré-cadastro)&#x27;:&#x27;Arquivado&#x27;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button data-admin-edit=&quot;${x.id}&quot;&gt;Editar&lt;/button&gt;&lt;button data-admin-toggle=&quot;${x.id}&quot;&gt;${x.active?(adminTab===&#x27;users&#x27;?&#x27;Bloquear cadastro&#x27;:&#x27;Arquivar&#x27;):&#x27;Reativar&#x27;}&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;`;}).join(&#x27;&#x27;)||&#x27;&lt;p&gt;Nenhum cadastro encontrado. Use o formulário para começar.&lt;/p&gt;&#x27;;
+ $(&#x27;#admin-list&#x27;).innerHTML=rows.map(x=&gt;{const store=a.stores.find(s=&gt;s.id===x.storeId),details=adminTab===&#x27;users&#x27;?`${roleLabels[x.role]} · ${x.email}${store?&#x27; · &#x27;+store.name:&#x27;&#x27;}`:adminTab===&#x27;sellers&#x27;?store?.name||&#x27;Loja não encontrada&#x27;:&#x27;Disponível para metas e lançamentos&#x27;;return `&lt;div class=&quot;admin-row&quot;&gt;&lt;div&gt;&lt;strong&gt;${esc(x.name)}&lt;/strong&gt;&lt;small&gt;${esc(details)}&lt;/small&gt;&lt;span class=&quot;admin-status&quot;&gt;${x.active?&#x27;Ativo&#x27;:adminTab===&#x27;users&#x27;?&#x27;Bloqueado (pré-cadastro)&#x27;:&#x27;Arquivado&#x27;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button data-admin-edit=&quot;${x.id}&quot;&gt;Editar&lt;/button&gt;&lt;button data-admin-toggle=&quot;${x.id}&quot;&gt;${x.active?(adminTab===&#x27;users&#x27;?&#x27;Bloquear cadastro&#x27;:&#x27;Arquivar&#x27;):&#x27;Reativar&#x27;}&lt;/button&gt;${adminTab===&#x27;sellers&#x27;?`&lt;button data-admin-delete=&quot;${x.id}&quot; class=&quot;admin-delete&quot;&gt;Excluir&lt;/button&gt;`:&#x27;&#x27;}&lt;/div&gt;&lt;/div&gt;`;}).join(&#x27;&#x27;)||&#x27;&lt;p&gt;Nenhum cadastro encontrado. Use o formulário para começar.&lt;/p&gt;&#x27;;
  adminOptions();adminFields();
 }
 $(&#x27;#admin-role&#x27;).onchange=adminFields;$(&#x27;#admin-store&#x27;).onchange=adminOptions;$(&#x27;#admin-search&#x27;).oninput=renderAdmin;$(&#x27;#admin-cancel&#x27;).onclick=resetAdmin;
@@ -2038,6 +2040,18 @@ root.addEventListener(&#x27;click&#x27;,async e=&gt;{
  const b=e.target.closest(&#x27;button&#x27;);if(!b)return;
  if(b.dataset.adminTab){adminTab=b.dataset.adminTab;$(&#x27;#admin-search&#x27;).value=&#x27;&#x27;;$(&#x27;#admin-feedback&#x27;).textContent=&#x27;&#x27;;resetAdmin();renderAdmin();return;}
  if(b.dataset.adminEdit){const item=adminState()[adminTab].find(x=&gt;x.id===b.dataset.adminEdit);if(!item)return;resetAdmin();$(&#x27;#admin-id&#x27;).value=item.id;$(&#x27;#admin-name&#x27;).value=item.name;$(&#x27;#admin-email&#x27;).value=item.email||&#x27;&#x27;;$(&#x27;#admin-role&#x27;).value=item.role||&#x27;admin&#x27;;$(&#x27;#admin-store&#x27;).value=item.storeId||&#x27;&#x27;;adminOptions();$(&#x27;#admin-seller&#x27;).value=item.sellerId||&#x27;&#x27;;adminFields();$(&#x27;#admin-form-title&#x27;).textContent=&#x27;Editar &#x27;+adminLabels[adminTab];$(&#x27;#admin-cancel&#x27;).hidden=false;$(&#x27;#admin-name&#x27;).focus();}
+ if(b.dataset.adminDelete&amp;&amp;adminTab===&#x27;sellers&#x27;){
+  const item=adminState().sellers.find(x=&gt;x.id===b.dataset.adminDelete);if(!item)return;
+  const store=adminState().stores.find(x=&gt;x.id===item.storeId);
+  if(db.entries.some(x=&gt;same(x.store,store?.name||&#x27;&#x27;)&amp;&amp;same(x.seller,item.name))||adminState().sellerGoals.some(x=&gt;x.sellerId===item.id)||cloudProfiles.some(x=&gt;x.sellerId===item.id||x.seller_id===item.id)){
+   $(&#x27;#admin-feedback&#x27;).textContent=&#x27;Este vendedor possui resultados, metas ou uma conta vinculada. Use Arquivar para preservar o histórico.&#x27;;return;
+  }
+  $(&#x27;#confirm-text&#x27;).textContent=`Excluir ${item.name}? Esta ação remove o cadastro definitivamente e não pode ser desfeita.`;
+  confirmAction=async()=&gt;{b.disabled=true;
+  try{const next=validateDB(clone());next.admin.sellers=next.admin.sellers.filter(x=&gt;x.id!==item.id);await save(next,`Excluiu vendedor: ${item.name}`);resetAdmin();renderAdmin();$(&#x27;#admin-feedback&#x27;).textContent=&#x27;Vendedor excluído.&#x27;;}
+  catch(err){$(&#x27;#admin-feedback&#x27;).textContent=/foreign key|23503/i.test(err.message)?&#x27;Este vendedor possui vínculos. Use Arquivar para preservar o histórico.&#x27;:err.message;b.disabled=false;}
+  };$(&#x27;#confirm-dialog&#x27;).showModal();return;
+ }
  if(b.dataset.adminToggle){try{const next=validateDB(clone()),item=next.admin[adminTab].find(x=&gt;x.id===b.dataset.adminToggle);if(!item)return;item.active=!item.active;await save(next,`${item.active?&#x27;Reativou&#x27;:&#x27;Desativou&#x27;} ${adminLabels[adminTab]}: ${item.name}`);$(&#x27;#admin-feedback&#x27;).textContent=&#x27;Status do cadastro atualizado.&#x27;;}catch(err){$(&#x27;#admin-feedback&#x27;).textContent=err.message;}}
 });
 $(&#x27;#admin-form&#x27;).onsubmit=async e=&gt;{

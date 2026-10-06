@@ -27,7 +27,7 @@ function renderAdmin(){if(cloudProfile&&adminTab==='users'){renderCloudProfiles(
   $('#admin-list').innerHTML=a.audit.slice().reverse().filter(x=>(x.action+' '+x.actor).toLocaleLowerCase('pt-BR').includes(query)).map(x=>`<div class="admin-row"><div><strong>${esc(x.action)}</strong><small>${new Date(x.at).toLocaleString('pt-BR')} · ${esc(x.actor)}</small></div></div>`).join('')||'<p>Nenhuma alteração encontrada.</p>';return;
  }
  const rows=a[adminTab].filter(x=>(x.name+' '+(x.email||'')).toLocaleLowerCase('pt-BR').includes(query));
- $('#admin-list').innerHTML=rows.map(x=>{const store=a.stores.find(s=>s.id===x.storeId),details=adminTab==='users'?`${roleLabels[x.role]} · ${x.email}${store?' · '+store.name:''}`:adminTab==='sellers'?store?.name||'Loja não encontrada':'Disponível para metas e lançamentos';return `<div class="admin-row"><div><strong>${esc(x.name)}</strong><small>${esc(details)}</small><span class="admin-status">${x.active?'Ativo':adminTab==='users'?'Bloqueado (pré-cadastro)':'Arquivado'}</span></div><div class="actions"><button data-admin-edit="${x.id}">Editar</button><button data-admin-toggle="${x.id}">${x.active?(adminTab==='users'?'Bloquear cadastro':'Arquivar'):'Reativar'}</button></div></div>`;}).join('')||'<p>Nenhum cadastro encontrado. Use o formulário para começar.</p>';
+ $('#admin-list').innerHTML=rows.map(x=>{const store=a.stores.find(s=>s.id===x.storeId),details=adminTab==='users'?`${roleLabels[x.role]} · ${x.email}${store?' · '+store.name:''}`:adminTab==='sellers'?store?.name||'Loja não encontrada':'Disponível para metas e lançamentos';return `<div class="admin-row"><div><strong>${esc(x.name)}</strong><small>${esc(details)}</small><span class="admin-status">${x.active?'Ativo':adminTab==='users'?'Bloqueado (pré-cadastro)':'Arquivado'}</span></div><div class="actions"><button data-admin-edit="${x.id}">Editar</button><button data-admin-toggle="${x.id}">${x.active?(adminTab==='users'?'Bloquear cadastro':'Arquivar'):'Reativar'}</button>${adminTab==='sellers'?`<button data-admin-delete="${x.id}" class="admin-delete">Excluir</button>`:''}</div></div>`;}).join('')||'<p>Nenhum cadastro encontrado. Use o formulário para começar.</p>';
  adminOptions();adminFields();
 }
 $('#admin-role').onchange=adminFields;$('#admin-store').onchange=adminOptions;$('#admin-search').oninput=renderAdmin;$('#admin-cancel').onclick=resetAdmin;
@@ -35,6 +35,18 @@ root.addEventListener('click',async e=>{
  const b=e.target.closest('button');if(!b)return;
  if(b.dataset.adminTab){adminTab=b.dataset.adminTab;$('#admin-search').value='';$('#admin-feedback').textContent='';resetAdmin();renderAdmin();return;}
  if(b.dataset.adminEdit){const item=adminState()[adminTab].find(x=>x.id===b.dataset.adminEdit);if(!item)return;resetAdmin();$('#admin-id').value=item.id;$('#admin-name').value=item.name;$('#admin-email').value=item.email||'';$('#admin-role').value=item.role||'admin';$('#admin-store').value=item.storeId||'';adminOptions();$('#admin-seller').value=item.sellerId||'';adminFields();$('#admin-form-title').textContent='Editar '+adminLabels[adminTab];$('#admin-cancel').hidden=false;$('#admin-name').focus();}
+ if(b.dataset.adminDelete&&adminTab==='sellers'){
+  const item=adminState().sellers.find(x=>x.id===b.dataset.adminDelete);if(!item)return;
+  const store=adminState().stores.find(x=>x.id===item.storeId);
+  if(db.entries.some(x=>same(x.store,store?.name||'')&&same(x.seller,item.name))||adminState().sellerGoals.some(x=>x.sellerId===item.id)||cloudProfiles.some(x=>x.sellerId===item.id||x.seller_id===item.id)){
+   $('#admin-feedback').textContent='Este vendedor possui resultados, metas ou uma conta vinculada. Use Arquivar para preservar o histórico.';return;
+  }
+  $('#confirm-text').textContent=`Excluir ${item.name}? Esta ação remove o cadastro definitivamente e não pode ser desfeita.`;
+  confirmAction=async()=>{b.disabled=true;
+  try{const next=validateDB(clone());next.admin.sellers=next.admin.sellers.filter(x=>x.id!==item.id);await save(next,`Excluiu vendedor: ${item.name}`);resetAdmin();renderAdmin();$('#admin-feedback').textContent='Vendedor excluído.';}
+  catch(err){$('#admin-feedback').textContent=/foreign key|23503/i.test(err.message)?'Este vendedor possui vínculos. Use Arquivar para preservar o histórico.':err.message;b.disabled=false;}
+  };$('#confirm-dialog').showModal();return;
+ }
  if(b.dataset.adminToggle){try{const next=validateDB(clone()),item=next.admin[adminTab].find(x=>x.id===b.dataset.adminToggle);if(!item)return;item.active=!item.active;await save(next,`${item.active?'Reativou':'Desativou'} ${adminLabels[adminTab]}: ${item.name}`);$('#admin-feedback').textContent='Status do cadastro atualizado.';}catch(err){$('#admin-feedback').textContent=err.message;}}
 });
 $('#admin-form').onsubmit=async e=>{
