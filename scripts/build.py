@@ -16,7 +16,7 @@ class FrameParser(HTMLParser):
 page = read('design/prototipo.html')
 parser = FrameParser(); parser.feed(page)
 inner = parser.inner
-css = read('beta/beta.css') + '\n' + read('beta/admin.css') + '\n' + read('beta/evolution.css')
+css = read('beta/beta.css') + '\n' + read('beta/admin.css') + '\n' + read('beta/evolution.css') + '\n' + read('beta/theme.css')
 inner, count = re.subn(r'<style>#gi-beta\{.*?</style>', lambda m: '<style>' + css + '</style>', inner, count=1, flags=re.S)
 assert count == 1
 start = inner.index('<div id="gi-beta"')
@@ -27,13 +27,13 @@ schema = read('beta/beta-schema.js')
 app = read('beta/beta.js').replace('// ADMIN_MODULE', read('beta/admin.js')).replace('// EVOLUTION_MODULE', read('beta/evolution.js')).replace('// CLOUD_MODULE', read('beta/cloud-ui.js'))
 start = inner.index('<script>function validateDB')
 end = inner.index('</script>', start) + len('</script>')
-inner = inner[:start] + '<script>' + schema + '\n' + read('beta/evolution-core.js') + '\n' + app + '\n</script>' + inner[end:]
+inner = inner[:start] + '<script>' + schema + '\n' + read('beta/evolution-core.js') + '\n' + app + '\n' + read('beta/theme-frame.js') + '\n</script>' + inner[end:]
 page, count = re.subn(r'(data-srcdoc=")[\s\S]*?("\s*></iframe>)', lambda m: m.group(1) + escape(inner, quote=True) + m.group(2), page, count=1)
 assert count == 1
 start = page.index('<script>function validateDB')
 end = page.index('</script>', start) + len('</script>')
 bundle = subprocess.run(['node', 'scripts/build-cloud.cjs'], cwd=ROOT, check=True, capture_output=True, text=True, encoding='utf-8').stdout
-page = page[:start] + '<script>' + schema + '\n' + bundle.replace('</script', '<\\/script') + '\n' + read('beta/beta-bridge.js') + '\n' + read('beta/pwa.js') + '\n</script>' + page[end:]
+page = page[:start] + '<script>' + schema + '\n' + bundle.replace('</script', '<\\/script') + '\n' + read('beta/beta-bridge.js') + '\n' + read('beta/pwa.js') + '\n' + read('beta/theme.js') + '\n</script>' + page[end:]
 # The iframe retains its original CSP and sandbox. Only the parent connects.
 head_end = page.index('</head>')
 page = page[:head_end].replace('connect-src blob: data:;', 'connect-src blob: data: https://wyvtuvmsgncllwxxotjp.supabase.co;') + page[head_end:]
