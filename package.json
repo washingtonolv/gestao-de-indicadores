@@ -2,7 +2,7 @@
   "name": "gestao-de-indicadores",
   "private": true,
   "scripts": {
-    "test": "node scripts/schema.test.cjs && node scripts/evolution.test.cjs && node scripts/database.test.mjs && node scripts/cloud-model.test.mjs && node scripts/manage-users.test.cjs"
+    "test": "node scripts/schema.test.cjs && node scripts/evolution.test.cjs && node scripts/database.test.mjs && node scripts/cloud-model.test.mjs && node scripts/manage-users.test.cjs && node scripts/attainment.test.cjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",

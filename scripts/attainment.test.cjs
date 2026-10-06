@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const source=fs.readFileSync('beta/beta.js','utf8');
+const context={currentMonth:'2026-10'};vm.createContext(context);
+vm.runInContext(source.match(/ function state\([^\n]+/)[0],context);
+for(const month of ['2026-09','2026-10'])for(const [pct,color] of [[0,'#EF4444'],[49.99,'#EF4444'],[50,'#F59E0B'],[79.99,'#F59E0B'],[80,'#10B981'],[100,'#10B981'],[125,'#10B981']])assert.equal(context.state(pct,month,true,true).color,color);
+assert.equal(context.state(90,'2026-10',false,true).label,'Sem meta');
+assert.equal(context.state(0,'2026-10',true,false).label,'Sem dados');
+assert.equal(context.state(90,'2026-11',true,true).color,'#6B7280');
+console.log('Attainment: boundaries 50/80, current/closed months, over-goal and missing data passed.');
