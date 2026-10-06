@@ -10,10 +10,10 @@ function adminOptions(){
 }
 function adminFields(){
  const user=adminTab==='users',seller=adminTab==='sellers',role=$('#admin-role').value;
- for(const [id,visible] of [['email',user&&role==='admin'],['username',user&&role!=='admin'],['password',user],['role',user],['store',seller||(user&&role!=='admin')],['seller',user&&role==='seller']]){
+ for(const [id,visible] of [['email',user&&role==='admin'],['username',user],['password',user],['role',user],['store',seller||(user&&role!=='admin')],['seller',user&&role==='seller']]){
   $('#admin-'+id+'-label').hidden=!visible;$('#admin-'+id).disabled=!visible;$('#admin-'+id).required=visible;
  }
- $('#admin-form-help').textContent=user?'Administrador usa e-mail; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
+ $('#admin-form-help').textContent=user?'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
 function renderAdmin(){if(cloudProfile&&adminTab==='users'){renderCloudProfiles();return;}

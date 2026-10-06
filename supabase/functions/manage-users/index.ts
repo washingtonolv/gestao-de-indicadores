@@ -10,9 +10,9 @@ export function validateAccount(body) {
  const uuid=s=>typeof s==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
  if(!name||name.length>80||/[\u0000-\u001f]/.test(name))throw Error('Informe um nome com até 80 caracteres.');
  if(role==='admin'&&(suppliedEmail.length>160||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(suppliedEmail)||suppliedEmail.endsWith('@usuarios.gi.invalid')))throw Error('Informe um e-mail válido para o administrador.');
- if(role!=='admin'&&!/^[a-z0-9][a-z0-9._-]{2,39}$/.test(username))throw Error('Use um login de 3 a 40 caracteres: letras sem acentos, números, ponto, hífen ou sublinhado.');
+ if(!/^[a-z0-9][a-z0-9._-]{2,39}$/.test(username))throw Error('Use um login de 3 a 40 caracteres: letras sem acentos, números, ponto, hífen ou sublinhado.');
  const email=role==='admin'?suppliedEmail:username+'@usuarios.gi.invalid';
- const loginName=role==='admin'?suppliedEmail:username;
+ const loginName=username;
  if(typeof password!=='string'||password.length<8||password.length>128)throw Error('Use uma senha de 8 a 128 caracteres.');
  if(!['admin','manager','seller'].includes(role))throw Error('Perfil inválido.');
  const storeId=role==='admin'?null:body.storeId;
@@ -32,6 +32,24 @@ export async function handler(req) {
  if(origin&&!origins.has(origin))return reply(403,{error:'Origem não permitida.'});
  if(req.method==='OPTIONS')return new Response(null,{status:204,headers});
  if(req.method!=='POST')return reply(405,{error:'Método não permitido.'});
+ const text=await req.text();if(text.length>4096)return reply(413,{error:'Requisição excede o limite permitido.'});
+ let body;try{body=JSON.parse(text);}catch{return reply(400,{error:'Requisição inválida.'});}
+ if(body?.action==='login'){
+  const username=typeof body.username==='string'?body.username.trim().toLowerCase():'';
+  if(!/^[a-z0-9][a-z0-9._-]{2,39}$/.test(username)||typeof body.password!=='string'||body.password.length>128)return reply(401,{error:'Login ou senha inválidos.'});
+  try{
+   const url=Deno.env.get('SUPABASE_URL');
+   const service=createClient(url,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'),{auth:{persistSession:false,autoRefreshToken:false}});
+   const {data:profile,error:lookupError}=await service.from('gi_profiles').select('id,active').eq('login_name',username).maybeSingle();
+   if(lookupError)return reply(401,{error:'Login ou senha inválidos.'});
+   let email='unknown-login@usuarios.gi.invalid';
+   if(profile?.active){const {data}=await service.auth.admin.getUserById(profile.id);email=data?.user?.email||email;}
+   const auth=createClient(url,Deno.env.get('SUPABASE_ANON_KEY'),{auth:{persistSession:false,autoRefreshToken:false}});
+   const {data,error}=await auth.auth.signInWithPassword({email,password:body.password});
+   if(error||!profile?.active||!data?.session||data.user?.id!==profile.id)return reply(401,{error:'Login ou senha inválidos.'});
+   return reply(200,{access_token:data.session.access_token,refresh_token:data.session.refresh_token});
+  }catch{return reply(401,{error:'Login ou senha inválidos.'});}
+ }
  const authorization=req.headers.get('authorization')||'';
  if(!authorization.startsWith('Bearer '))return reply(401,{error:'Entre novamente no painel.'});
  try {
@@ -41,8 +59,7 @@ export async function handler(req) {
   if(identityError||!identity?.user)return reply(401,{error:'Sessão inválida. Entre novamente.'});
   const {data:actor,error:actorError}=await caller.from('gi_profiles').select('id,role,active').eq('id',identity.user.id).maybeSingle();
   if(actorError||!actor?.active||actor.role!=='admin')return reply(403,{error:'Somente administradores podem cadastrar usuários.'});
-  const text=await req.text();if(text.length>4096)return reply(413,{error:'Cadastro excede o limite permitido.'});
-  let account;try{account=validateAccount(JSON.parse(text));}catch(e){return reply(400,{error:e instanceof SyntaxError?'Cadastro inválido.':e.message});}
+  let account;try{account=validateAccount(body);}catch(e){return reply(400,{error:e instanceof SyntaxError?'Cadastro inválido.':e.message});}
   if(account.storeId){
    const {data:store,error}=await caller.from('gi_stores').select('id,active').eq('id',account.storeId).maybeSingle();
    if(error||!store?.active)return reply(400,{error:'Selecione uma loja ativa.'});
