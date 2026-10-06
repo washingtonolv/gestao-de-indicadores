@@ -37,3 +37,18 @@
 
 #gi-beta #chart{position:relative}
 #gi-beta .sales-tooltip{position:absolute;z-index:5;pointer-events:none;white-space:pre-line;max-width:calc(100% - 16px);padding:10px 14px;background:#fff;color:#1F2937;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 8px 24px #1F293722;font-size:12px;line-height:1.7;font-variant-numeric:tabular-nums}
+
+/* Align team headings and rows on the same content edges. */
+@media(min-width:761px){
+ #gi-beta .team .table-wrap{padding:0 22px 8px}
+ #gi-beta .team table{table-layout:auto}
+ #gi-beta .team :is(th,td){padding:14px 10px;text-align:right;vertical-align:middle;white-space:nowrap}
+ #gi-beta .team :is(th,td):first-child{padding-left:0;text-align:left;white-space:normal;min-width:180px}
+ #gi-beta .team :is(th,td):last-child{padding-right:0}
+ #gi-beta .team td[colspan]{text-align:left;white-space:normal}
+}
+@media(max-width:760px), (max-width:1000px) and (max-height:500px){
+ #gi-beta .team .section-head{padding-left:16px;padding-right:16px}
+ #gi-beta .team td[data-label]{align-items:baseline}
+ #gi-beta .team td[data-label]:before{flex:0 0 44%}
+}
