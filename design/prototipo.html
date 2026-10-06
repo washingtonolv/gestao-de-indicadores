@@ -4,9 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data: https://wyvtuvmsgncllwxxotjp.supabase.co; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src 'self' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src 'self' blob:; connect-src 'self' blob: data: https://wyvtuvmsgncllwxxotjp.supabase.co; frame-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Gestão de indicadores · Beta</title>
 <style>:root{color-scheme:light;background:#F3F4F6}html,body{margin:0;min-height:100%;background:#F3F4F6}body{box-sizing:border-box;min-height:100dvh;padding:12px}iframe{display:block;width:100%;max-width:1680px;height:calc(100vh - 24px);min-height:calc(100dvh - 24px);margin:0 auto;border:0;background:#F3F4F6}@media(max-width:760px), (max-width:1000px) and (max-height:500px){body{padding:0}iframe{height:100vh;min-height:100dvh}}@media(min-width:1681px){body{padding:16px}}</style>
+
+
+<!-- PWA_HEAD -->
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="theme-color" content="#059669">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Indicadores">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<!-- /PWA_HEAD -->
 </head>
 <body>
 <iframe id="codex-visualization" sandbox="allow-scripts" scrolling="auto" referrerpolicy="no-referrer" title="Gestão de indicadores · Beta" data-srcdoc="&lt;!doctype html&gt;
@@ -2795,6 +2806,46 @@ ${_}`}var R=class extends Error{constructor({message:e,code:t,cause:s,name:n}){v
    else throw Error('Operação indisponível.');
   }catch(err){reply(id,{ok:false,error:err.message||'Não foi possível conectar. Atualize os dados.'});}
  });
+})();
+(() => {
+  const standalone = window.matchMedia('(display-mode: standalone)');
+  let installPrompt = null;
+  const css = document.createElement('style');
+  css.textContent = `.gi-install{margin-top:12px}#gi-install-dialog{box-sizing:border-box;width:calc(100% - 32px);max-width:480px;padding:28px;border:1px solid #E5E7EB;border-radius:24px;background:#fff;color:#1F2937;font:16px system-ui;box-shadow:0 24px 80px #1F293730}#gi-install-dialog::backdrop{background:#1F293755;backdrop-filter:blur(4px)}#gi-install-dialog h2{margin:0 0 16px;font-size:24px}#gi-install-dialog li{margin:14px 0;line-height:1.6}#gi-install-dialog p{color:#6B7280;line-height:1.6}#gi-install-dialog button{min-height:44px;padding:12px 20px;border:0;border-radius:12px;background:#059669;color:white;font:600 16px system-ui;cursor:pointer}.gi-install:focus-visible,#gi-install-dialog button:focus-visible{outline:3px solid #059669;outline-offset:3px}`;
+  document.head.append(css);
+  const dialog = document.createElement('dialog');
+  dialog.id = 'gi-install-dialog';
+  dialog.setAttribute('aria-labelledby', 'gi-install-title');
+  dialog.innerHTML = '<h2 id="gi-install-title">Seu painel como aplicativo</h2><ol><li><b>Android ou computador:</b> no Chrome ou Edge, abra o menu do navegador e escolha “Instalar aplicativo” ou “Instalar página como aplicativo”.</li><li><b>iPhone ou iPad:</b> abra no Safari, toque em Compartilhar e depois em “Adicionar à Tela de Início”. Ative “Abrir como App”, se essa opção aparecer.</li></ol><p>O aplicativo abre em uma janela própria. Para entrar, consultar e salvar os resultados, mantenha a conexão com a internet.</p><form method="dialog"><button>Entendi</button></form>';
+  document.body.append(dialog);
+  dialog.querySelector('form').addEventListener('submit', event => { event.preventDefault(); dialog.close(); });
+  const buttons = ['cloud-login', 'cloud-bar'].map(id => {
+    const host = document.getElementById(id);
+    if (!host) return null;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'gi-install';
+    button.textContent = 'Instalar aplicativo';
+    button.addEventListener('click', async () => {
+      if (!installPrompt) { dialog.showModal(); return; }
+      const prompt = installPrompt;
+      installPrompt = null;
+      try { await prompt.prompt(); await prompt.userChoice; }
+      catch { dialog.showModal(); }
+    });
+    host.append(button);
+    return button;
+  }).filter(Boolean);
+  const update = () => buttons.forEach(button => { button.hidden = standalone.matches || navigator.standalone === true; });
+  window.addEventListener('beforeinstallprompt', event => { event.preventDefault(); installPrompt = event; });
+  window.addEventListener('appinstalled', () => { installPrompt = null; buttons.forEach(button => { button.hidden = true; }); });
+  standalone.addEventListener('change', update);
+  update();
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {
+      // Installation instructions remain available when this browser cannot register a worker.
+    });
+  }
 })();
 </script>
 <script>(() => {
