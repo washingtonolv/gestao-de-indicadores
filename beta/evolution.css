@@ -38,3 +38,14 @@
 #gi-beta .filters.evolution-filters>label:focus-within{border-color:var(--brand-primary);box-shadow:0 0 0 3px #05966918}
 #gi-beta .filters.evolution-filters :is(input,select):focus,#gi-beta .filters.evolution-filters :is(input,select):focus-visible{outline:none;box-shadow:none;border:0}
 #gi-beta .filters.evolution-filters input[type=month]::-webkit-datetime-edit{padding:0}
+
+/* Compact attention list beside the larger store comparison. */
+#gi-beta .operation-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.8fr)}
+#gi-beta .operation-grid>.card{height:420px;display:flex;flex-direction:column;align-self:stretch}
+#gi-beta .operation-grid>.card>h2,#gi-beta .operation-grid>.card>p{flex:none}
+#gi-beta #operation-alerts{flex:1;min-height:0;overflow:auto;padding-right:4px}
+#gi-beta .operation-grid .table-wrap{flex:1;min-height:0;max-height:none;overflow:auto}
+#gi-beta .operation-grid table{min-width:680px}
+#gi-beta .operation-alert span{min-width:0;overflow-wrap:anywhere}
+#gi-beta .operation-alert button{flex:none;font-size:11px;padding:8px 10px}
+@media(max-width:1000px){#gi-beta .operation-grid{grid-template-columns:1fr}#gi-beta .operation-grid>.card{height:auto}#gi-beta #operation-alerts{max-height:320px;flex:auto}#gi-beta .operation-grid .table-wrap{max-height:400px;flex:auto}}
