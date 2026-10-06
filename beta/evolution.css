@@ -5,3 +5,21 @@
 #gi-beta .evo-person{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #1F293710}#gi-beta .evo-person>div{min-width:0;overflow-wrap:anywhere}#gi-beta .evo-person small{display:block}#gi-beta .evo-person button{flex-shrink:0}
 @media(max-width:1150px){#gi-beta #evo-content .grid{grid-template-columns:1fr}#gi-beta .operation-grid table{min-width:680px}}
 @media(max-width:760px), (max-width:1000px) and (max-height:500px){#gi-beta nav span{font-size:8px}#gi-beta .rail{padding-left:4px;padding-right:4px}#gi-beta nav{gap:1px}#gi-beta nav button{font-size:18px}#gi-beta .evo-controls{padding:16px}#gi-beta .evo-controls label{min-width:0;flex:1 1 100%}#gi-beta #evo-chart{padding:0 8px}#gi-beta .evo-person{align-items:start;flex-direction:column}#gi-beta .operation-alert{flex-wrap:wrap}#gi-beta #evo-content .section-head{flex-wrap:wrap}#gi-beta .operation-grid .table-wrap{max-height:none}}
+
+#gi-beta #evo-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px;margin-top:20px;align-items:stretch}
+#gi-beta .seller-card{display:flex;flex-direction:column;min-width:0;padding:20px;border:1px solid var(--border-color);border-radius:16px;background:var(--bg-card)}
+#gi-beta .seller-card-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;min-width:0}
+#gi-beta .seller-card-head>div{min-width:0}
+#gi-beta .seller-card h3{margin:0;font-size:15px;line-height:1.4;font-weight:600;overflow-wrap:anywhere}
+#gi-beta .seller-card-head p{margin-top:4px;font-size:12px}
+#gi-beta .seller-avatar{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:12px;background:#ECFDF5;color:#047857;font-weight:700}
+#gi-beta .seller-sales>span{display:block;font-size:12px;color:var(--text-secondary)}
+#gi-beta .seller-sales>strong{display:block;margin-top:6px;color:var(--text-primary);font-size:25px;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#gi-beta .seller-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;padding:18px 0;margin:18px 0 0;border-top:1px solid var(--border-color)}
+#gi-beta .seller-metrics>div{min-width:0}
+#gi-beta .seller-metrics dt{color:var(--text-secondary);font-size:11px;min-height:33px}
+#gi-beta .seller-metrics dd{margin:4px 0 0;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#gi-beta .seller-status{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:auto}
+#gi-beta .seller-card .track{margin-top:12px}
+#gi-beta .seller-card>button{width:100%;margin-top:18px;color:var(--brand-primary);border-color:var(--border-color);font-weight:600}
+@media(max-width:760px){#gi-beta .seller-card{padding:18px}}
