@@ -34,3 +34,6 @@
 /* Darker supporting text keeps the brighter KPI surfaces readable. */
 #gi-beta #dashboard>.stats>.stat{--text-secondary:#374151;border-color:transparent}
 #gi-beta #dashboard>.stats>.stat>small{border-color:#1F29371A}
+
+#gi-beta #chart{position:relative}
+#gi-beta .sales-tooltip{position:absolute;z-index:5;pointer-events:none;white-space:pre-line;max-width:calc(100% - 16px);padding:10px 14px;background:#fff;color:#1F2937;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 8px 24px #1F293722;font-size:12px;line-height:1.7;font-variant-numeric:tabular-nums}
