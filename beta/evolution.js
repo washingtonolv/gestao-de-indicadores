@@ -11,6 +11,7 @@ function renderEvolution(){
  const t=evolutionTotals(rows),old=evolutionTotals(previous),tm=t.orders?t.sales/t.orders:0,oldTm=old.orders?old.sales/old.orders:0,pa=t.orders?t.pieces/t.orders:0,oldPa=old.orders?old.pieces/old.orders:0;
  $('#evo-context').textContent=seller?`${seller.name} · ${d.admin.stores.find(x=>x.id===seller.storeId)?.name||''} · somente consulta`:'Acompanhamento da equipe da loja selecionada. Selecione um vendedor para ver o detalhe.';
  if(view==='evolution'){$('#page-title').textContent=individual?'Minha evolução':'Evolução da equipe';$('#page-sub').textContent=individual?'Acompanhe seus resultados registrados pelo gestor.':'Compare resultados e acompanhe cada vendedor.';}
+ renderGreeting();
  $('#evo-empty').hidden=rows.length>0&&!period.future;$('#evo-empty').textContent=period.future?'Período futuro: ainda não há resultados realizados.':individual&&!seller?'Cadastre um vendedor na Administração para visualizar sua evolução.':'Nenhum lançamento neste período. Os resultados aparecerão quando o gestor registrar as vendas.';
  $('#evo-content').hidden=period.future||(individual&&!seller);if($('#evo-content').hidden)return;
  const individualGoal=seller?d.admin.sellerGoals.find(g=>g.month===month&&g.sellerId===seller.id):null;
@@ -24,7 +25,7 @@ function renderEvolution(){
  $('#evo-comparison-note').textContent=month===currentMonth?`Comparação: dias 1–${period.cutoff} deste mês com dias 1–${period.previousCutoff} de ${period.previous}.`:`Comparação com o mês completo ${period.previous}.`;
  const visiblePeople=seller?[seller]:people;$('#evo-list-title').textContent=seller?'Resumo individual':'Resultados da equipe';
  $('#evo-results').innerHTML=visiblePeople.map(s=>{const st=d.admin.stores.find(x=>x.id===s.storeId),sr=evoRows(d,s,store).filter(e=>e.date.startsWith(month)&&e.date<=today),v=evolutionTotals(sr),g=d.admin.sellerGoals.find(x=>x.month===month&&x.sellerId===s.id);return `<div class="evo-person"><div><strong>${esc(s.name)}</strong><small>${esc(st?.name||'')} · ${v.orders} atendimentos · ${v.pieces} peças</small><small>Vendas ${money(v.sales)} · ${g?'Meta '+money(g.cents)+' · '+num(v.sales/g.cents*100)+'%':'Sem meta individual'}</small></div>${seller?'':`<button data-evo-seller="${s.id}">Ver evolução</button>`}</div>`;}).join('')||'<p>Nenhum vendedor cadastrado para esta loja.</p>';
- drawEvolution(allRows,month,'#059669');renderGreeting();
+ drawEvolution(allRows,month,'#059669');
 }
 function drawEvolution(rows,month,color){
  const group=$('#evo-group').value,buckets=evolutionBuckets(rows,month,group,today),w=640,h=260,l=70,r=20,b=42,t=24,max=Math.max(100,...buckets.map(x=>x.sales)),x=i=>l+i*(w-l-r)/Math.max(1,buckets.length-1),y=v=>h-b-(v/max)*(h-b-t);

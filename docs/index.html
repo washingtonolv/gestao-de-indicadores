@@ -1940,6 +1940,7 @@ function renderEvolution(){
  const t=evolutionTotals(rows),old=evolutionTotals(previous),tm=t.orders?t.sales/t.orders:0,oldTm=old.orders?old.sales/old.orders:0,pa=t.orders?t.pieces/t.orders:0,oldPa=old.orders?old.pieces/old.orders:0;
  $(&#x27;#evo-context&#x27;).textContent=seller?`${seller.name} · ${d.admin.stores.find(x=&gt;x.id===seller.storeId)?.name||&#x27;&#x27;} · somente consulta`:&#x27;Acompanhamento da equipe da loja selecionada. Selecione um vendedor para ver o detalhe.&#x27;;
  if(view===&#x27;evolution&#x27;){$(&#x27;#page-title&#x27;).textContent=individual?&#x27;Minha evolução&#x27;:&#x27;Evolução da equipe&#x27;;$(&#x27;#page-sub&#x27;).textContent=individual?&#x27;Acompanhe seus resultados registrados pelo gestor.&#x27;:&#x27;Compare resultados e acompanhe cada vendedor.&#x27;;}
+ renderGreeting();
  $(&#x27;#evo-empty&#x27;).hidden=rows.length&gt;0&amp;&amp;!period.future;$(&#x27;#evo-empty&#x27;).textContent=period.future?&#x27;Período futuro: ainda não há resultados realizados.&#x27;:individual&amp;&amp;!seller?&#x27;Cadastre um vendedor na Administração para visualizar sua evolução.&#x27;:&#x27;Nenhum lançamento neste período. Os resultados aparecerão quando o gestor registrar as vendas.&#x27;;
  $(&#x27;#evo-content&#x27;).hidden=period.future||(individual&amp;&amp;!seller);if($(&#x27;#evo-content&#x27;).hidden)return;
  const individualGoal=seller?d.admin.sellerGoals.find(g=&gt;g.month===month&amp;&amp;g.sellerId===seller.id):null;
@@ -1953,7 +1954,7 @@ function renderEvolution(){
  $(&#x27;#evo-comparison-note&#x27;).textContent=month===currentMonth?`Comparação: dias 1–${period.cutoff} deste mês com dias 1–${period.previousCutoff} de ${period.previous}.`:`Comparação com o mês completo ${period.previous}.`;
  const visiblePeople=seller?[seller]:people;$(&#x27;#evo-list-title&#x27;).textContent=seller?&#x27;Resumo individual&#x27;:&#x27;Resultados da equipe&#x27;;
  $(&#x27;#evo-results&#x27;).innerHTML=visiblePeople.map(s=&gt;{const st=d.admin.stores.find(x=&gt;x.id===s.storeId),sr=evoRows(d,s,store).filter(e=&gt;e.date.startsWith(month)&amp;&amp;e.date&lt;=today),v=evolutionTotals(sr),g=d.admin.sellerGoals.find(x=&gt;x.month===month&amp;&amp;x.sellerId===s.id);return `&lt;div class=&quot;evo-person&quot;&gt;&lt;div&gt;&lt;strong&gt;${esc(s.name)}&lt;/strong&gt;&lt;small&gt;${esc(st?.name||&#x27;&#x27;)} · ${v.orders} atendimentos · ${v.pieces} peças&lt;/small&gt;&lt;small&gt;Vendas ${money(v.sales)} · ${g?&#x27;Meta &#x27;+money(g.cents)+&#x27; · &#x27;+num(v.sales/g.cents*100)+&#x27;%&#x27;:&#x27;Sem meta individual&#x27;}&lt;/small&gt;&lt;/div&gt;${seller?&#x27;&#x27;:`&lt;button data-evo-seller=&quot;${s.id}&quot;&gt;Ver evolução&lt;/button&gt;`}&lt;/div&gt;`;}).join(&#x27;&#x27;)||&#x27;&lt;p&gt;Nenhum vendedor cadastrado para esta loja.&lt;/p&gt;&#x27;;
- drawEvolution(allRows,month,&#x27;#059669&#x27;);renderGreeting();
+ drawEvolution(allRows,month,&#x27;#059669&#x27;);
 }
 function drawEvolution(rows,month,color){
  const group=$(&#x27;#evo-group&#x27;).value,buckets=evolutionBuckets(rows,month,group,today),w=640,h=260,l=70,r=20,b=42,t=24,max=Math.max(100,...buckets.map(x=&gt;x.sales)),x=i=&gt;l+i*(w-l-r)/Math.max(1,buckets.length-1),y=v=&gt;h-b-(v/max)*(h-b-t);
