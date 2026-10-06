@@ -42,9 +42,9 @@
 @media(min-width:761px){
  #gi-beta .team .table-wrap{padding:0 22px 8px}
  #gi-beta .team table{table-layout:auto}
- #gi-beta .team :is(th,td){padding:14px 10px;text-align:right;vertical-align:middle;white-space:nowrap}
+ #gi-beta .team :is(th,td){padding:14px 10px;text-align:center;vertical-align:middle;white-space:nowrap}
  #gi-beta .team :is(th,td):first-child{padding-left:0;text-align:left;white-space:normal;min-width:180px}
- #gi-beta .team :is(th,td):last-child{padding-right:0}
+ #gi-beta .team :is(th,td):last-child{padding-right:10px}
  #gi-beta .team td[colspan]{text-align:left;white-space:normal}
 }
 @media(max-width:760px), (max-width:1000px) and (max-height:500px){
