@@ -24,3 +24,9 @@
 #gi-beta .card{backdrop-filter:none}
 #gi-beta .stat>small{border-color:var(--border-color)}
 @media(prefers-reduced-transparency:reduce){#gi-beta .card{background:var(--bg-card)}#gi-beta .feature{background:var(--bg-highlight)}}
+
+/* Individual backgrounds only for the overview KPI cards. */
+#gi-beta #dashboard .kpi-goal{background:#EFF6FF}
+#gi-beta #dashboard .kpi-sales{background:#ECFDF5}
+#gi-beta #dashboard .kpi-ticket{background:#FAF5FF}
+#gi-beta #dashboard .kpi-pieces{background:#FFF7ED}
