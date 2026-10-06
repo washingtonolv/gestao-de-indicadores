@@ -26,7 +26,11 @@
 @media(prefers-reduced-transparency:reduce){#gi-beta .card{background:var(--bg-card)}#gi-beta .feature{background:var(--bg-highlight)}}
 
 /* Individual backgrounds only for the overview KPI cards. */
-#gi-beta #dashboard .kpi-goal{background:#EFF6FF}
-#gi-beta #dashboard .kpi-sales{background:#ECFDF5}
-#gi-beta #dashboard .kpi-ticket{background:#FAF5FF}
-#gi-beta #dashboard .kpi-pieces{background:#FFF7ED}
+#gi-beta #dashboard .kpi-goal{background:#93C5FD}
+#gi-beta #dashboard .kpi-sales{background:#6EE7B7}
+#gi-beta #dashboard .kpi-ticket{background:#C4B5FD}
+#gi-beta #dashboard .kpi-pieces{background:#FDBA74}
+
+/* Darker supporting text keeps the brighter KPI surfaces readable. */
+#gi-beta #dashboard>.stats>.stat{--text-secondary:#374151;border-color:transparent}
+#gi-beta #dashboard>.stats>.stat>small{border-color:#1F29371A}
