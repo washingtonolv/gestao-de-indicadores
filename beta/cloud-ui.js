@@ -8,6 +8,14 @@ function renderCloudProfiles(){
  const search=$('#admin-search').value.trim().toLowerCase();
  $('#admin-list').innerHTML=cloudProfiles.filter(p=>(p.name+' '+(p.login||'')).toLowerCase().includes(search)).map(p=>`<div class="admin-row"><div><strong>${esc(p.name)}</strong><small>${esc(roleLabels[p.role])} · ${esc(p.login||'Login cadastrado')} · ${p.active?'Ativo':'Bloqueado'}</small></div></div>`).join('')||'<p>Nenhuma conta acessível.</p>';
 }
+function renderGreeting(){
+ if(!cloudProfile||!['dashboard','evolution'].includes(view))return;
+ const hour=new Date().getHours(),greeting=hour>=5&&hour<12?'Bom dia':hour>=12&&hour<18?'Boa tarde':'Boa noite';
+ const name=typeof cloudProfile.name==='string'?cloudProfile.name.trim():'';
+ $('#page-title').textContent=name?`${greeting}, ${name}!`:`${greeting}!`;
+}
+setInterval(renderGreeting,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderGreeting();});
 function renderCloudUI(){
  $('#storage-status').textContent=demo?'Exemplo · não salvo':ready?'Dados do Supabase':'Conectando…';
  $('#footer-mode').textContent=demo?'Dados fictícios · modo de exemplo':'Beta online · salvamento no Supabase';
@@ -18,6 +26,7 @@ function renderCloudUI(){
  for(const b of all('[data-view]'))b.hidden=(seller&&!['evolution','backup'].includes(b.dataset.view))||(cloudProfile.role!=='admin'&&b.dataset.view==='admin');
  $('#new-entry').hidden=seller||['evolution','admin'].includes(view);$('#demo').hidden=seller;
  if(seller){$('#evo-mode').value='individual';$('#evo-mode').disabled=true;$('#evo-seller').value=cloudProfile.sellerId;$('#evo-seller').disabled=true;renderEvolution();}
+ renderGreeting();
  const counts=all('#admin-counts strong');if(counts[2])counts[2].textContent=cloudProfiles.length;
  if(cloudProfile.role==='manager')$('#entry-store').value=db.admin.stores.find(s=>s.id===cloudProfile.storeId)?.name||'';
 }
