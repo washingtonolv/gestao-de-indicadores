@@ -25,3 +25,9 @@ function evolutionBuckets(rows,month,group,today){
  const ranges=group==='week'?workingWeekRanges(month).filter(r=>r.start<=p.cutoff).map(r=>({...r,end:Math.min(r.end,p.cutoff)})):Array.from({length:p.cutoff},(_,i)=>({start:i+1,end:i+1}));
  return ranges.map(({start,end})=>({label:group==='week'?`${start}–${end}`:String(start).padStart(2,'0'),sales:evolutionTotals(rows.filter(e=>e.date.startsWith(month)&&Number(e.date.slice(-2))>=start&&Number(e.date.slice(-2))<=end&&e.date<=today)).sales}));
 }
+
+function salesTrend(current,previous,hasHistory){
+ if(!hasHistory)return {direction:'neutral',reason:'Sem histórico para comparação',percent:null};
+ if(current===previous)return {direction:'neutral',reason:'Vendas iguais ao período anterior',percent:0};
+ return {direction:current>previous?'up':'down',reason:current>previous?'Vendas aumentaram':'Vendas caíram',percent:previous>0?(current-previous)/previous*100:null};
+}

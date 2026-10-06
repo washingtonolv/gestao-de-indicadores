@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const src=n=>fs.readFileSync(path.join(__dirname,'../beta/'+n),'utf8');
-const api=vm.runInNewContext(src('evolution-core.js')+';({evolutionTotals,evolutionPeriod,evolutionDelta,evolutionBuckets,workingWeekRanges})');
+const api=vm.runInNewContext(src('evolution-core.js')+';({evolutionTotals,evolutionPeriod,evolutionDelta,evolutionBuckets,workingWeekRanges,salesTrend})');
 const clean=x=>JSON.parse(JSON.stringify(x));
 assert.deepEqual(clean(api.evolutionTotals([{cents:10001,orders:2,pieces:3},{cents:99,orders:1,pieces:2}])),{sales:10100,orders:3,pieces:5});
 const p=api.evolutionPeriod('2026-10','2026-10-04');assert.equal(p.cutoff,4);assert.equal(p.previous,'2026-09');assert.equal(p.previousCutoff,4);
@@ -25,3 +25,9 @@ for(let year=2024;year<=2030;year++)for(let m=1;m<=12;m++){
  assert.equal(api.evolutionBuckets(daily,month,'week',year+'-12-31').reduce((sum,b)=>sum+b.sales,0),daily.reduce((sum,r)=>sum+r.cents,0));
 }
 console.log('Working weeks: October ranges, 84 calendars, leap years, no gaps and sales totals passed.');
+
+assert.equal(api.salesTrend(150,100,true).direction,'up');assert.equal(api.salesTrend(150,100,true).percent,50);
+assert.equal(api.salesTrend(50,100,true).direction,'down');assert.equal(api.salesTrend(50,100,true).percent,-50);
+assert.equal(api.salesTrend(100,100,true).direction,'neutral');assert.equal(api.salesTrend(100,0,false).direction,'neutral');
+assert.equal(api.salesTrend(100,0,true).direction,'up');assert.equal(api.salesTrend(100,0,true).percent,null);
+console.log('Sales trends: increase, decrease, unchanged, missing history and zero baseline passed.');

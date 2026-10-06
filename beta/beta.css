@@ -52,3 +52,9 @@
  #gi-beta .team td[data-label]{align-items:baseline}
  #gi-beta .team td[data-label]:before{flex:0 0 44%}
 }
+
+#gi-beta .sales-with-trend{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+#gi-beta .sales-trend{display:inline-block;width:12px;text-align:center;font-size:11px;font-weight:700;cursor:help}
+#gi-beta .sales-trend.up{color:#047857}#gi-beta .sales-trend.down{color:#DC2626}#gi-beta .sales-trend.neutral{color:#6B7280}
+#gi-beta .team-trend-note{padding:4px 22px 18px;font-size:11px;line-height:1.5}
+@media(max-width:760px){#gi-beta .team-trend-note{padding-left:16px;padding-right:16px}}
