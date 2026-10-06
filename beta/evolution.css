@@ -6,7 +6,12 @@
 @media(max-width:1150px){#gi-beta #evo-content .grid{grid-template-columns:1fr}#gi-beta .operation-grid table{min-width:680px}}
 @media(max-width:760px), (max-width:1000px) and (max-height:500px){#gi-beta nav span{font-size:8px}#gi-beta .rail{padding-left:4px;padding-right:4px}#gi-beta nav{gap:1px}#gi-beta nav button{font-size:18px}#gi-beta .evo-controls{padding:16px}#gi-beta .evo-controls label{min-width:0;flex:1 1 100%}#gi-beta #evo-chart{padding:0 8px}#gi-beta .evo-person{align-items:start;flex-direction:column}#gi-beta .operation-alert{flex-wrap:wrap}#gi-beta #evo-content .section-head{flex-wrap:wrap}#gi-beta .operation-grid .table-wrap{max-height:none}}
 
-#gi-beta #evo-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px;margin-top:20px;align-items:stretch}
+#gi-beta #evo-results{display:grid;gap:28px;margin-top:20px;min-width:0}
+#gi-beta .seller-store-heading{border-bottom:1px solid var(--border-color);padding-bottom:12px;margin-bottom:16px}
+#gi-beta .seller-store-heading h3{font-size:20px;margin:0;color:var(--text-primary)}
+#gi-beta .seller-store-heading p{font-size:12px;margin-top:4px}
+#gi-beta .seller-store-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px;align-items:stretch}
+#gi-beta .seller-rank{font-size:12px;font-weight:700;color:var(--brand-primary);background:#E6F4EA;border-radius:8px;padding:5px;order:3;margin-left:auto}
 #gi-beta .seller-card{display:flex;flex-direction:column;min-width:0;padding:20px;border:1px solid var(--border-color);border-radius:16px;background:var(--bg-card)}
 #gi-beta .seller-card-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;min-width:0}
 #gi-beta .seller-card-head>div{min-width:0}
