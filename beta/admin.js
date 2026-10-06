@@ -16,7 +16,10 @@ function adminFields(){
  $('#admin-form-help').textContent=user?'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
-function renderAdmin(){if(cloudProfile&&adminTab==='users'){renderCloudProfiles();return;}
+function renderAdmin(){
+ $('#backup').hidden=adminTab!=='backup';$('#admin .admin-layout').hidden=adminTab==='backup';
+ if(adminTab==='backup'){ $('#admin-permissions').hidden=true;all('[data-admin-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.adminTab==='backup')));return;}
+ if(cloudProfile&&adminTab==='users'){renderCloudProfiles();return;}
  const a=adminState();$('#admin-counts').innerHTML=[['Lojas ativas',a.stores.filter(x=>x.active).length],['Vendedores ativos',a.sellers.filter(x=>x.active).length],['Usuários cadastrados',a.users.length]].map(([label,count])=>`<div class="card"><strong>${count}</strong>${label}</div>`).join('');
  $('#admin-form').hidden=adminTab==='audit';$('#admin-permissions').hidden=adminTab!=='users';
  $('#admin-list-title').textContent={stores:'Lojas cadastradas',sellers:'Vendedores cadastrados',users:'Usuários cadastrados',audit:'Histórico de alterações'}[adminTab];
