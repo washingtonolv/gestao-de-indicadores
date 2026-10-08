@@ -41,7 +41,7 @@ root.addEventListener('click',async e=>{
  if(b.dataset.adminDelete&&adminTab==='sellers'){
   const item=adminState().sellers.find(x=>x.id===b.dataset.adminDelete);if(!item)return;
   const store=adminState().stores.find(x=>x.id===item.storeId);
-  if(db.entries.some(x=>same(x.store,store?.name||'')&&same(x.seller,item.name))||adminState().sellerGoals.some(x=>x.sellerId===item.id)||cloudProfiles.some(x=>x.sellerId===item.id||x.seller_id===item.id)){
+  if(db.entries.some(x=>same(x.store,store?.name||'')&&same(x.seller,item.name))||adminState().sellerGoals.some(x=>x.sellerId===item.id)||adminState().sellerDailyGoals.some(x=>x.sellerId===item.id)||cloudProfiles.some(x=>x.sellerId===item.id||x.seller_id===item.id)){
    $('#admin-feedback').textContent='Este vendedor possui resultados, metas ou uma conta vinculada. Use Arquivar para preservar o histórico.';return;
   }
   $('#confirm-text').textContent=`Excluir ${item.name}? Esta ação remove o cadastro definitivamente e não pode ser desfeita.`;

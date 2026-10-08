@@ -15,11 +15,15 @@ function renderEvolution(){
  $('#evo-empty').hidden=rows.length>0&&!period.future;$('#evo-empty').textContent=period.future?'Período futuro: ainda não há resultados realizados.':individual&&!seller?'Cadastre um vendedor na Administração para visualizar sua evolução.':'Nenhum lançamento neste período. Os resultados aparecerão quando o gestor registrar as vendas.';
  $('#evo-content').hidden=period.future||(individual&&!seller);if($('#evo-content').hidden)return;
  const individualGoal=seller?d.admin.sellerGoals.find(g=>g.month===month&&g.sellerId===seller.id):null;
+ const dailyGoal=seller&&month===currentMonth?d.admin.sellerDailyGoals.find(g=>g.date===today&&g.sellerId===seller.id):null;
+ const dailyEntry=seller&&dailyGoal?rows.find(e=>!e.periodStart&&e.date===today):null;
+ const weeklyToday=seller&&dailyGoal&&rows.some(e=>e.periodStart&&e.periodStart<=today&&e.date>=today);
  const stores=d.admin.stores.filter(s=>!store||same(s.name,store)),storeGoals=d.goals.filter(g=>g.month===month&&(!store||same(g.store,store)));
  const goal=seller?individualGoal?.cents||0:storeGoals.reduce((a,g)=>a+g.cents,0),covered=seller?!!individualGoal:stores.length>0&&stores.every(s=>storeGoals.some(g=>same(s.name,g.store))),pct=covered&&goal?t.sales/goal*100:null;
  $('#evo-stats').innerHTML=[['Vendas no período',money(t.sales),evoCompare(t.sales,old.sales,money)],['Atingimento da meta',pct===null?'—':num(pct)+'%',seller?'Meta individual mensal':'Metas mensais das lojas'],['Restante',covered?money(Math.max(0,goal-t.sales)):'—','Para atingir a meta mensal'],['Ticket médio',t.orders?money(Math.round(tm)):'—',t.orders&&old.orders?evoCompare(tm,oldTm,c=>money(Math.round(c))):'Sem base de comparação anterior'],['Peças por atendimento',t.orders?num(pa):'—',t.orders&&old.orders?evoCompare(pa,oldPa,num):'Sem base de comparação anterior']].map(([label,value,note],i)=>`<article class="card stat"><span>${label}</span><strong>${value}</strong>${i===1?statusChip(state(pct,month,covered,rows.length>0)):''}<small>${note}</small></article>`).join('');
  $('#evo-goal-title').textContent=seller?'Meta individual mensal':'Meta mensal das lojas';$('#evo-goal-text').textContent=money(t.sales);$('#evo-goal-target').textContent=covered?'de '+money(goal):'Meta não definida';
  $('#evo-goal-detail').textContent=covered?(t.sales>=goal?'Acima da meta: '+money(t.sales-goal):'Falta para a meta: '+money(goal-t.sales)):'O gestor precisa cadastrar a meta para permitir a comparação.';
+ $('#evo-daily-summary').hidden=!dailyGoal;$('#evo-daily-summary').textContent=dailyGoal?`Meta de hoje: ${money(dailyGoal.cents)} · ${weeklyToday?'resultado semanal não distribuído por dia':dailyEntry?`realizado ${money(dailyEntry.cents)} · ${num(dailyEntry.cents/dailyGoal.cents*100)}%`:'sem resultado diário'}`:'';
  const status=state(pct||0,month,covered,rows.length>0);$('#evo-goal-status').innerHTML=statusChip(status)+(pct===null?'':`<strong>${num(pct)}%</strong>`);$('#evo-goal-bar').style.width=(pct===null?0:Math.min(100,pct))+'%';$('#evo-goal-bar').style.background=status.color;
  const dates=rows.map(e=>e.updatedAt).filter(Boolean).sort();$('#evo-updated').textContent=dates.length?'Última atualização dos registros exibidos: '+new Date(dates[dates.length-1]).toLocaleString('pt-BR'):rows.length?'Registros antigos: horário de atualização indisponível.':'Ainda sem atualização de resultados.';
  $('#evo-comparison-note').textContent=month===currentMonth?`Comparação: dias 1–${period.cutoff} deste mês com dias 1–${period.previousCutoff} de ${period.previous}.`:`Comparação com o mês completo ${period.previous}.`;
@@ -61,8 +65,17 @@ function renderOperation(){
  $('#operation-alerts').innerHTML=alerts.map(a=>`<div class="operation-alert"><i class="dot" style="background:${a.color}"></i><span><strong>${esc(a.s.name)}</strong><br>${a.text}</span><button data-evo-store="${a.s.id}">Ver loja</button></div>`).join('')||(stores.length?'<p>Nenhum ponto de atenção identificado pelos critérios disponíveis.</p>':'<p>Aguardando o cadastro das lojas.</p>');
 }
 function renderSellerGoals(){
- const d=evoData(),a=d.admin,selected=$('#seller-goal-person').value;$('#seller-goal-person').innerHTML='<option value="">Selecione um vendedor</option>'+a.sellers.filter(s=>s.active&&a.stores.some(t=>t.id===s.storeId&&t.active)).map(s=>`<option value="${s.id}">${esc(s.name)} · ${esc(a.stores.find(t=>t.id===s.storeId).name)}</option>`).join('');$('#seller-goal-person').value=selected;
+ const d=evoData(),a=d.admin,selected=$('#seller-goal-person').value;$('#seller-goal-person').innerHTML='<option value="">Selecione um vendedor</option>'+a.sellers.filter(s=>s.active&&a.stores.some(t=>t.id===s.storeId&&t.active)).map(s=>`<option value="${s.id}">${esc(s.name)} · ${esc(a.stores.find(t=>t.id===s.storeId).name)}</option>`).join('');$('#seller-goal-person').value=selected;const dailySelected=$('#seller-daily-goal-person').value;$('#seller-daily-goal-person').innerHTML=$('#seller-goal-person').innerHTML;$('#seller-daily-goal-person').value=dailySelected;
  $('#seller-goal-list').innerHTML=a.sellerGoals.filter(g=>g.month===$('#month').value&&a.sellers.some(s=>s.id===g.sellerId&&(!$('#store').value||a.stores.some(t=>t.id===s.storeId&&same(t.name,$('#store').value))))).map(g=>{const s=a.sellers.find(x=>x.id===g.sellerId),t=a.stores.find(x=>x.id===s.storeId);return `<div class="goal-row"><div><strong>${esc(s.name)}</strong><small>${esc(t.name)} · ${money(g.cents)}</small></div><button data-seller-goal="${s.id}">Editar</button></div>`;}).join('')||'<p>Nenhuma meta individual neste período.</p>';
+ renderSellerDailyGoals();
+}
+function renderSellerDailyGoals(){
+ const d=evoData(),a=d.admin,month=$('#month').value,store=$('#store').value;
+ const goals=a.sellerDailyGoals.filter(g=>g.date.startsWith(month)&&a.sellers.some(s=>s.id===g.sellerId&&(!store||a.stores.some(t=>t.id===s.storeId&&same(t.name,store))))).sort((x,y)=>y.date.localeCompare(x.date)||a.sellers.find(s=>s.id===x.sellerId).name.localeCompare(a.sellers.find(s=>s.id===y.sellerId).name,'pt-BR'));
+ $('#seller-daily-goal-list').innerHTML=goals.map(g=>{
+  const s=a.sellers.find(x=>x.id===g.sellerId),t=a.stores.find(x=>x.id===s.storeId),daily=d.entries.filter(e=>!e.periodStart&&e.date===g.date&&same(e.store,t.name)&&same(e.seller,s.name)),sales=daily.reduce((sum,e)=>sum+e.cents,0),weekly=d.entries.some(e=>e.periodStart&&e.periodStart<=g.date&&e.date>=g.date&&same(e.store,t.name)&&same(e.seller,s.name)),pct=daily.length?sales/g.cents*100:null,status=g.date>today?{...statusFor(null),label:'Período futuro'}:weekly?{...statusFor(null),label:'Sem resultado diário'}:state(pct||0,g.date.slice(0,7),true,daily.length>0);
+  return `<div class="goal-row"><div><strong>${esc(s.name)}</strong><small>${esc(t.name)} · ${g.date.split('-').reverse().join('/')}</small><small>Meta ${money(g.cents)} · ${weekly?'Resultado semanal não distribuído por dia':daily.length?'Realizado '+money(sales)+' · '+num(pct)+'%':'Sem resultado diário'}</small></div><div>${statusChip(status)}<button data-seller-daily-goal="${esc(s.id+'|'+g.date)}">Editar</button></div></div>`;
+ }).join('')||'<p>Nenhuma meta diária neste período.</p>';
 }
 $('#evo-mode').onchange=()=>{animationIntent=true;renderEvolution();};$('#evo-seller').onchange=()=>{animationIntent=true;renderEvolution();};$('#evo-group').onchange=()=>{animationIntent=true;renderEvolution();};
 root.addEventListener('click',e=>{const card=e.target.closest('[data-seller-card]');if(card&&!e.target.closest('button')){animationIntent=true;$('#evo-seller').value=card.dataset.sellerCard;renderEvolution();redesignSync();window.scrollTo(0,0);return;}const b=e.target.closest('button');if(!b)return;
@@ -75,4 +88,21 @@ $('#seller-goal-form').onsubmit=async e=>{e.preventDefault();$('#seller-goal-err
 $('#seller-goal-form button[type=submit]').onclick=e=>{e.preventDefault();if($('#seller-goal-form').reportValidity())$('#seller-goal-form').onsubmit(e);};
 $('#seller-goal-form').onkeydown=e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();if($('#seller-goal-form').reportValidity())$('#seller-goal-form').onsubmit(e);}};
 
+root.addEventListener('click',e=>{
+ const b=e.target.closest('button[data-seller-daily-goal]');if(!b)return;
+ const [sellerId,date]=b.dataset.sellerDailyGoal.split('|'),g=evoData().admin.sellerDailyGoals.find(x=>x.sellerId===sellerId&&x.date===date);if(!g)return;
+ goalMode='seller';redesignSync();$('#seller-daily-goal-date').value=g.date;$('#seller-daily-goal-person').value=g.sellerId;$('#seller-daily-goal-value').value=amountInput(g.cents);$('#seller-daily-goal-value').focus();
+});
+$('#seller-daily-goal-date').value=today;
+$('#seller-daily-goal-form').onsubmit=async e=>{e.preventDefault();$('#seller-daily-goal-error').textContent='';try{
+ const next=validateDB(clone()),seller=next.admin.sellers.find(s=>s.id===$('#seller-daily-goal-person').value),date=$('#seller-daily-goal-date').value,cents=amount($('#seller-daily-goal-value').value);
+ if(!seller||!seller.active||!next.admin.stores.some(s=>s.id===seller.storeId&&s.active))throw Error('Selecione um vendedor de uma loja ativa.');
+ if(cents<=0)throw Error('A meta deve ser maior que zero.');
+ const g={sellerId:seller.id,date,cents},i=next.admin.sellerDailyGoals.findIndex(x=>x.sellerId===seller.id&&x.date===date);
+ if(i<0)next.admin.sellerDailyGoals.push(g);else next.admin.sellerDailyGoals[i]=g;
+ await save(next,`${i<0?'Cadastrou':'Editou'} meta diária de ${seller.name} em ${date}`);
+ $('#month').value=date.slice(0,7);render();notify('Meta diária salva.');
+ }catch(err){$('#seller-daily-goal-error').textContent=err.message;}};
+$('#seller-daily-goal-form button[type=submit]').onclick=e=>{e.preventDefault();if($('#seller-daily-goal-form').reportValidity())$('#seller-daily-goal-form').onsubmit(e);};
+$('#seller-daily-goal-form').onkeydown=e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();if($('#seller-daily-goal-form').reportValidity())$('#seller-daily-goal-form').onsubmit(e);}};
 root.addEventListener('keydown',e=>{const card=e.target.closest('[data-seller-card]');if(card&&e.target===card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();card.querySelector('[data-evo-seller]')?.click();}});
