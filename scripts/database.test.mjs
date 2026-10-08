@@ -124,6 +124,16 @@ for(let d=1;d<=last;d++){
 const dateOf=d=>`${current.slice(0,7)}-${String(d).padStart(2,'0')}`;
 await db.query(`insert into public.gi_entries(store_id,seller_id,period_start,date,cents,orders,pieces) values (${qid(12)},${qid(92)},$1,$2,100,1,1)`,[dateOf(start),dateOf(end)]);checks++;
 await assert.rejects(()=>weekly(null,'2099-12-01'));checks++;
+await db.exec(readFileSync(new URL('../supabase/migrations/202610080001_seller_daily_goals.sql',import.meta.url),'utf8'));
+await as(1);
+await db.exec(`insert into public.gi_seller_daily_goals(id,store_id,seller_id,date,cents) values (${qid(101)},${qid(12)},${qid(23)},'2026-10-08',5000)`);checks++;
+await denied(`insert into public.gi_seller_daily_goals(store_id,seller_id,date,cents) values (${qid(12)},${qid(23)},'2026-10-08',6000)`,'23505');
+await as(3);await count('gi_seller_daily_goals',0);
+await denied(`insert into public.gi_seller_daily_goals(store_id,seller_id,date,cents) values (${qid(12)},${qid(23)},'2026-10-09',5000)`);
+await as(4);await count('gi_seller_daily_goals',1);
+await as(1);
+await rpc([{table:'gi_seller_daily_goals',action:'insert',row:{id:id(102),store_id:id(12),seller_id:id(23),date:'2026-10-09',cents:6000}}]);checks++;
+await count('gi_seller_daily_goals',2);
 await db.close();
 console.log(`Database: ${checks} checks passed (PostgreSQL/PGlite, isolated auth fixtures).`);
 
