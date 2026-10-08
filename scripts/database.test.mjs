@@ -97,6 +97,16 @@ await as(2);await assert.rejects(()=>rpc([{table:'gi_sellers',action:'delete',ro
 await as(1);await rpc([{table:'gi_sellers',action:'delete',row:{id:id(90)},expected:sellerVersion}]);checks++;
 assert.equal((await db.query(`select count(*)::int n from public.gi_sellers where id=${qid(90)}`)).rows[0].n,0);checks++;
 await denied(`delete from public.gi_sellers where id=${qid(21)}`,'23503');
+await as(null,'anon');
+await db.exec('reset role');
+await db.exec(readFileSync(new URL('../supabase/migrations/202610070001_weekly_entries.sql',import.meta.url),'utf8'));
+await db.exec(`insert into public.gi_sellers(id,store_id,name) values (${qid(91)},${qid(12)},'Weekly fixture')`);
+const weekly=(start,end)=>db.query(`insert into public.gi_entries(store_id,seller_id,period_start,date,cents,orders,pieces) values (${qid(12)},${qid(91)},$1,$2,100,1,1)`,[start,end]);
+await weekly('2026-09-01','2026-09-08');checks++;
+await assert.rejects(()=>weekly(null,'2026-09-03'));checks++;
+await assert.rejects(()=>weekly('2026-09-09','2026-09-15'));checks++;
+await weekly('2026-09-09','2026-09-16');checks++;
+await assert.rejects(()=>weekly('2099-12-01','2099-12-08'));checks++;
 await db.close();
 console.log(`Database: ${checks} checks passed (PostgreSQL/PGlite, isolated auth fixtures).`);
 

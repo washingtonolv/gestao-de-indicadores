@@ -6,9 +6,9 @@ function validateDB(d){
  const date=v=>typeof v==='string'&&/^20\d{2}-\d{2}-\d{2}$/.test(v)&&!isNaN(Date.parse(v))&&new Date(v+'T12:00:00Z').toISOString().slice(0,10)===v;
  if(!obj(d)||d.version!==1||!Array.isArray(d.entries)||!Array.isArray(d.goals)||d.entries.length>5000||d.goals.length>1000)fail();
  const ids=new Set(),keys=new Set();
- for(const e of d.entries){if(!obj(e)||typeof e.id!=='string'||!/^[\w-]{1,80}$/.test(e.id)||ids.has(e.id)||!date(e.date)||!name(e.store)||!name(e.seller)||!int(e.cents,100000000000)||!int(e.orders,1000000)||!int(e.pieces,1000000)||(e.orders===0&&(e.cents>0||e.pieces>0)))fail();if(e.updatedAt!==undefined&&(typeof e.updatedAt!=='string'||!Number.isFinite(Date.parse(e.updatedAt))))fail();ids.add(e.id);}
+ for(const e of d.entries){if(!obj(e)||typeof e.id!=='string'||!/^[\w-]{1,80}$/.test(e.id)||ids.has(e.id)||!date(e.date)||!name(e.store)||!name(e.seller)||!int(e.cents,100000000000)||!int(e.orders,1000000)||!int(e.pieces,1000000)||(e.orders===0&&(e.cents>0||e.pieces>0)))fail();if(e.updatedAt!==undefined&&(typeof e.updatedAt!=='string'||!Number.isFinite(Date.parse(e.updatedAt))))fail();if(e.periodStart!==undefined&&(!date(e.periodStart)||e.periodStart>e.date||e.periodStart.slice(0,7)!==e.date.slice(0,7)))fail();ids.add(e.id);}
  for(const g of d.goals){const key=g.month+'|'+g.store;if(!obj(g)||!/^20\d{2}-(0[1-9]|1[0-2])$/.test(g.month)||!name(g.store)||!int(g.cents,100000000000)||g.cents===0||keys.has(key))fail();keys.add(key);}
- return {version:1,admin:validateAdmin(d),entries:d.entries.map(({id,date,store,seller,cents,orders,pieces,updatedAt})=>({id,date,store,seller,cents,orders,pieces,...(updatedAt?{updatedAt}:{})})),goals:d.goals.map(({month,store,cents})=>({month,store,cents}))};
+ return {version:1,admin:validateAdmin(d),entries:d.entries.map(({id,date,store,seller,cents,orders,pieces,updatedAt,periodStart})=>({id,date,store,seller,cents,orders,pieces,...(updatedAt?{updatedAt}:{}),...(periodStart?{periodStart}:{})})),goals:d.goals.map(({month,store,cents})=>({month,store,cents}))};
 }
 function validateAdmin(d){
  const fail=()=>{throw Error('Cadastros administrativos inválidos. Confira os vínculos, nomes e e-mails do backup.');};
