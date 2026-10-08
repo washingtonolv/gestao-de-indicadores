@@ -17,7 +17,7 @@ function renderGreeting(){
 setInterval(renderGreeting,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderGreeting();});
 function renderCloudUI(){
- $('#storage-status').textContent=demo?'Exemplo · não salvo':ready?'Dados do Supabase':'Conectando…';
+ $('#storage-status').textContent=demo?'Exemplo · não salvo':ready?'Dados do Supabase':'Carregando indicadores…';
  $('#footer-mode').textContent=demo?'Dados fictícios · modo de exemplo':'Beta online · salvamento no Supabase';
  if(!$('#saved-at').textContent.startsWith('Confirmado'))$('#saved-at').textContent=ready?'Dados carregados da nuvem':'Aguardando conexão';
  $('#restore-file').disabled=true;$('#restore-file').closest('label').hidden=true;$('#restore-preview').hidden=true;

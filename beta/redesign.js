@@ -25,4 +25,4 @@ $('#clear-entry').onclick=()=>{resetEntry();entryPreview();};$('#history-search'
 for(const id of ['#entry-sales','#entry-orders','#entry-pieces'])$(id).addEventListener('input',entryPreview);
 $('#goal-value').addEventListener('input',()=>{let v=0;try{v=amount($('#goal-value').value);}catch{}$('#weekly-suggestion-values').textContent=[25,33,24,18].map(p=>money(Math.round(v*p/100))).join(' · ');});
 
-window.addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='gi-public-preview')return;demo=true;$('#notice').hidden=true;$('#demo').hidden=true;render();$('#demo').hidden=true;show('dashboard');});
+window.addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='gi-public-preview')return;demo=true;animationIntent=true;$('#notice').hidden=true;$('#demo').hidden=true;render();$('#demo').hidden=true;show('dashboard');root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:true}}));});
