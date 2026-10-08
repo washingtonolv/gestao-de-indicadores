@@ -6,7 +6,7 @@ function renderCloudProfiles(){
  $('#admin-list-help').textContent='Cadastre uma conta usando o formulário. Senhas são protegidas pelo serviço de autenticação e não podem ser consultadas.';
  all('[data-admin-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.adminTab==='users')));
  const search=$('#admin-search').value.trim().toLowerCase();
- $('#admin-list').innerHTML=cloudProfiles.filter(p=>(p.name+' '+(p.login||'')).toLowerCase().includes(search)).map(p=>`<div class="admin-row"><div><strong>${esc(p.name)}</strong><small>${esc(roleLabels[p.role])} · ${esc(p.login||'Login cadastrado')} · ${p.active?'Ativo':'Bloqueado'}</small></div></div>`).join('')||'<p>Nenhuma conta acessível.</p>';
+ $('#admin-list').innerHTML=cloudProfiles.filter(p=>(p.name+' '+(p.login||'')).toLowerCase().includes(search)).map(p=>`<div class="admin-row"><div><strong>${esc(p.name)}</strong><small>${esc(p.login||'Login cadastrado')}</small><span class="profile-role ${p.role==='admin'?'role-admin':''}">${esc(roleLabels[p.role])}</span><span class="admin-status ${p.active?'':'inactive'}">${p.active?'Ativo':'Bloqueado'}</span></div></div>`).join('')||'<p>Nenhuma conta acessível.</p>';
 }
 function renderGreeting(){
  if(!cloudProfile||!['dashboard','evolution'].includes(view))return;

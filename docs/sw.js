@@ -1,4 +1,4 @@
-const CACHE = 'gi-install-v1';
+const CACHE = 'gi-install-v2';
 const OFFLINE = new URL('./offline.html', self.location.href).href;
 const ASSETS = ['./offline.html', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', event => {

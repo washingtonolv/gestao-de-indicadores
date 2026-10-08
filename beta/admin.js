@@ -13,7 +13,7 @@ function adminFields(){
  for(const [id,visible] of [['email',user&&role==='admin'],['username',user],['password',user],['role',user],['store',seller||(user&&role!=='admin')],['seller',user&&role==='seller']]){
   $('#admin-'+id+'-label').hidden=!visible;$('#admin-'+id).disabled=!visible;$('#admin-'+id).required=visible;
  }
- $('#admin-form-help').textContent=user?'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.':seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
+ $('#admin-form-help').textContent=user?({admin:'Gerencia usuários, cadastros, metas e toda a operação. ',manager:'Registra resultados e acompanha a loja vinculada. ',seller:'Consulta apenas seus resultados, sem editar lançamentos. '}[role]+'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.'):seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
 function renderAdmin(){

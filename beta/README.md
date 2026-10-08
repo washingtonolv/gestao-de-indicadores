@@ -1,43 +1,26 @@
-# Gestão de indicadores — beta local
+# Gestão de indicadores
+
+O painel online usa autenticação e dados do Supabase. O iframe conserva `sandbox="allow-scripts"` e sua CSP; somente a página principal acessa o serviço. Alterações são validadas e confirmadas antes de indicar sucesso. Permissões e vínculos permanecem protegidos pelo banco.
 
 ## Uso
 
-1. Em **Metas**, cadastre o mês, a loja e a meta de vendas.
-2. Em **Lançamentos**, informe o total diário por vendedor e loja: vendas líquidas, atendimentos e peças.
-3. Consulte o painel usando os filtros de mês e loja. Edite ou exclua registros pelo histórico; a exclusão pede confirmação.
-4. Em **Backup**, baixe uma cópia JSON periodicamente. A restauração valida o arquivo e exibe um resumo antes de substituir os dados.
+- Administrador: e-mail ou usuário e senha; gerencia usuários, lojas, vendedores e metas. Backup fica na Administração.
+- Gestor: usuário e senha; acompanha sua loja e registra resultados diários ou acumulados do bloco semanal.
+- Vendedor: consulta somente a própria evolução, conforme o vínculo autorizado.
+- Exemplo: dados fictícios em memória, sem gravação. Também pode ser explorado na tela de login.
 
-O painel começa vazio. **Ver exemplo** usa dados fictícios somente em memória; não os grava nem mistura com seus registros.
+## Cálculos e calendário
 
-## Persistência
+Valores financeiros são mantidos em centavos inteiros. TM = vendas / atendimentos; PA = peças / atendimentos. Divisor zero mostra “—”. Semanas são blocos de sete dias úteis, sem domingos, calculados para cada mês. O bloco em andamento aceita acumulados e atualização do mesmo registro. Totais semanais não são distribuídos artificialmente entre os dias.
 
-Sem banco de dados ou envio dos lançamentos ao servidor. A página principal salva em `localStorage`, chave `gestao-indicadores:beta:v1`, e confirma a gravação antes de mostrar sucesso. O iframe continua em `sandbox="allow-scripts"`; a CSP foi preservada. A comunicação de persistência aceita apenas mensagens do iframe esperado, valida o formato e usa revisões para detectar conflitos entre abas. Backup é baixado pela página principal.
+`statusFor` centraliza a classificação: abaixo de 50% Crítico; de 50% até menos de 80% Atenção; a partir de 80% Atingida. Sem meta, sem dados e períodos futuros ficam neutros. Metas individuais não alteram a meta da loja. A distribuição 25/33/24/18% é apenas uma sugestão informativa.
 
-Dados disponíveis somente no mesmo navegador, perfil, aparelho e endereço do site. Limpar dados do site ou usar navegação privada pode causar perda. Manter backups é responsabilidade do usuário. Não há autenticação interna, sincronização, trilha de auditoria ou criptografia adicional da base local. O acesso privado existente do Sites permanece.
+## Apresentação
 
-Limites da beta: 5.000 lançamentos, 1.000 metas, backup até 2 MB. Um registro por vendedor, loja e dia no formulário. Vendas não negativas e valores monetários em centavos inteiros. Entradas usam formato brasileiro, como `1.250,50`. Vendas devem estar líquidas de devoluções e cancelamentos; ajustes negativos independentes não são suportados.
+O redesign utiliza superfícies neutras translúcidas, marca azul, destaque preto para vendas, gráfico acumulado com referência linear da meta e evolução diária em barras. Os detalhes dos gráficos funcionam por toque, mouse e teclado. Formulários existentes são preservados pelos controles segmentados.
 
-## Cálculos
+A navegação mobile tem quatro itens; Administração fica no perfil. A equipe vira cartões no celular. Temas claro/escuro e preferência por movimento reduzido são mantidos.
 
-- Vendas, peças e atendimentos: somas dos lançamentos filtrados.
-- Ticket médio: vendas ÷ atendimentos. PA: peças ÷ atendimentos. Com divisor zero, mostrar “—”.
-- Meta: soma das metas das lojas selecionadas. Se existir loja com vendas sem meta, não classificar o total.
-- Mês encerrado: abaixo de 80% vermelho `#FF0000`; de 80% até menos de 100% amarelo `#FFE100`; a partir de 100% verde `#00FF00`. Faixas propostas, ainda a validar.
-- Mês atual/futuro: percentual acumulado com estado neutro; não há planejamento diário para avaliar ritmo.
-- Gráfico: vendas acumuladas por dia, com detalhes por mouse, toque, foco e Enter. Cor representa o estado geral do período. Sem dados não é convertido em diagnóstico de urgência.
-- Semanas: blocos de dias 1–7, 8–14, 15–21, 22–28 e restante do mês.
-- Tabela: totais por vendedor. Metas individuais e distribuição semanal de metas não fazem parte desta beta.
+## Desenvolvimento
 
-## Tela e moldura
-
-O fundo externo permanece claro mesmo com o navegador em tema escuro. Em monitores largos, o conteúdo pode crescer até 1680 px; em telas pequenas, ocupa a largura disponível sem margem externa.
-
-## Interações e validação
-
-Transições curtas em botões, cards e gráficos; foco visível, resposta ao salvar, confirmação de exclusão, movimento reduzido e superfícies alternativas para transparência reduzida. Formulários funcionam sem liberar navegação de formulários no sandbox.
-
-Verificado em Edge/Chromium: cadastro de meta e lançamento, recarga persistente, edição e exclusão, duplicidades, cálculos, três cores, exportação real de backup, restauração válida e rejeição de arquivo inválido, aviso de conflito entre abas, armazenamento bloqueado, responsividade de 320 a 1440 px e movimento reduzido.
-
-## Fontes
-
-`design/beta.html`, `beta.css`, `beta.js`: interface. `beta-schema.js`: validação comum. `beta-bridge.js`: persistência e download na página principal. `dist/index.html`: documento publicado, com scripts incorporados. `design/painel-fragment.html`: conteúdo incorporado no iframe.
+Edite os módulos em `beta/`. Execute `python scripts/build.py` para gerar `design/prototipo.html` e `docs/index.html`. `npm test` verifica esquema, cálculos, calendário, permissões, contas e classificação de metas. Testes visuais usam dados isolados, sem criar contas ou modificar registros de produção.

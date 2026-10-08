@@ -1,10 +1,10 @@
 html[data-theme=dark],html[data-theme=dark] body{background:#111827;color-scheme:dark}
-html[data-theme=dark] #gi-beta{--bg-page:#111827;--bg-card:#1F2937;--text-primary:#F9FAFB;--text-secondary:#CBD5E1;--border-color:#374151;--brand-primary:#34D399;--bg-highlight:#153C32;color-scheme:dark;border-color:#374151}
+html[data-theme=dark] #gi-beta{--bg-page:#111827;--bg-card:#1F2937;--text-primary:#F9FAFB;--text-secondary:#CBD5E1;--border-color:#374151;--brand-primary:#3B82F6;--bg-highlight:#153C32;color-scheme:dark;border-color:#374151}
 html[data-theme=dark] #gi-beta :is(header,.rail){background:#1F2937;border-color:#374151}
 html[data-theme=dark] #gi-beta :is(button,input,select){background:#273449;color:#F9FAFB;border-color:#4B5563}
-html[data-theme=dark] #gi-beta button.primary{background:#059669;color:white;border-color:#10B981}
+html[data-theme=dark] #gi-beta button.primary{background:#3B82F6;color:white;border-color:#3B82F6}
 html[data-theme=dark] #gi-beta nav button{background:transparent;color:#CBD5E1}
-html[data-theme=dark] #gi-beta nav button[aria-current=page]{background:#34D39920;color:#6EE7B7}
+html[data-theme=dark] #gi-beta nav button[aria-current=page]{background:#3B82F620;color:#BFDBFE}
 html[data-theme=dark] #gi-beta :is(.pill,.badge,.admin-status){background:#374151;color:#F9FAFB}
 html[data-theme=dark] #gi-beta :is(.stat,.stat>span,.stat>strong,.stat>small){color:#1F2937}
 html[data-theme=dark] #gi-beta :is(.track,.seller-rank){background:#374151}
@@ -16,5 +16,5 @@ html[data-theme=dark] #gi-beta .error{color:#FCA5A5!important}
 html[data-theme=dark] #gi-beta :is(.card,.stat,button):hover{border-color:#4B5563}
 html[data-theme=dark] #gi-beta button:not(:disabled):hover{background:#374151;color:#F9FAFB}
 html[data-theme=dark] #gi-beta tbody tr:hover{background:#273449}
-html[data-theme=dark] #gi-beta :is(button,input,select):focus-visible{outline-color:#6EE7B7}
+html[data-theme=dark] #gi-beta :is(button,input,select):focus-visible{outline-color:#BFDBFE}
 @media(max-width:760px), (max-width:1000px) and (max-height:500px){html[data-theme=dark] #gi-beta .rail nav button[aria-current=page]{background:#F9FAFB;color:#111827}}
