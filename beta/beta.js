@@ -110,5 +110,5 @@
  // CLOUD_MODULE
  // ADMIN_MODULE
  // EVOLUTION_MODULE
- resetEntry();render();show('dashboard');request('read').then(result=>{acceptCloud(result);ready=true;animationIntent=true;render();root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:true}}));if(cloudProfile.role==='seller')show('evolution');}).catch(e=>{notice(e.message);render();root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:false}}));});
+ resetEntry();render();show('dashboard');request('read').then(result=>{acceptCloud(result);ready=true;animationIntent=true;render();root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:true}}));if(!demo&&cloudProfile.role==='seller')show('evolution');}).catch(e=>{if(!demo)notice(e.message);render();root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:demo}}));});
 })();

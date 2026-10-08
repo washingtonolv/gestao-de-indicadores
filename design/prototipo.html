@@ -47,6 +47,7 @@
 
 
 
+
 <!-- PWA_HEAD -->
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" type="image/png" href="./icons/icon-192.png">
@@ -2361,7 +2362,7 @@ $(&#x27;#entry-sales&#x27;).addEventListener(&#x27;input&#x27;,()=&gt;{
  }
  function finishLoading(success){
   const dashboard=effectsRoot.querySelector(&#x27;#dashboard&#x27;);if(!dashboard)return;
-  dashboard.classList.remove(&#x27;is-pending&#x27;);dashboard.classList.toggle(&#x27;load-failed&#x27;,!success);
+  dashboard.classList.remove(&#x27;is-pending&#x27;);dashboard.classList.toggle(&#x27;load-failed&#x27;,!success&amp;&amp;!demo);
   const skeleton=dashboard.querySelector(&#x27;.dashboard-skeleton&#x27;);
   if(skeleton){skeleton.classList.add(&#x27;is-leaving&#x27;);setTimeout(()=&gt;skeleton.remove(),motionPreference.matches?0:300);}
   dashboard.setAttribute(&#x27;aria-busy&#x27;,&#x27;false&#x27;);
@@ -2550,7 +2551,7 @@ $(&#x27;#seller-goal-form button[type=submit]&#x27;).onclick=e=&gt;{e.preventDef
 $(&#x27;#seller-goal-form&#x27;).onkeydown=e=&gt;{if(e.key===&#x27;Enter&#x27;&amp;&amp;e.target.tagName===&#x27;INPUT&#x27;){e.preventDefault();if($(&#x27;#seller-goal-form&#x27;).reportValidity())$(&#x27;#seller-goal-form&#x27;).onsubmit(e);}};
 
 root.addEventListener(&#x27;keydown&#x27;,e=&gt;{const card=e.target.closest(&#x27;[data-seller-card]&#x27;);if(card&amp;&amp;e.target===card&amp;&amp;(e.key===&#x27;Enter&#x27;||e.key===&#x27; &#x27;)){e.preventDefault();card.querySelector(&#x27;[data-evo-seller]&#x27;)?.click();}});
- resetEntry();render();show(&#x27;dashboard&#x27;);request(&#x27;read&#x27;).then(result=&gt;{acceptCloud(result);ready=true;animationIntent=true;render();root.dispatchEvent(new CustomEvent(&#x27;gi-data-ready&#x27;,{detail:{success:true}}));if(cloudProfile.role===&#x27;seller&#x27;)show(&#x27;evolution&#x27;);}).catch(e=&gt;{notice(e.message);render();root.dispatchEvent(new CustomEvent(&#x27;gi-data-ready&#x27;,{detail:{success:false}}));});
+ resetEntry();render();show(&#x27;dashboard&#x27;);request(&#x27;read&#x27;).then(result=&gt;{acceptCloud(result);ready=true;animationIntent=true;render();root.dispatchEvent(new CustomEvent(&#x27;gi-data-ready&#x27;,{detail:{success:true}}));if(!demo&amp;&amp;cloudProfile.role===&#x27;seller&#x27;)show(&#x27;evolution&#x27;);}).catch(e=&gt;{if(!demo)notice(e.message);render();root.dispatchEvent(new CustomEvent(&#x27;gi-data-ready&#x27;,{detail:{success:demo}}));});
 })();
 (() =&gt; {
  window.addEventListener(&#x27;message&#x27;, event =&gt; {

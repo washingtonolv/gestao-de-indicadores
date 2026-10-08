@@ -62,7 +62,7 @@
  }
  function finishLoading(success){
   const dashboard=effectsRoot.querySelector('#dashboard');if(!dashboard)return;
-  dashboard.classList.remove('is-pending');dashboard.classList.toggle('load-failed',!success);
+  dashboard.classList.remove('is-pending');dashboard.classList.toggle('load-failed',!success&&!demo);
   const skeleton=dashboard.querySelector('.dashboard-skeleton');
   if(skeleton){skeleton.classList.add('is-leaving');setTimeout(()=>skeleton.remove(),motionPreference.matches?0:300);}
   dashboard.setAttribute('aria-busy','false');
