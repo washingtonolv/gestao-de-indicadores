@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const context=vm.createContext({});vm.runInContext(fs.readFileSync('beta/entry-controls.js','utf8').split('function syncEntrySellers')[0],context);
+const admin={stores:[{id:'a',name:'Loja A',active:true},{id:'b',name:'Loja B',active:true}],sellers:[{storeId:'a',name:'Ana',active:true},{storeId:'b',name:'Bia',active:true},{storeId:'a',name:'Carla',active:false}]};
+assert.deepEqual(Array.from(context.entrySellerChoices(admin,'Loja A')),['Ana']);
+assert.deepEqual(Array.from(context.entrySellerChoices(admin,' loja b ')),['Bia']);
+assert.deepEqual(Array.from(context.entrySellerChoices(admin,'')),[]);
+assert.deepEqual(Array.from(context.entrySellerChoices(admin,'Loja A','Carla')),['Ana','Carla']);
+assert.deepEqual(Array.from(context.entrySellerChoices(admin,'Loja B','Carla')),['Bia']);
+for(const [input,expected] of [['',''],['1','0,01'],['100','1,00'],['123456','1.234,56'],['1.234,56','1.234,56'],['R$ 12.345,67','12.345,67'],['000050','0,50'],['100000000000','1.000.000.000,00']])assert.equal(context.formatSaleDigits(input),expected);
+console.log('Entry controls: store isolation, archived editing and Brazilian cent formatting passed.');
