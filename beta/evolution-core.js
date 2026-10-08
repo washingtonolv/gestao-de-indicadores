@@ -21,9 +21,9 @@ function evolutionPeriod(month,today){
 function evolutionDelta(value,previous){return previous>0?(value-previous)/previous*100:null;}
 function evolutionBuckets(rows,month,group,today){
  const p=evolutionPeriod(month,today),[y,m]=month.split('-').map(Number);
- if(group==='month')return Array.from({length:6},(_,i)=>{const d=new Date(y,m-6+i,1),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');return {label:key.slice(5)+'/'+key.slice(2,4),sales:evolutionTotals(rows.filter(e=>e.date.startsWith(key)&&e.date<=today)).sales};});
+ if(group==='month')return Array.from({length:6},(_,i)=>{const d=new Date(y,m-6+i,1),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');return {label:key.slice(5)+'/'+key.slice(2,4),sales:evolutionTotals(rows.filter(e=>e.date.startsWith(key)&&(e.periodStart||e.date)<=today)).sales};});
  const ranges=group==='week'?workingWeekRanges(month).filter(r=>r.start<=p.cutoff).map(r=>({...r,end:Math.min(r.end,p.cutoff)})):Array.from({length:p.cutoff},(_,i)=>({start:i+1,end:i+1}));
- return ranges.map(({start,end})=>({label:group==='week'?`${start}–${end}`:String(start).padStart(2,'0'),sales:evolutionTotals(rows.filter(e=>e.date.startsWith(month)&&Number(e.date.slice(-2))>=start&&Number(e.date.slice(-2))<=end&&e.date<=today)).sales}));
+ return ranges.map(({start,end})=>({label:group==='week'?`${start}–${end}`:String(start).padStart(2,'0'),sales:evolutionTotals(rows.filter(e=>e.date.startsWith(month)&&Number((e.periodStart||e.date).slice(-2))>=start&&Number((e.periodStart||e.date).slice(-2))<=end&&(e.periodStart||e.date)<=today)).sales}));
 }
 
 function salesTrend(current,previous,hasHistory){

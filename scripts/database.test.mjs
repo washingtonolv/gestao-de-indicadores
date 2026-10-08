@@ -107,6 +107,23 @@ await assert.rejects(()=>weekly(null,'2026-09-03'));checks++;
 await assert.rejects(()=>weekly('2026-09-09','2026-09-15'));checks++;
 await weekly('2026-09-09','2026-09-16');checks++;
 await assert.rejects(()=>weekly('2099-12-01','2099-12-08'));checks++;
+await db.exec(readFileSync(new URL('../supabase/migrations/202610070002_weekly_in_progress.sql',import.meta.url),'utf8'));
+const current=(await db.query('select current_date::text d')).rows[0].d;
+// Use a fresh seller and the current calendar block, without requiring its end.
+await db.exec(`insert into public.gi_sellers(id,store_id,name) values (${qid(92)},${qid(12)},'Current weekly fixture')`);
+const [year,month,day]=current.split('-').map(Number);
+let start=1,workingCount=0,end=0;
+const last=new Date(year,month,0).getDate();
+for(let d=1;d<=last;d++){
+ if(new Date(year,month-1,d).getDay()!==0)workingCount++;
+ if((workingCount===7&&!(d===last-1&&new Date(year,month-1,last).getDay()===0))||d===last){
+  if(day>=start&&day<=d){end=d;break;}
+  start=d+1;workingCount=0;
+ }
+}
+const dateOf=d=>`${current.slice(0,7)}-${String(d).padStart(2,'0')}`;
+await db.query(`insert into public.gi_entries(store_id,seller_id,period_start,date,cents,orders,pieces) values (${qid(12)},${qid(92)},$1,$2,100,1,1)`,[dateOf(start),dateOf(end)]);checks++;
+await assert.rejects(()=>weekly(null,'2099-12-01'));checks++;
 await db.close();
 console.log(`Database: ${checks} checks passed (PostgreSQL/PGlite, isolated auth fixtures).`);
 

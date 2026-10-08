@@ -2,6 +2,9 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),asse
 const src=n=>fs.readFileSync(path.join(__dirname,'../beta/'+n),'utf8');
 const api=vm.runInNewContext(src('evolution-core.js')+';({evolutionTotals,evolutionPeriod,evolutionDelta,evolutionBuckets,workingWeekRanges,salesTrend})');
 const clean=x=>JSON.parse(JSON.stringify(x));
+const partialWeek=[{date:'2026-10-08',periodStart:'2026-10-01',cents:100,orders:1,pieces:1}];
+assert.equal(api.evolutionBuckets(partialWeek,'2026-10','week','2026-10-07')[0].sales,100);
+assert.equal(api.evolutionBuckets(partialWeek,'2026-10','month','2026-10-07')[5].sales,100);
 assert.deepEqual(clean(api.evolutionTotals([{cents:10001,orders:2,pieces:3},{cents:99,orders:1,pieces:2}])),{sales:10100,orders:3,pieces:5});
 const p=api.evolutionPeriod('2026-10','2026-10-04');assert.equal(p.cutoff,4);assert.equal(p.previous,'2026-09');assert.equal(p.previousCutoff,4);
 assert.equal(api.evolutionPeriod('2026-01','2026-10-04').previous,'2025-12');assert.equal(api.evolutionPeriod('2024-02','2026-10-04').cutoff,29);
