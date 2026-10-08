@@ -17,9 +17,9 @@ function renderGreeting(){
 setInterval(renderGreeting,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderGreeting();});
 function renderCloudUI(){
- $('#storage-status').textContent=demo?'Exemplo · não salvo':ready?'Dados do Supabase':'Carregando indicadores…';
- $('#footer-mode').textContent=demo?'Dados fictícios · modo de exemplo':'Beta online · salvamento no Supabase';
- if(!$('#saved-at').textContent.startsWith('Confirmado'))$('#saved-at').textContent=ready?'Dados carregados da nuvem':'Aguardando conexão';
+ $('#storage-status').textContent=demo?'Exemplo · não salvo':ready?'Indicadores atualizados':'Carregando indicadores…';
+ $('#footer-mode').textContent=demo?'Dados fictícios · modo de exemplo':'Dados salvos na nuvem';
+ if(!$('#saved-at').textContent.startsWith('Confirmado')){const updated=data().entries.map(e=>e.updatedAt).filter(Boolean).sort().at(-1);$('#saved-at').textContent=demo?'Dados fictícios · prévia':ready?(updated?'Atualizado '+new Date(updated).toLocaleString('pt-BR'):'Dados carregados da nuvem'):'Aguardando conexão';}
  $('#restore-file').disabled=true;$('#restore-file').closest('label').hidden=true;$('#restore-preview').hidden=true;
  if(!cloudProfile)return;
  const seller=cloudProfile.role==='seller';

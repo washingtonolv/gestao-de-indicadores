@@ -50,7 +50,7 @@
   if(!nav)return;let indicator=nav.querySelector(':scope > .nav-indicator');
   if(!indicator){indicator=document.createElement('span');indicator.className='nav-indicator';indicator.setAttribute('aria-hidden','true');nav.prepend(indicator);}
   const active=nav.querySelector('button[aria-current="page"]:not([hidden])');if(!active){indicator.style.opacity='0';return;}
-  const x=active.offsetLeft+(active.offsetWidth-44)/2,y=active.offsetTop+(active.offsetHeight-44)/2;
+  const mobile=window.matchMedia('(max-width:759px)').matches,size=mobile?28:48;const x=active.offsetLeft+(active.offsetWidth-size)/2,y=mobile?2:active.offsetTop+(active.offsetHeight-size)/2;
   if(window.matchMedia('(max-width:759px)').matches){nav.style.setProperty('--nav-mobile-x',x+'px');indicator.style.transform='';}
   else{nav.style.removeProperty('--nav-mobile-x');indicator.style.transform=`translate(${x}px, ${y}px)`;}
   indicator.style.opacity='1';
@@ -81,17 +81,19 @@
  effectsRoot.addEventListener('gi-data-ready',event=>finishLoading(event.detail?.success===true));
  effectsRoot.addEventListener('click',event=>{
   const row=event.target.closest('.history-row,.admin-row,.goal-row');if(row)row.classList.add('row-touched');
-  if(event.target.closest('.rail nav [data-view]'))requestAnimationFrame(()=>{syncNav();animateCurrentView();});
-  if(event.target.closest('.segments button,.admin-tabs button'))requestAnimationFrame(syncControls);
+  if(event.target.closest('.rail nav [data-view]'))scheduleControls();
+  if(event.target.closest('.segments button,.admin-tabs button')){scheduleControls();const button=event.target.closest('button');let panel=button.closest('.admin-tabs')?effectsRoot.querySelector('.admin-layout'):button.closest('.goal-tabs')?effectsRoot.querySelector('.goal-forms'):button.closest('label')?.closest('.form-grid');if(panel&&!motionPreference.matches){panel.classList.remove('panel-entering');requestAnimationFrame(()=>panel.classList.add('panel-entering'));}}
  });
  effectsRoot.addEventListener('focusin',event=>{if(event.target.closest('.rail nav [data-view]'))syncNav();});
- const watcher=new MutationObserver(()=>{syncControls();syncNav();});
+ let controlFrame=0;function scheduleControls(){if(controlFrame)return;controlFrame=requestAnimationFrame(()=>{controlFrame=0;syncControls();syncNav();});}
+ effectsRoot.addEventListener('gi-view-changed',()=>{scheduleControls();animateCurrentView();});
+ const watcher=new MutationObserver(records=>{if(records.some(record=>record.target instanceof Element&&(record.target.closest('.segments,.admin-tabs,.rail nav')||record.type==='attributes'&&record.attributeName==='hidden'||[...record.addedNodes].some(node=>node instanceof Element&&(node.matches('.segments,.admin-tabs,.view')||node.querySelector('.segments,.admin-tabs'))))))scheduleControls();});
  watcher.observe(effectsRoot,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed','aria-current','hidden']});
- window.addEventListener('resize',()=>{syncControls();syncNav();});
+ window.addEventListener('resize',scheduleControls);
  syncControls();syncNav();
  window.addEventListener('pointerdown',event=>{
   if(event.target.closest('#chart,#evo-chart'))return;
-  effectsRoot.querySelectorAll('.sales-tooltip').forEach(tip=>{tip.hidden=true;});effectsRoot.querySelectorAll('#chart,#evo-chart').forEach(chart=>chart.dispatchEvent(new CustomEvent('chart-unpin')));
+  effectsRoot.querySelectorAll('.sales-tooltip').forEach(tip=>{tip.hidden=true;});effectsRoot.querySelectorAll('#chart,#evo-chart').forEach(chart=>chart.onchartunpin?.());
   effectsRoot.querySelectorAll('.chart-selection').forEach(chart=>chart.classList.remove('chart-selection'));
  });
 })();

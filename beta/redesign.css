@@ -23,3 +23,46 @@ html[data-theme=dark] #gi-beta .rail nav button[aria-current=page]{color:white}h
 @media(max-width:759px){#gi-beta #dashboard .kpi-sales>small.mobile-sales-gap{display:block}html[data-theme=dark] #gi-beta .rail nav button[aria-current=page]{background:transparent;color:white}}
 
 #gi-beta .admin-layout:has(#admin-form[hidden]){grid-template-columns:1fr}
+
+/* Shared layouts for the complete redesign. */
+#gi-beta .eyebrow{font-family:'Geist Mono',monospace;line-height:1.6}
+#gi-beta .page-heading{margin-bottom:24px}
+#gi-beta .stat,#gi-beta .form-card{min-width:0}
+#gi-beta #evo-goal-text{font-size:28px;font-weight:700;color:var(--text);margin:18px 0 4px}
+#gi-beta #evo-goal-target{display:block;margin-bottom:16px}
+#gi-beta #evo-goal-status{display:flex;gap:10px;align-items:center;margin-top:12px}
+#gi-beta .evo-progress,#gi-beta .evo-progress span{height:10px}
+#gi-beta #evo-stats .badge{align-self:flex-start;margin-top:6px}
+#gi-beta .seller-card{padding:22px;border-radius:16px;cursor:pointer}
+#gi-beta .seller-card:not([data-seller-card]){cursor:default}
+#gi-beta .seller-card:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+#gi-beta .seller-sales>strong{font-size:22px}
+#gi-beta .goal-list-head,#gi-beta .goal-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr) minmax(0,1.2fr) minmax(0,.8fr) auto;gap:12px;align-items:center}
+#gi-beta .goal-list-head{font-size:11px;color:var(--text-support);padding:14px 0;border-bottom:1px solid var(--divider)}
+#gi-beta .goal-row>div:first-child{flex:none}
+#gi-beta .goal-row strong{font-size:13px;overflow-wrap:anywhere}
+#gi-beta .goal-target>small,#gi-beta .goal-metrics>small{display:none}
+#gi-beta .goal-metrics{display:block;margin:0;font-size:12px}
+#gi-beta .goal-metrics>strong,#gi-beta .goal-metrics>span{display:block;margin-bottom:5px}
+#gi-beta .goal-metrics .track{margin-top:8px}
+#gi-beta .goal-edit button{padding:8px;font-size:12px;min-height:44px}
+#gi-beta .tooltip-date,#gi-beta .tooltip-detail{display:block;color:#CFCFCF;font-size:11px;line-height:1.5}
+#gi-beta .sales-tooltip strong{display:block;color:white;font-size:14px;font-weight:600;line-height:1.6}
+#gi-beta .seller-store-heading h3{font-size:18pt;font-weight:700}
+html[data-theme=dark] #gi-beta button:not(.primary):not(.is-saving):not(.is-saved):hover{background:#383838;color:#F5F5F5;border-color:#BDBDBB}
+html[data-theme=dark] #gi-beta .seller-card{background:var(--surface);border-color:var(--divider)}
+@media(max-width:1099px){#gi-beta .goal-lists{gap:16px}}
+@media(max-width:759px){
+ #gi-beta .heading-controls{align-items:stretch}
+ #gi-beta .page-heading .filters{gap:12px}
+ #gi-beta .page-heading .filters label:first-child input{border-radius:99px}
+ #gi-beta .seller-card{padding:20px}
+ #gi-beta .goal-list-head{display:none}
+ #gi-beta .goal-row{grid-template-columns:1fr 1fr;gap:12px;padding:18px 0}
+ #gi-beta .goal-person{grid-column:1/-1}
+ #gi-beta .goal-target>small,#gi-beta .goal-metrics>small{display:block;margin-bottom:6px}
+ #gi-beta .goal-row .goal-edit{text-align:right}
+ #gi-beta .team{order:0}
+ #gi-beta .admin-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ #gi-beta .admin-tabs button{min-width:0}
+}
