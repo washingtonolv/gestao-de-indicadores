@@ -27,7 +27,7 @@ schema = read('beta/beta-schema.js')
 app = read('beta/beta.js').replace('// ADMIN_MODULE', read('beta/admin.js')).replace('// EVOLUTION_MODULE', read('beta/evolution.js')).replace('// CLOUD_MODULE', read('beta/cloud-ui.js') + '\n' + read('beta/redesign.js') + '\n' + read('beta/entry-controls.js') + '\n' + read('beta/interactions.js'))
 start = inner.index('<script>function validateDB')
 end = inner.index('</script>', start) + len('</script>')
-inner = inner[:start] + '<script>' + schema + '\n' + read('beta/evolution-core.js') + '\n' + app + '\n' + read('beta/theme-frame.js') + '\n</script>' + inner[end:]
+inner = inner[:start] + '<script>' + schema + '\n' + read('beta/evolution-core.js') + '\n' + read('beta/goal-transfer-core.js') + '\n' + app + '\n' + read('beta/theme-frame.js') + '\n</script>' + inner[end:]
 page, count = re.subn(r'(data-srcdoc=")[\s\S]*?("\s*></iframe>)', lambda m: m.group(1) + escape(inner, quote=True) + m.group(2), page, count=1)
 assert count == 1
 start = page.index('<script>function validateDB')
