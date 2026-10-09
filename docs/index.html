@@ -1997,7 +1997,7 @@ html[data-theme=dark] #gi-beta .skeleton-card :is(i,b,small){background-image:li
 &lt;div class=&quot;operation-grid&quot;&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Pontos de atenção&lt;/h2&gt;&lt;p id=&quot;operation-period&quot;&gt;&lt;/p&gt;&lt;div id=&quot;operation-alerts&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Comparação entre lojas&lt;/h2&gt;&lt;p&gt;Selecione uma loja para acompanhar sua equipe.&lt;/p&gt;&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Loja&lt;/th&gt;&lt;th&gt;Vendas&lt;/th&gt;&lt;th&gt;Atingimento&lt;/th&gt;&lt;th&gt;Status&lt;/th&gt;&lt;th&gt;TM&lt;/th&gt;&lt;th&gt;PA&lt;/th&gt;&lt;th&gt;Detalhe&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;operation-stores&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;
 &lt;/section&gt;
 &lt;section id=&quot;records&quot; class=&quot;view&quot; hidden&gt;&lt;div class=&quot;split&quot;&gt;&lt;form id=&quot;entry-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2 id=&quot;entry-title&quot;&gt;Novo lançamento&lt;/h2&gt;&lt;p&gt;Informe os totais do vendedor por dia ou por bloco de 7 dias úteis. Na opção semanal, registre o acumulado até agora e atualize o mesmo registro pelo histórico.&lt;/p&gt;&lt;input id=&quot;entry-id&quot; type=&quot;hidden&quot;&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label class=&quot;wide&quot;&gt;Tipo de lançamento&lt;select id=&quot;entry-kind&quot;&gt;&lt;option value=&quot;daily&quot;&gt;Diário&lt;/option&gt;&lt;option value=&quot;weekly&quot;&gt;Semanal · 7 dias úteis&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;label id=&quot;entry-month-label&quot; hidden&gt;Mês&lt;input id=&quot;entry-month&quot; type=&quot;month&quot;&gt;&lt;/label&gt;&lt;label id=&quot;entry-week-label&quot; hidden&gt;Semana&lt;select id=&quot;entry-week&quot;&gt;&lt;/select&gt;&lt;/label&gt;&lt;label id=&quot;entry-date-label&quot;&gt;Data&lt;input id=&quot;entry-date&quot; type=&quot;date&quot; required min=&quot;2000-01-01&quot; max=&quot;2099-12-31&quot;&gt;&lt;/label&gt;&lt;label&gt;Loja&lt;input id=&quot;entry-store&quot; list=&quot;stores-list&quot; required maxlength=&quot;80&quot; placeholder=&quot;Ex.: Loja Centro&quot;&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Vendedor&lt;select id=&quot;entry-seller&quot; required disabled&gt;&lt;option value=&quot;&quot;&gt;Selecione uma loja primeiro&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Vendas líquidas (R$)&lt;input id=&quot;entry-sales&quot; inputmode=&quot;decimal&quot; required placeholder=&quot;0,00&quot; aria-describedby=&quot;sales-help&quot;&gt;&lt;small id=&quot;sales-help&quot;&gt;Total já descontado de cancelamentos e devoluções. Ao digitar, os dois últimos números representam os centavos.&lt;/small&gt;&lt;/label&gt;&lt;label&gt;Atendimentos&lt;input id=&quot;entry-orders&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;1000000&quot; step=&quot;1&quot; required&gt;&lt;/label&gt;&lt;label&gt;Peças vendidas&lt;input id=&quot;entry-pieces&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;1000000&quot; step=&quot;1&quot; required&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;entry-preview&quot;&gt;&lt;span&gt;TM previsto &lt;strong id=&quot;entry-tm&quot;&gt;—&lt;/strong&gt;&lt;/span&gt;&lt;span&gt;PA previsto &lt;strong id=&quot;entry-pa&quot;&gt;—&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;&lt;p id=&quot;entry-error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;submit&quot; class=&quot;primary&quot;&gt;Salvar lançamento&lt;/button&gt;&lt;button type=&quot;button&quot; id=&quot;clear-entry&quot;&gt;Limpar&lt;/button&gt;&lt;button type=&quot;button&quot; id=&quot;cancel-edit&quot; hidden&gt;Cancelar edição&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;div class=&quot;section-head history-heading&quot;&gt;&lt;h2&gt;Histórico de lançamentos &lt;small id=&quot;history-count&quot;&gt;&lt;/small&gt;&lt;/h2&gt;&lt;label&gt;Buscar&lt;input id=&quot;history-search&quot; type=&quot;search&quot; placeholder=&quot;Nome ou loja&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;p&gt;Use os filtros de mês e loja para consultar.&lt;/p&gt;&lt;div id=&quot;history&quot;&gt;&lt;/div&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button id=&quot;previous&quot;&gt;Anterior&lt;/button&gt;&lt;span id=&quot;page-count&quot;&gt;&lt;/span&gt;&lt;button id=&quot;next&quot;&gt;Próxima&lt;/button&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;&lt;/section&gt;
-&lt;section id=&quot;targets&quot; class=&quot;view&quot; hidden&gt;&lt;div class=&quot;segments goal-tabs&quot;&gt;&lt;button data-goal-mode=&quot;store&quot; aria-pressed=&quot;true&quot;&gt;Por loja&lt;/button&gt;&lt;button data-goal-mode=&quot;seller&quot; aria-pressed=&quot;false&quot;&gt;Individuais&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;split&quot;&gt;&lt;form id=&quot;goal-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2&gt;Meta mensal por loja&lt;/h2&gt;&lt;p&gt;Uma meta por loja e mês. Salvar novamente atualiza a meta existente.&lt;/p&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label&gt;Mês&lt;input id=&quot;goal-month&quot; type=&quot;month&quot; required min=&quot;2000-01&quot; max=&quot;2099-12&quot;&gt;&lt;/label&gt;&lt;label&gt;Loja&lt;input id=&quot;goal-store&quot; list=&quot;stores-list&quot; maxlength=&quot;80&quot; required&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Meta de vendas (R$)&lt;input id=&quot;goal-value&quot; inputmode=&quot;decimal&quot; required placeholder=&quot;0,00&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;weekly-suggestion&quot;&gt;&lt;small&gt;Distribuição semanal sugerida · apenas informativa&lt;/small&gt;&lt;div class=&quot;suggestion-bar&quot;&gt;&lt;span&gt;25%&lt;/span&gt;&lt;span&gt;33%&lt;/span&gt;&lt;span&gt;24%&lt;/span&gt;&lt;span&gt;18%&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;weekly-suggestion-values&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;error&quot; id=&quot;goal-error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button class=&quot;primary&quot; type=&quot;submit&quot;&gt;Salvar meta&lt;/button&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Metas das lojas&lt;/h2&gt;&lt;p id=&quot;goals-total&quot;&gt;&lt;/p&gt;&lt;p&gt;Metas do mês selecionado.&lt;/p&gt;&lt;div id=&quot;goals-list&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;&lt;div class=&quot;split individual-goals&quot;&gt;&lt;form id=&quot;seller-goal-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2&gt;Meta individual mensal&lt;/h2&gt;&lt;p&gt;Defina a meta do vendedor. As metas individuais não alteram automaticamente a meta da loja.&lt;/p&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label&gt;Mês&lt;input id=&quot;seller-goal-month&quot; type=&quot;month&quot; min=&quot;2000-01&quot; max=&quot;2099-12&quot; required&gt;&lt;/label&gt;&lt;label&gt;Vendedor e loja&lt;select id=&quot;seller-goal-person&quot; required&gt;&lt;/select&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Meta de vendas (R$)&lt;input id=&quot;seller-goal-value&quot; inputmode=&quot;decimal&quot; placeholder=&quot;0,00&quot; required&gt;&lt;/label&gt;&lt;/div&gt;&lt;p id=&quot;seller-goal-error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button type=&quot;submit&quot; class=&quot;primary&quot;&gt;Salvar meta individual&lt;/button&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Metas individuais&lt;/h2&gt;&lt;p&gt;Metas do mês e da loja selecionados nos filtros acima.&lt;/p&gt;&lt;div id=&quot;seller-goal-list&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;form id=&quot;seller-daily-goal-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2&gt;Meta individual diária&lt;/h2&gt;&lt;p&gt;Informe a meta de vendas de um vendedor para uma data específica. Ela não altera a meta mensal nem a meta da loja.&lt;/p&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label&gt;Data&lt;input id=&quot;seller-daily-goal-date&quot; type=&quot;date&quot; min=&quot;2000-01-01&quot; max=&quot;2099-12-31&quot; required&gt;&lt;/label&gt;&lt;label&gt;Vendedor e loja&lt;select id=&quot;seller-daily-goal-person&quot; required&gt;&lt;/select&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Meta de vendas no dia (R$)&lt;input id=&quot;seller-daily-goal-value&quot; inputmode=&quot;decimal&quot; placeholder=&quot;0,00&quot; required&gt;&lt;/label&gt;&lt;/div&gt;&lt;p id=&quot;seller-daily-goal-error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button type=&quot;submit&quot; class=&quot;primary&quot;&gt;Salvar meta diária&lt;/button&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Metas diárias&lt;/h2&gt;&lt;p&gt;Metas dos dias do mês e da loja selecionados nos filtros acima. Resultados semanais não são distribuídos por dia.&lt;/p&gt;&lt;div id=&quot;seller-daily-goal-list&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;
+&lt;section id=&quot;targets&quot; class=&quot;view&quot; hidden&gt;&lt;div class=&quot;card form-card&quot; style=&quot;margin-bottom:20px&quot;&gt;&lt;h2&gt;Importar e exportar dados de metas&lt;/h2&gt;&lt;p&gt;Arquivo CSV com metas mensais por loja, individuais mensais e diárias de todos os períodos acessíveis. A importação não exclui metas ausentes do arquivo.&lt;/p&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;goal-export&quot;&gt;Exportar dados&lt;/button&gt;&lt;button type=&quot;button&quot; class=&quot;primary&quot; id=&quot;goal-import&quot;&gt;Importar dados&lt;/button&gt;&lt;input id=&quot;goal-import-file&quot; type=&quot;file&quot; accept=&quot;.csv,text/csv&quot; hidden&gt;&lt;/div&gt;&lt;p id=&quot;goal-transfer-error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;div id=&quot;goal-import-preview&quot; hidden&gt;&lt;p id=&quot;goal-import-summary&quot;&gt;&lt;/p&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;goal-import-confirm&quot; class=&quot;primary&quot;&gt;Confirmar importação&lt;/button&gt;&lt;button type=&quot;button&quot; id=&quot;goal-import-cancel&quot;&gt;Cancelar&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;segments goal-tabs&quot;&gt;&lt;button data-goal-mode=&quot;store&quot; aria-pressed=&quot;true&quot;&gt;Por loja&lt;/button&gt;&lt;button data-goal-mode=&quot;seller&quot; aria-pressed=&quot;false&quot;&gt;Individuais&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;split&quot;&gt;&lt;form id=&quot;goal-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2&gt;Meta mensal por loja&lt;/h2&gt;&lt;p&gt;Uma meta por loja e mês. Salvar novamente atualiza a meta existente.&lt;/p&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label&gt;Mês&lt;input id=&quot;goal-month&quot; type=&quot;month&quot; required min=&quot;2000-01&quot; max=&quot;2099-12&quot;&gt;&lt;/label&gt;&lt;label&gt;Loja&lt;input id=&quot;goal-store&quot; list=&quot;stores-list&quot; maxlength=&quot;80&quot; required&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Meta de vendas (R$)&lt;input id=&quot;goal-value&quot; inputmode=&quot;decimal&quot; required placeholder=&quot;0,00&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;weekly-suggestion&quot;&gt;&lt;small&gt;Distribuição semanal sugerida · apenas informativa&lt;/small&gt;&lt;div class=&quot;suggestion-bar&quot;&gt;&lt;span&gt;25%&lt;/span&gt;&lt;span&gt;33%&lt;/span&gt;&lt;span&gt;24%&lt;/span&gt;&lt;span&gt;18%&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;weekly-suggestion-values&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;error&quot; id=&quot;goal-error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button class=&quot;primary&quot; type=&quot;submit&quot;&gt;Salvar meta&lt;/button&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Metas das lojas&lt;/h2&gt;&lt;p id=&quot;goals-total&quot;&gt;&lt;/p&gt;&lt;p&gt;Metas do mês selecionado.&lt;/p&gt;&lt;div id=&quot;goals-list&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;&lt;div class=&quot;split individual-goals&quot;&gt;&lt;form id=&quot;seller-goal-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2&gt;Meta individual mensal&lt;/h2&gt;&lt;p&gt;Defina a meta do vendedor. As metas individuais não alteram automaticamente a meta da loja.&lt;/p&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label&gt;Mês&lt;input id=&quot;seller-goal-month&quot; type=&quot;month&quot; min=&quot;2000-01&quot; max=&quot;2099-12&quot; required&gt;&lt;/label&gt;&lt;label&gt;Vendedor e loja&lt;select id=&quot;seller-goal-person&quot; required&gt;&lt;/select&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Meta de vendas (R$)&lt;input id=&quot;seller-goal-value&quot; inputmode=&quot;decimal&quot; placeholder=&quot;0,00&quot; required&gt;&lt;/label&gt;&lt;/div&gt;&lt;p id=&quot;seller-goal-error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button type=&quot;submit&quot; class=&quot;primary&quot;&gt;Salvar meta individual&lt;/button&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Metas individuais&lt;/h2&gt;&lt;p&gt;Metas do mês e da loja selecionados nos filtros acima.&lt;/p&gt;&lt;div id=&quot;seller-goal-list&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;form id=&quot;seller-daily-goal-form&quot; class=&quot;card form-card&quot;&gt;&lt;h2&gt;Meta individual diária&lt;/h2&gt;&lt;p&gt;Informe a meta de vendas de um vendedor para uma data específica. Ela não altera a meta mensal nem a meta da loja.&lt;/p&gt;&lt;div class=&quot;form-grid&quot;&gt;&lt;label&gt;Data&lt;input id=&quot;seller-daily-goal-date&quot; type=&quot;date&quot; min=&quot;2000-01-01&quot; max=&quot;2099-12-31&quot; required&gt;&lt;/label&gt;&lt;label&gt;Vendedor e loja&lt;select id=&quot;seller-daily-goal-person&quot; required&gt;&lt;/select&gt;&lt;/label&gt;&lt;label class=&quot;wide&quot;&gt;Meta de vendas no dia (R$)&lt;input id=&quot;seller-daily-goal-value&quot; inputmode=&quot;decimal&quot; placeholder=&quot;0,00&quot; required&gt;&lt;/label&gt;&lt;/div&gt;&lt;p id=&quot;seller-daily-goal-error&quot; class=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button type=&quot;submit&quot; class=&quot;primary&quot;&gt;Salvar meta diária&lt;/button&gt;&lt;/form&gt;&lt;article class=&quot;card form-card&quot;&gt;&lt;h2&gt;Metas diárias&lt;/h2&gt;&lt;p&gt;Metas dos dias do mês e da loja selecionados nos filtros acima. Resultados semanais não são distribuídos por dia.&lt;/p&gt;&lt;div id=&quot;seller-daily-goal-list&quot;&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;
 &lt;/section&gt;
 
 &lt;section id=&quot;evolution&quot; class=&quot;view&quot; hidden&gt;
@@ -2086,6 +2086,125 @@ function salesTrend(current,previous,hasHistory){
  if(current===previous)return {direction:&#x27;neutral&#x27;,reason:&#x27;Vendas iguais ao período anterior&#x27;,percent:0};
  return {direction:current&gt;previous?&#x27;up&#x27;:&#x27;down&#x27;,reason:current&gt;previous?&#x27;Vendas aumentaram&#x27;:&#x27;Vendas caíram&#x27;,percent:previous&gt;0?(current-previous)/previous*100:null};
 }
+const GoalTransfer = (() =&gt; {
+  const header = [&#x27;tipo&#x27;, &#x27;mes&#x27;, &#x27;data&#x27;, &#x27;loja&#x27;, &#x27;vendedor&#x27;, &#x27;meta&#x27;];
+  const same = (a, b) =&gt; a.localeCompare(b, &#x27;pt-BR&#x27;, {sensitivity: &#x27;base&#x27;}) === 0;
+  const clean = value =&gt; String(value || &#x27;&#x27;).trim().replace(/\s+/g, &#x27; &#x27;);
+  const safeCell = value =&gt; {
+    let text = String(value ?? &#x27;&#x27;);
+    if (/^[=+\-@\t\r\n]/.test(text)) text = &quot;&#x27;&quot; + text;
+    return &#x27;&quot;&#x27; + text.replace(/&quot;/g, &#x27;&quot;&quot;&#x27;) + &#x27;&quot;&#x27;;
+  };
+  const readCell = value =&gt; value.startsWith(&quot;&#x27;&quot;) &amp;&amp; /^[=+\-@]/.test(value.slice(1)) ? value.slice(1) : value;
+  const money = cents =&gt; (cents / 100).toFixed(2).replace(&#x27;.&#x27;, &#x27;,&#x27;);
+  function table(text) {
+    if (typeof text !== &#x27;string&#x27; || text.length &gt; 2000000) throw Error(&#x27;O CSV deve ter no máximo 2 MB.&#x27;);
+    text = text.replace(/^\uFEFF/, &#x27;&#x27;);
+    const rows = [];
+    let row = [], field = &#x27;&#x27;, quoted = false;
+    const finish = () =&gt; {
+      row.push(field);
+      if (row.some(cell =&gt; cell !== &#x27;&#x27;)) rows.push(row);
+      if (rows.length &gt; 11000) throw Error(&#x27;O CSV tem linhas demais.&#x27;);
+      row = []; field = &#x27;&#x27;;
+    };
+    for (let i = 0; i &lt; text.length; i++) {
+      const ch = text[i];
+      if (quoted) {
+        if (ch === &#x27;&quot;&#x27; &amp;&amp; text[i + 1] === &#x27;&quot;&#x27;) { field += &#x27;&quot;&#x27;; i++; }
+        else if (ch === &#x27;&quot;&#x27;) quoted = false;
+        else field += ch;
+      } else if (ch === &#x27;&quot;&#x27; &amp;&amp; field === &#x27;&#x27;) quoted = true;
+      else if (ch === &#x27;;&#x27;) { row.push(field); field = &#x27;&#x27;; }
+      else if (ch === &#x27;\n&#x27; || ch === &#x27;\r&#x27;) {
+        if (ch === &#x27;\r&#x27; &amp;&amp; text[i + 1] === &#x27;\n&#x27;) i++;
+        finish();
+      } else if (ch === &#x27;&quot;&#x27;) throw Error(&#x27;Aspas inválidas no CSV.&#x27;);
+      else field += ch;
+    }
+    if (quoted) throw Error(&#x27;Aspas não fechadas no CSV.&#x27;);
+    if (field !== &#x27;&#x27; || row.length) finish();
+    const first = rows.shift();
+    if (!first || first.length !== header.length || first.some((cell, i) =&gt; clean(cell).toLowerCase() !== header[i])) {
+      throw Error(&#x27;Cabeçalho inválido. Use o CSV exportado pela página de Metas.&#x27;);
+    }
+    if (!rows.length) throw Error(&#x27;O CSV não contém metas.&#x27;);
+    rows.forEach((row, i) =&gt; {
+      if (row.length !== header.length) throw Error(&#x27;Linha &#x27; + (i + 2) + &#x27;: são esperadas seis colunas.&#x27;);
+    });
+    return rows;
+  }
+  function exportCsv(data) {
+    const rows = [];
+    const stores = data.admin.stores, sellers = data.admin.sellers;
+    for (const goal of data.goals) rows.push([&#x27;loja&#x27;, goal.month, &#x27;&#x27;, goal.store, &#x27;&#x27;, money(goal.cents)]);
+    for (const goal of data.admin.sellerGoals) {
+      const seller = sellers.find(item =&gt; item.id === goal.sellerId);
+      const store = stores.find(item =&gt; item.id === seller?.storeId);
+      if (!seller || !store) throw Error(&#x27;Há uma meta com vendedor ou loja indisponível.&#x27;);
+      rows.push([&#x27;individual&#x27;, goal.month, &#x27;&#x27;, store.name, seller.name, money(goal.cents)]);
+    }
+    for (const goal of data.admin.sellerDailyGoals) {
+      const seller = sellers.find(item =&gt; item.id === goal.sellerId);
+      const store = stores.find(item =&gt; item.id === seller?.storeId);
+      if (!seller || !store) throw Error(&#x27;Há uma meta diária com vendedor ou loja indisponível.&#x27;);
+      rows.push([&#x27;diaria&#x27;, goal.date.slice(0, 7), goal.date, store.name, seller.name, money(goal.cents)]);
+    }
+    rows.sort((a, b) =&gt; a[1].localeCompare(b[1]) || a[0].localeCompare(b[0]) || a[3].localeCompare(b[3], &#x27;pt-BR&#x27;) || a[4].localeCompare(b[4], &#x27;pt-BR&#x27;) || a[2].localeCompare(b[2]));
+    return &#x27;\uFEFF&#x27; + [header, ...rows].map(row =&gt; row.map(safeCell).join(&#x27;;&#x27;)).join(&#x27;\r\n&#x27;) + &#x27;\r\n&#x27;;
+  }
+  function prepareImport(text, data, allowedStoreId = null) {
+    const rows = table(text), next = structuredClone(data);
+    const stats = {created: 0, updated: 0, unchanged: 0, total: rows.length};
+    const seen = new Set();
+    rows.forEach((cells, index) =&gt; {
+      const line = index + 2;
+      const [kindValue, monthValue, dateValue, storeValue, sellerValue, amountValue] = cells.map(readCell);
+      const kind = clean(kindValue).toLowerCase().normalize(&#x27;NFD&#x27;).replace(/[\u0300-\u036f]/g, &#x27;&#x27;);
+      const month = clean(monthValue), date = clean(dateValue), storeName = clean(storeValue), sellerName = clean(sellerValue);
+      if (![&#x27;loja&#x27;, &#x27;individual&#x27;, &#x27;diaria&#x27;].includes(kind)) throw Error(&#x27;Linha &#x27; + line + &#x27;: tipo inválido.&#x27;);
+      if (!/^20\d{2}-(0[1-9]|1[0-2])$/.test(month)) throw Error(&#x27;Linha &#x27; + line + &#x27;: mês inválido.&#x27;);
+      if ((kind === &#x27;diaria&#x27;) !== !!date || (date &amp;&amp; (!/^20\d{2}-\d{2}-\d{2}$/.test(date) || isNaN(Date.parse(date)) || new Date(date + &#x27;T12:00:00Z&#x27;).toISOString().slice(0, 10) !== date || date.slice(0, 7) !== month))) {
+        throw Error(&#x27;Linha &#x27; + line + &#x27;: data inválida ou incompatível com o mês.&#x27;);
+      }
+      if ((kind === &#x27;loja&#x27;) === !!sellerName) throw Error(&#x27;Linha &#x27; + line + &#x27;: confira a coluna vendedor.&#x27;);
+      const stores = next.admin.stores.filter(item =&gt; item.active &amp;&amp; same(item.name, storeName));
+      if (stores.length !== 1) throw Error(&#x27;Linha &#x27; + line + &#x27;: loja não cadastrada ou inativa: &#x27; + storeName + &#x27;.&#x27;);
+      const store = stores[0];
+      if (allowedStoreId &amp;&amp; store.id !== allowedStoreId) throw Error(&#x27;Linha &#x27; + line + &#x27;: você só pode importar metas da sua loja.&#x27;);
+      let seller;
+      if (kind !== &#x27;loja&#x27;) {
+        const sellers = next.admin.sellers.filter(item =&gt; item.active &amp;&amp; item.storeId === store.id &amp;&amp; same(item.name, sellerName));
+        if (sellers.length !== 1) throw Error(&#x27;Linha &#x27; + line + &#x27;: vendedor não cadastrado nesta loja: &#x27; + sellerName + &#x27;.&#x27;);
+        seller = sellers[0];
+      }
+      const rawAmount = clean(amountValue);
+      if (!/^(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d{1,2})?$/.test(rawAmount)) throw Error(&#x27;Linha &#x27; + line + &#x27;: meta inválida. Use 1234,56.&#x27;);
+      const [integer, decimal = &#x27;&#x27;] = rawAmount.replace(/\./g, &#x27;&#x27;).split(&#x27;,&#x27;);
+      const cents = Number(integer) * 100 + Number(decimal.padEnd(2, &#x27;0&#x27;));
+      if (!Number.isSafeInteger(cents) || cents &lt;= 0 || cents &gt; 100000000000) throw Error(&#x27;Linha &#x27; + line + &#x27;: a meta deve ser maior que zero e dentro do limite.&#x27;);
+      const key = [kind, kind === &#x27;diaria&#x27; ? date : month, store.id, seller?.id || &#x27;&#x27;].join(&#x27;|&#x27;);
+      if (seen.has(key)) throw Error(&#x27;Linha &#x27; + line + &#x27;: meta duplicada no CSV.&#x27;);
+      seen.add(key);
+      const list = kind === &#x27;loja&#x27; ? next.goals : kind === &#x27;individual&#x27; ? next.admin.sellerGoals : next.admin.sellerDailyGoals;
+      const existing = kind === &#x27;loja&#x27;
+        ? list.find(item =&gt; item.month === month &amp;&amp; same(item.store, store.name))
+        : kind === &#x27;individual&#x27;
+          ? list.find(item =&gt; item.month === month &amp;&amp; item.sellerId === seller.id)
+          : list.find(item =&gt; item.date === date &amp;&amp; item.sellerId === seller.id);
+      if (existing) {
+        if (existing.cents === cents) stats.unchanged++;
+        else { existing.cents = cents; stats.updated++; }
+      } else {
+        list.push(kind === &#x27;loja&#x27; ? {month, store: store.name, cents} : kind === &#x27;individual&#x27; ? {month, sellerId: seller.id, cents} : {date, sellerId: seller.id, cents});
+        stats.created++;
+      }
+    });
+    return {next, stats};
+  }
+  return {exportCsv, prepareImport};
+})();
+if (typeof module !== &#x27;undefined&#x27;) module.exports = GoalTransfer;
 (()=&gt;{
  const root=document.getElementById(&#x27;gi-beta&#x27;),$=s=&gt;root.querySelector(s),all=s=&gt;[...root.querySelectorAll(s)];
  let indicatorAnimation=0;
@@ -2584,6 +2703,70 @@ $(&#x27;#seller-daily-goal-form&#x27;).onsubmit=async e=&gt;{e.preventDefault();
 $(&#x27;#seller-daily-goal-form button[type=submit]&#x27;).onclick=e=&gt;{e.preventDefault();if($(&#x27;#seller-daily-goal-form&#x27;).reportValidity())$(&#x27;#seller-daily-goal-form&#x27;).onsubmit(e);};
 $(&#x27;#seller-daily-goal-form&#x27;).onkeydown=e=&gt;{if(e.key===&#x27;Enter&#x27;&amp;&amp;e.target.tagName===&#x27;INPUT&#x27;){e.preventDefault();if($(&#x27;#seller-daily-goal-form&#x27;).reportValidity())$(&#x27;#seller-daily-goal-form&#x27;).onsubmit(e);}};
 root.addEventListener(&#x27;keydown&#x27;,e=&gt;{const card=e.target.closest(&#x27;[data-seller-card]&#x27;);if(card&amp;&amp;e.target===card&amp;&amp;(e.key===&#x27;Enter&#x27;||e.key===&#x27; &#x27;)){e.preventDefault();card.querySelector(&#x27;[data-evo-seller]&#x27;)?.click();}});
+
+  let pendingGoalImport = null;
+  const goalImportScope = () =&gt; cloudProfile?.role === &#x27;manager&#x27; ? cloudProfile.storeId : null;
+  function clearGoalImport() {
+    pendingGoalImport = null;
+    $(&#x27;#goal-import-file&#x27;).value = &#x27;&#x27;;
+    $(&#x27;#goal-import-preview&#x27;).hidden = true;
+    $(&#x27;#goal-import-confirm&#x27;).disabled = false;
+  }
+  $(&#x27;#goal-import&#x27;).onclick = () =&gt; {
+    $(&#x27;#goal-transfer-error&#x27;).textContent = &#x27;&#x27;;
+    $(&#x27;#goal-import-file&#x27;).click();
+  };
+  $(&#x27;#goal-export&#x27;).onclick = async () =&gt; {
+    $(&#x27;#goal-transfer-error&#x27;).textContent = &#x27;&#x27;;
+    try {
+      if (demo) throw Error(&#x27;Saia do exemplo para exportar suas metas.&#x27;);
+      if (!ready) throw Error(&#x27;Aguarde o carregamento dos dados.&#x27;);
+      const csv = GoalTransfer.exportCsv(validateDB(clone()));
+      await request(&#x27;download-goals&#x27;, {csv});
+      notify(&#x27;Metas exportadas em CSV.&#x27;);
+    } catch (error) {
+      $(&#x27;#goal-transfer-error&#x27;).textContent = error.message;
+    }
+  };
+  $(&#x27;#goal-import-file&#x27;).onchange = async event =&gt; {
+    const file = event.target.files[0];
+    clearGoalImport();
+    $(&#x27;#goal-transfer-error&#x27;).textContent = &#x27;&#x27;;
+    if (!file) return;
+    try {
+      if (demo) throw Error(&#x27;Saia do exemplo para importar metas.&#x27;);
+      if (!ready) throw Error(&#x27;Aguarde o carregamento dos dados.&#x27;);
+      if (!/\.csv$/i.test(file.name)) throw Error(&#x27;Selecione um arquivo CSV.&#x27;);
+      if (file.size &gt; 2000000) throw Error(&#x27;O CSV deve ter no máximo 2 MB.&#x27;);
+      const csv = await file.text();
+      const result = GoalTransfer.prepareImport(csv, validateDB(clone()), goalImportScope());
+      validateDB(result.next);
+      pendingGoalImport = {csv, revision};
+      const stats = result.stats;
+      $(&#x27;#goal-import-summary&#x27;).textContent = &#x27;Arquivo com &#x27; + stats.total + &#x27; meta(s): &#x27; + stats.created + &#x27; nova(s), &#x27; + stats.updated + &#x27; atualizada(s) e &#x27; + stats.unchanged + &#x27; sem alteração. Metas fora do arquivo serão preservadas.&#x27;;
+      $(&#x27;#goal-import-confirm&#x27;).disabled = stats.created + stats.updated === 0;
+      $(&#x27;#goal-import-preview&#x27;).hidden = false;
+    } catch (error) {
+      $(&#x27;#goal-transfer-error&#x27;).textContent = error.message;
+    }
+  };
+  $(&#x27;#goal-import-cancel&#x27;).onclick = clearGoalImport;
+  $(&#x27;#goal-import-confirm&#x27;).onclick = async () =&gt; {
+    $(&#x27;#goal-transfer-error&#x27;).textContent = &#x27;&#x27;;
+    try {
+      if (!pendingGoalImport) throw Error(&#x27;Selecione um CSV antes de importar.&#x27;);
+      if (pendingGoalImport.revision !== revision) throw Error(&#x27;Os dados mudaram. Selecione o CSV novamente antes de confirmar.&#x27;);
+      const result = GoalTransfer.prepareImport(pendingGoalImport.csv, validateDB(clone()), goalImportScope());
+      validateDB(result.next);
+      $(&#x27;#goal-import-confirm&#x27;).disabled = true;
+      await save(result.next, &#x27;Importou &#x27; + result.stats.total + &#x27; metas via CSV&#x27;);
+      clearGoalImport();
+      notify(&#x27;Metas importadas e salvas.&#x27;);
+    } catch (error) {
+      $(&#x27;#goal-transfer-error&#x27;).textContent = error.message;
+      if (pendingGoalImport) $(&#x27;#goal-import-confirm&#x27;).disabled = false;
+    }
+  };
  resetEntry();render();show(&#x27;dashboard&#x27;);request(&#x27;read&#x27;).then(result=&gt;{acceptCloud(result);ready=true;animationIntent=true;render();root.dispatchEvent(new CustomEvent(&#x27;gi-data-ready&#x27;,{detail:{success:true}}));if(!demo&amp;&amp;cloudProfile.role===&#x27;seller&#x27;)show(&#x27;evolution&#x27;);}).catch(e=&gt;{if(!demo)notice(e.message);render();root.dispatchEvent(new CustomEvent(&#x27;gi-data-ready&#x27;,{detail:{success:demo}}));});
 })();
 (() =&gt; {
@@ -3257,6 +3440,12 @@ ${w}`}var x=class extends Error{constructor({message:e,code:r,cause:s,name:n}){v
 (()=>{
  const frame=document.getElementById('codex-visualization');
  function reply(id,result){frame.contentWindow.postMessage({type:'gi-beta-result',id,...result},'*');}
+ function downloadGoals(csv){
+  if(typeof csv!=='string'||csv.length>2000000||!csv.startsWith('\uFEFF"tipo";"mes";"data";"loja";"vendedor";"meta"'))throw Error('Arquivo de metas inválido.');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const day=new Date(),stamp=[day.getFullYear(),String(day.getMonth()+1).padStart(2,'0'),String(day.getDate()).padStart(2,'0')].join('-');
+  const link=document.createElement('a');link.href=url;link.download='metas-'+stamp+'.csv';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+ }
  window.addEventListener('message',async e=>{
   if(e.source!==frame.contentWindow||e.origin!=='null'||e.data?.type!=='gi-beta-request')return;
   const {id,op,payload}=e.data;if(!Number.isSafeInteger(id))return;
@@ -3265,6 +3454,7 @@ ${w}`}var x=class extends Error{constructor({message:e,code:r,cause:s,name:n}){v
    if(op==='read')reply(id,{ok:true,...await GICloud.read()});
    else if(op==='save')reply(id,{ok:true,...await GICloud.save({...payload,data:validateDB(payload.data)})});
    else if(op==='create-account')reply(id,{ok:true,...await GICloud.createAccount(payload)});
+   else if(op==='download-goals'){downloadGoals(payload?.csv);reply(id,{ok:true});}
    else if(op==='export'){const state=await GICloud.read();GICloud.download({...state.data,exportedAt:new Date().toISOString()},'gestao-indicadores-nuvem.json');reply(id,{ok:true,...state});}
    else throw Error('Operação indisponível.');
   }catch(err){reply(id,{ok:false,error:err.message||'Não foi possível conectar. Atualize os dados.'});}

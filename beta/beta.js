@@ -110,5 +110,69 @@
  // CLOUD_MODULE
  // ADMIN_MODULE
  // EVOLUTION_MODULE
+
+  let pendingGoalImport = null;
+  const goalImportScope = () => cloudProfile?.role === 'manager' ? cloudProfile.storeId : null;
+  function clearGoalImport() {
+    pendingGoalImport = null;
+    $('#goal-import-file').value = '';
+    $('#goal-import-preview').hidden = true;
+    $('#goal-import-confirm').disabled = false;
+  }
+  $('#goal-import').onclick = () => {
+    $('#goal-transfer-error').textContent = '';
+    $('#goal-import-file').click();
+  };
+  $('#goal-export').onclick = async () => {
+    $('#goal-transfer-error').textContent = '';
+    try {
+      if (demo) throw Error('Saia do exemplo para exportar suas metas.');
+      if (!ready) throw Error('Aguarde o carregamento dos dados.');
+      const csv = GoalTransfer.exportCsv(validateDB(clone()));
+      await request('download-goals', {csv});
+      notify('Metas exportadas em CSV.');
+    } catch (error) {
+      $('#goal-transfer-error').textContent = error.message;
+    }
+  };
+  $('#goal-import-file').onchange = async event => {
+    const file = event.target.files[0];
+    clearGoalImport();
+    $('#goal-transfer-error').textContent = '';
+    if (!file) return;
+    try {
+      if (demo) throw Error('Saia do exemplo para importar metas.');
+      if (!ready) throw Error('Aguarde o carregamento dos dados.');
+      if (!/\.csv$/i.test(file.name)) throw Error('Selecione um arquivo CSV.');
+      if (file.size > 2000000) throw Error('O CSV deve ter no máximo 2 MB.');
+      const csv = await file.text();
+      const result = GoalTransfer.prepareImport(csv, validateDB(clone()), goalImportScope());
+      validateDB(result.next);
+      pendingGoalImport = {csv, revision};
+      const stats = result.stats;
+      $('#goal-import-summary').textContent = 'Arquivo com ' + stats.total + ' meta(s): ' + stats.created + ' nova(s), ' + stats.updated + ' atualizada(s) e ' + stats.unchanged + ' sem alteração. Metas fora do arquivo serão preservadas.';
+      $('#goal-import-confirm').disabled = stats.created + stats.updated === 0;
+      $('#goal-import-preview').hidden = false;
+    } catch (error) {
+      $('#goal-transfer-error').textContent = error.message;
+    }
+  };
+  $('#goal-import-cancel').onclick = clearGoalImport;
+  $('#goal-import-confirm').onclick = async () => {
+    $('#goal-transfer-error').textContent = '';
+    try {
+      if (!pendingGoalImport) throw Error('Selecione um CSV antes de importar.');
+      if (pendingGoalImport.revision !== revision) throw Error('Os dados mudaram. Selecione o CSV novamente antes de confirmar.');
+      const result = GoalTransfer.prepareImport(pendingGoalImport.csv, validateDB(clone()), goalImportScope());
+      validateDB(result.next);
+      $('#goal-import-confirm').disabled = true;
+      await save(result.next, 'Importou ' + result.stats.total + ' metas via CSV');
+      clearGoalImport();
+      notify('Metas importadas e salvas.');
+    } catch (error) {
+      $('#goal-transfer-error').textContent = error.message;
+      if (pendingGoalImport) $('#goal-import-confirm').disabled = false;
+    }
+  };
  resetEntry();render();show('dashboard');request('read').then(result=>{acceptCloud(result);ready=true;animationIntent=true;render();root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:true}}));if(!demo&&cloudProfile.role==='seller')show('evolution');}).catch(e=>{if(!demo)notice(e.message);render();root.dispatchEvent(new CustomEvent('gi-data-ready',{detail:{success:demo}}));});
 })();
