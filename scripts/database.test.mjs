@@ -124,6 +124,30 @@ for(let d=1;d<=last;d++){
 const dateOf=d=>`${current.slice(0,7)}-${String(d).padStart(2,'0')}`;
 await db.query(`insert into public.gi_entries(store_id,seller_id,period_start,date,cents,orders,pieces) values (${qid(12)},${qid(92)},$1,$2,100,1,1)`,[dateOf(start),dateOf(end)]);checks++;
 await assert.rejects(()=>weekly(null,'2099-12-01'));checks++;
+// The protected account fixture is isolated from the production database.
+const owner='828cf271-af97-4d61-a1e3-5a89dd93a78c';
+await db.exec(`reset role;select set_config('request.jwt.claim.sub','',false);
+ insert into auth.users(id) values ('${owner}');
+ insert into public.gi_profiles(id,name,role,login_name) values ('${owner}','General admin','admin','washingtonolv');`);
+await db.exec(readFileSync(new URL('../supabase/migrations/20261010221519_protect_general_admin.sql',import.meta.url),'utf8'));
+await as(1);
+await denied(`update public.gi_profiles set name='Other admin edit' where id='${owner}'`);
+await denied(`update public.gi_profiles set active=false where id='${owner}'`);
+await denied(`update public.gi_profiles set login_name='changed' where id='${owner}'`);
+await db.exec(`select set_config('request.jwt.claim.sub','${owner}',false)`);
+await db.exec(`update public.gi_profiles set name='Owner edits own name' where id='${owner}'`);checks++;
+await denied(`update public.gi_profiles set login_name='changed' where id='${owner}'`);
+await denied(`update public.gi_profiles set active=false where id='${owner}'`);
+await denied(`update public.gi_profiles set role='manager',store_id=${qid(12)} where id='${owner}'`);
+await as(1);await denied(`update public.gi_profiles set active=false where id=${qid(1)}`);
+await db.exec(`reset role;select set_config('request.jwt.claim.sub','',false)`);
+await denied(`delete from auth.users where id='${owner}'`);
+assert.equal((await db.query(`select count(*)::int n from auth.users where id='${owner}'`)).rows[0].n,1);checks++;
+const beforeSales=(await db.query('select count(*)::int n from public.gi_entries')).rows[0].n;
+await db.exec(`delete from auth.users where id=${qid(3)}`);
+assert.equal((await db.query(`select count(*)::int n from public.gi_profiles where id=${qid(3)}`)).rows[0].n,0);
+assert.equal((await db.query('select count(*)::int n from public.gi_entries')).rows[0].n,beforeSales);checks++;
+await as(3);await count('gi_entries',0);await count('gi_profiles',0);
 await db.close();
 console.log(`Database: ${checks} checks passed (PostgreSQL/PGlite, isolated auth fixtures).`);
 

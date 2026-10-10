@@ -43,7 +43,7 @@ async function read(){
  base=next;profile=p;loadedProfiles=profiles;revision++;
  el('cloud-identity').textContent=`${p.name} · ${{admin:'Administrador',manager:'Gestor',seller:'Vendedor'}[p.role]}`;
  login.hidden=true;bar.hidden=false;frame.style.display='block';
- return {data,revision,cloud:true,profile:{id:p.id,name:p.name,role:p.role,sellerId:p.seller_id,storeId:p.store_id},profiles:loadedProfiles.map(({id,name,role,active,login_name})=>({id,name,role,active,login:login_name}))};
+ return {data,revision,cloud:true,profile:{id:p.id,name:p.name,role:p.role,sellerId:p.seller_id,storeId:p.store_id},profiles:loadedProfiles.map(({id,name,role,active,login_name,store_id,seller_id,updated_at})=>({id,name,role,active,login:login_name,storeId:store_id,sellerId:seller_id,updatedAt:updated_at}))};
 }
 async function save(payload){
  if(saving)throw Error('Aguarde o salvamento.');if(!base||payload.revision!==revision)throw Error('Atualize os dados antes de salvar.');if(profile.role==='seller')throw Error('O vendedor tem acesso somente para consulta.');
@@ -60,8 +60,8 @@ client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'&&session){session=
 async function createAccount(payload){
  if(profile?.role!=='admin')throw Error('Somente administradores podem cadastrar usuários.');
  const {data,error}=await client.functions.invoke('manage-users',{body:payload});
- if(error){let message='Não foi possível confirmar o cadastro. Atualize a lista antes de tentar novamente.';try{const detail=await error.context.json();if(detail.error)message=detail.error;}catch{}throw Error(message);}
+ if(error){let message='Não foi possível confirmar a operação. Atualize a lista antes de tentar novamente.';try{const detail=await error.context.json();if(detail.error)message=detail.error;}catch{}throw Error(message);}
  if(!data?.id)throw Error('O servidor não confirmou o cadastro.');
- return await read();
+ try{return {...await read(),warning:data.warning||null};}catch{throw Error('A operação foi enviada, mas a confirmação da lista falhou. Atualize os dados antes de tentar novamente.');}
 }
 window.GICloud={createAccount,ready,read:async()=>{try{return await read();}catch(e){fail(e.message||'Não foi possível carregar os dados. Tente novamente.');throw e;}},save,download};

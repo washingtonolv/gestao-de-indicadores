@@ -13,6 +13,9 @@ function adminFields(){
  for(const [id,visible] of [['email',user&&role==='admin'],['username',user],['password',user],['role',user],['store',seller||(user&&role!=='admin')],['seller',user&&role==='seller']]){
   $('#admin-'+id+'-label').hidden=!visible;$('#admin-'+id).disabled=!visible;$('#admin-'+id).required=visible;
  }
+ if(user&&cloudProfile&&$('#admin-id').value){$('#admin-password-label').hidden=true;$('#admin-password').disabled=true;$('#admin-password').required=false;$('#admin-email').required=false;}
+ const protectedSelf=user&&$('#admin-id').value===GENERAL_ADMIN_ID;$('#admin-username').readOnly=protectedSelf;$('#admin-role').disabled=protectedSelf;
+ $('#admin-email').placeholder=user&&$('#admin-id').value?'Deixe vazio para manter o e-mail atual':'';
  $('#admin-form-help').textContent=user?({admin:'Gerencia usuários, cadastros, metas e toda a operação. ',manager:'Registra resultados e acompanha a loja vinculada. ',seller:'Consulta apenas seus resultados, sem editar lançamentos. '}[role]+'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.'):seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
@@ -37,6 +40,7 @@ $('#admin-role').onchange=adminFields;$('#admin-store').onchange=adminOptions;$(
 root.addEventListener('click',async e=>{
  const b=e.target.closest('button');if(!b)return;
  if(b.dataset.adminTab){adminTab=b.dataset.adminTab;$('#admin-search').value='';$('#admin-feedback').textContent='';resetAdmin();renderAdmin();return;}
+ if(b.dataset.cloudEdit||b.dataset.cloudPassword||b.dataset.cloudDelete){await handleCloudUserAction(b);return;}
  if(b.dataset.adminEdit){const item=adminState()[adminTab].find(x=>x.id===b.dataset.adminEdit);if(!item)return;resetAdmin();$('#admin-id').value=item.id;$('#admin-name').value=item.name;$('#admin-email').value=item.email||'';$('#admin-role').value=item.role||'admin';$('#admin-store').value=item.storeId||'';adminOptions();$('#admin-seller').value=item.sellerId||'';adminFields();$('#admin-form-title').textContent='Editar '+adminLabels[adminTab];$('#admin-cancel').hidden=false;$('#admin-name').focus();}
  if(b.dataset.adminDelete&&adminTab==='sellers'){
   const item=adminState().sellers.find(x=>x.id===b.dataset.adminDelete);if(!item)return;
