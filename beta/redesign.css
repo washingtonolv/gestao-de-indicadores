@@ -66,3 +66,5 @@ html[data-theme=dark] #gi-beta .seller-card{background:var(--surface);border-col
  #gi-beta .admin-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
  #gi-beta .admin-tabs button{min-width:0}
 }
+
+#gi-beta .goal-forms{display:grid;gap:16px;align-content:start}#gi-beta #seller-daily-goal-value{height:52px;font-size:20px;font-weight:600}#gi-beta #seller-daily-goal-list .goal-row{gap:12px}#gi-beta #seller-daily-goal-list .goal-row>div:last-child{display:flex;align-items:center;gap:8px;flex-wrap:wrap}#gi-beta #seller-daily-goal-list .goal-row small{display:block}

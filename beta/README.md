@@ -13,7 +13,7 @@ O painel online usa autenticação e dados do Supabase. O iframe conserva `sandb
 
 Valores financeiros são mantidos em centavos inteiros. TM = vendas / atendimentos; PA = peças / atendimentos. Divisor zero mostra “—”. Semanas são blocos de sete dias úteis, sem domingos, calculados para cada mês. O bloco em andamento aceita acumulados e atualização do mesmo registro. Totais semanais não são distribuídos artificialmente entre os dias.
 
-`statusFor` centraliza a classificação: abaixo de 50% Crítico; de 50% até menos de 80% Atenção; a partir de 80% Atingida. Sem meta, sem dados e períodos futuros ficam neutros. Metas individuais não alteram a meta da loja. A distribuição 25/33/24/18% é apenas uma sugestão informativa.
+`statusFor` centraliza a classificação: abaixo de 50% Crítico; de 50% até menos de 80% Atenção; a partir de 80% Atingida. Sem meta, sem dados e períodos futuros ficam neutros. Metas individuais mensais e diárias não alteram a meta da loja. A meta diária é informada por vendedor e data; lançamentos semanais não são distribuídos por dia. A distribuição 25/33/24/18% é apenas uma sugestão informativa.
 
 ## Apresentação
 
