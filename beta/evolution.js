@@ -7,6 +7,7 @@ function renderEvolution(){
  $('#evo-seller').innerHTML=(individual?'':'<option value="">Toda a equipe</option>')+people.map(s=>`<option value="${s.id}">${esc(s.name)} · ${esc(d.admin.stores.find(t=>t.id===s.storeId)?.name||'')}</option>`).join('');
  $('#evo-seller').value=people.some(s=>s.id===selected)?selected:(individual?people[0]?.id||'':'');
  const seller=people.find(s=>s.id===$('#evo-seller').value),period=evolutionPeriod(month,today),allRows=evoRows(d,seller,store);
+ $('#evo-export').disabled=!ready||demo||period.future||!!$('#evo-export').dataset.exporting;$('#evo-export').title=demo?'Saia do exemplo para exportar os seus resultados.':period.future?'Escolha um mês com resultados realizados.':'';
  const rows=allRows.filter(e=>e.date.startsWith(month)&&Number((e.periodStart||e.date).slice(-2))<=period.cutoff&&(e.periodStart||e.date)<=today),previous=allRows.filter(e=>e.date.startsWith(period.previous)&&Number(e.date.slice(-2))<=period.previousCutoff);
  const t=evolutionTotals(rows),old=evolutionTotals(previous),tm=t.orders?t.sales/t.orders:0,oldTm=old.orders?old.sales/old.orders:0,pa=t.orders?t.pieces/t.orders:0,oldPa=old.orders?old.pieces/old.orders:0;
  $('#evo-context').textContent=seller?`${seller.name} · ${d.admin.stores.find(x=>x.id===seller.storeId)?.name||''} · somente consulta`:'Acompanhamento da equipe da loja selecionada. Selecione um vendedor para ver o detalhe.';
@@ -38,6 +39,13 @@ function renderEvolution(){
  $('#evo-results').innerHTML=groups.map((group,i)=>`<section class="seller-store-group" aria-labelledby="seller-store-${i}"><header class="seller-store-heading"><h3 id="seller-store-${i}">${esc(group.store.name)}</h3><p>Ranking por vendas no período · maior para menor</p></header><div class="seller-store-grid">${group.sellers.map((s,i)=>sellerCard(s,i+1)).join('')}</div></section>`).join('')||'<p>Nenhum vendedor cadastrado para esta loja.</p>';
  drawEvolution(allRows,month,'var(--text)');animateIndicators();
 }
+$('#evo-export').onclick=async()=>{
+ const button=$('#evo-export'),status=$('#evo-export-status');if(button.disabled||button.dataset.exporting)return;
+ button.dataset.exporting='true';button.disabled=true;button.textContent='Preparando Excel…';status.textContent='';
+ try{await request('export-evolution',{month:$('#month').value,store:$('#store').value,sellerId:$('#evo-seller').value});status.textContent='Planilha preparada. Confira o arquivo XLSX nos downloads.';}
+ catch(e){status.textContent=e.message;}
+ finally{delete button.dataset.exporting;button.textContent='Exportar Excel';button.disabled=!ready||demo||$('#month').value>currentMonth;}
+};
 function drawEvolution(rows,month,color){
  const group=$('#evo-group').value,weeklyTotal=rows.filter(e=>e.periodStart&&e.date.startsWith(month)).reduce((a,e)=>a+e.cents,0),buckets=evolutionBuckets(group==='day'?rows.filter(e=>!e.periodStart):rows,month,group,today),w=640,h=260,l=70,r=20,b=42,t=24,max=Math.max(100,...buckets.map(x=>x.sales));let x=i=>l+i*(w-l-r)/Math.max(1,buckets.length-1),y=v=>h-b-(v/max)*(h-b-t);
  $('#evo-chart-caption').textContent=group==='day'&&weeklyTotal?'Somente lançamentos diários. Há '+money(weeklyTotal)+' em totais semanais; escolha Semana para consultá-los.':group==='month'?'Últimos seis meses; o mês atual é parcial.':group==='week'?'Blocos de 7 dias úteis, sem contar domingos. O bloco atual é parcial.':'Valores do mês selecionado. Dias sem lançamento aparecem como zero.';

@@ -46,3 +46,4 @@
 @media(max-width:1000px){#gi-beta .operation-grid{grid-template-columns:1fr}#gi-beta .operation-grid>.card{height:auto}#gi-beta #operation-alerts{max-height:320px;flex:auto}#gi-beta .operation-grid .table-wrap{max-height:400px;flex:auto}}
 
 #gi-beta #evo-chart{position:relative}
+#gi-beta .evo-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}#gi-beta .evo-controls p{width:auto;flex:1 1 280px;margin:0}#gi-beta #evo-export{white-space:nowrap;min-height:44px}#gi-beta #evo-export-status:empty{display:none}#gi-beta #evo-export-status{font-size:13px;margin:8px 0 16px;color:var(--text-secondary)}

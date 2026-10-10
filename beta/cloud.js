@@ -64,4 +64,5 @@ async function createAccount(payload){
  if(!data?.id)throw Error('O servidor não confirmou o cadastro.');
  try{return {...await read(),warning:data.warning||null};}catch{throw Error('A operação foi enviada, mas a confirmação da lista falhou. Atualize os dados antes de tentar novamente.');}
 }
-window.GICloud={createAccount,ready,read:async()=>{try{return await read();}catch(e){fail(e.message||'Não foi possível carregar os dados. Tente novamente.');throw e;}},save,download};
+function evolutionSnapshot(){if(!base||!profile)throw Error('Atualize os dados antes de exportar.');return {data:validateDB(toLocal(base)),profile:{role:profile.role,storeId:profile.store_id,sellerId:profile.seller_id}};}
+window.GICloud={createAccount,ready,evolutionSnapshot,read:async()=>{try{return await read();}catch(e){fail(e.message||'Não foi possível carregar os dados. Tente novamente.');throw e;}},save,download};
