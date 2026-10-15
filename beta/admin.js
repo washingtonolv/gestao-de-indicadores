@@ -14,9 +14,10 @@ function adminFields(){
   $('#admin-'+id+'-label').hidden=!visible;$('#admin-'+id).disabled=!visible;$('#admin-'+id).required=visible;
  }
  if(user&&cloudProfile&&$('#admin-id').value){$('#admin-password-label').hidden=true;$('#admin-password').disabled=true;$('#admin-password').required=false;$('#admin-email').required=false;}
+ if(seller&&$('#admin-id').value){$('#admin-store').disabled=true;$('#admin-store').required=false;}
  const protectedSelf=user&&$('#admin-id').value===GENERAL_ADMIN_ID;$('#admin-username').readOnly=protectedSelf;$('#admin-role').disabled=protectedSelf;
  $('#admin-email').placeholder=user&&$('#admin-id').value?'Deixe vazio para manter o e-mail atual':'';
- $('#admin-form-help').textContent=user?({admin:'Gerencia usuários, cadastros, metas e toda a operação. ',manager:'Registra resultados e acompanha a loja vinculada. ',seller:'Consulta apenas seus resultados, sem editar lançamentos. '}[role]+'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.'):seller?'Vincule o vendedor a uma loja ativa.':'A loja ficará disponível nos lançamentos e nas metas.';
+ $('#admin-form-help').textContent=user?({admin:'Gerencia usuários, cadastros, metas e toda a operação. ',manager:'Registra resultados e acompanha a loja vinculada. ',seller:'Consulta apenas seus resultados, sem editar lançamentos. '}[role]+'Administrador pode entrar com e-mail ou nome de usuário; gestor e vendedor usam nome de usuário. Entregue as credenciais diretamente à pessoa cadastrada.'):seller?($('#admin-id').value?'Para mudar a loja, use Transferir. As movimentações ficam registradas no histórico.':'Vincule o vendedor a uma loja ativa.'):'A loja ficará disponível nos lançamentos e nas metas.';
 }
 function resetAdmin(){ $('#admin-form').reset();$('#admin-id').value='';$('#admin-error').textContent='';$('#admin-cancel').hidden=true;$('#admin-form-title').textContent='Cadastrar '+(adminLabels[adminTab]||'cadastro');adminOptions();adminFields(); }
 function renderAdmin(){
@@ -26,14 +27,14 @@ function renderAdmin(){
  const a=adminState();$('#admin-counts').innerHTML=[['Lojas ativas',a.stores.filter(x=>x.active).length],['Vendedores ativos',a.sellers.filter(x=>x.active).length],['Usuários cadastrados',a.users.length]].map(([label,count])=>`<div class="card"><strong>${count}</strong>${label}</div>`).join('');
  $('#admin-form').hidden=adminTab==='audit';$('#admin-permissions').hidden=adminTab!=='users';
  $('#admin-list-title').textContent={stores:'Lojas cadastradas',sellers:'Vendedores cadastrados',users:'Usuários cadastrados',audit:'Histórico de alterações'}[adminTab];
- $('#admin-list-help').textContent=adminTab==='audit'?'Últimas 200 alterações registradas pelo banco, com identificação do responsável.':adminTab==='users'?'Status e perfis são preparatórios. O bloqueio de acesso depende da futura autenticação.':'Arquivar impede novos lançamentos com o cadastro e preserva o histórico.';
+ $('#admin-list-help').textContent=adminTab==='audit'?'Últimas 200 alterações registradas pelo banco, com identificação do responsável.':adminTab==='users'?'Status e perfis são preparatórios. O bloqueio de acesso depende da futura autenticação.':adminTab==='sellers'?'Transferir mantém as vendas na origem. Desligar/arquivar bloqueia novos lançamentos e preserva o histórico. Use Histórico para consultar as datas.':'Arquivar impede novos lançamentos com o cadastro e preserva o histórico.';
  all('[data-admin-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.adminTab===adminTab)));
  const query=$('#admin-search').value.trim().toLocaleLowerCase('pt-BR');
  if(adminTab==='audit'){
   $('#admin-list').innerHTML=a.audit.slice().reverse().filter(x=>(x.action+' '+x.actor).toLocaleLowerCase('pt-BR').includes(query)).map(x=>`<div class="admin-row"><div><strong>${esc(x.action)}</strong><small>${new Date(x.at).toLocaleString('pt-BR')} · ${esc(x.actor)}</small></div></div>`).join('')||'<p>Nenhuma alteração encontrada.</p>';return;
  }
  const rows=a[adminTab].filter(x=>(x.name+' '+(x.email||'')).toLocaleLowerCase('pt-BR').includes(query));
- $('#admin-list').innerHTML=rows.map(x=>{const store=a.stores.find(s=>s.id===x.storeId),details=adminTab==='users'?`${roleLabels[x.role]} · ${x.email}${store?' · '+store.name:''}`:adminTab==='sellers'?store?.name||'Loja não encontrada':'Disponível para metas e lançamentos';return `<div class="admin-row"><div><strong>${esc(x.name)}</strong><small>${esc(details)}</small><span class="admin-status">${x.active?'Ativo':adminTab==='users'?'Bloqueado (pré-cadastro)':'Arquivado'}</span></div><div class="actions"><button data-admin-edit="${x.id}">Editar</button><button data-admin-toggle="${x.id}">${x.active?(adminTab==='users'?'Bloquear cadastro':'Arquivar'):'Reativar'}</button>${adminTab==='sellers'?`<button data-admin-delete="${x.id}" class="admin-delete">Excluir</button>`:''}</div></div>`;}).join('')||'<p>Nenhum cadastro encontrado. Use o formulário para começar.</p>';
+ $('#admin-list').innerHTML=rows.map(x=>{const store=a.stores.find(s=>s.id===x.storeId),details=adminTab==='users'?`${roleLabels[x.role]} · ${x.email}${store?' · '+store.name:''}`:adminTab==='sellers'?store?.name||'Loja não encontrada':'Disponível para metas e lançamentos';return `<div class="admin-row"><div><strong>${esc(x.name)}</strong><small>${esc(details)}</small><span class="admin-status">${adminTab==='sellers'?sellerStatusLabel(a,x):x.active?'Ativo':adminTab==='users'?'Bloqueado (pré-cadastro)':'Arquivado'}</span></div><div class="actions"><button data-admin-edit="${x.id}">Editar</button>${adminTab==='sellers'?`${x.active?`<button type="button" data-seller-move="${x.id}" data-seller-action="transfer">Transferir</button><button type="button" data-seller-move="${x.id}" data-seller-action="dismiss">Desligar/arquivar</button>`:`<button type="button" data-seller-move="${x.id}" data-seller-action="reactivate">Reativar</button>`}<button type="button" data-seller-history="${x.id}">Histórico</button>`:`<button data-admin-toggle="${x.id}">${x.active?(adminTab==='users'?'Bloquear cadastro':'Arquivar'):'Reativar'}</button>`}${adminTab==='sellers'?`<button data-admin-delete="${x.id}" class="admin-delete">Excluir</button>`:''}</div></div>`;}).join('')||'<p>Nenhum cadastro encontrado. Use o formulário para começar.</p>';
  adminOptions();adminFields();
 }
 $('#admin-role').onchange=adminFields;$('#admin-store').onchange=adminOptions;$('#admin-search').oninput=renderAdmin;$('#admin-cancel').onclick=resetAdmin;
@@ -45,13 +46,13 @@ root.addEventListener('click',async e=>{
  if(b.dataset.adminDelete&&adminTab==='sellers'){
   const item=adminState().sellers.find(x=>x.id===b.dataset.adminDelete);if(!item)return;
   const store=adminState().stores.find(x=>x.id===item.storeId);
-  if(db.entries.some(x=>same(x.store,store?.name||'')&&same(x.seller,item.name))||adminState().sellerGoals.some(x=>x.sellerId===item.id)||adminState().sellerDailyGoals.some(x=>x.sellerId===item.id)||cloudProfiles.some(x=>x.sellerId===item.id||x.seller_id===item.id)){
-   $('#admin-feedback').textContent='Este vendedor possui resultados, metas ou uma conta vinculada. Use Arquivar para preservar o histórico.';return;
+  if((adminState().sellerMovements||[]).some(m=>m.fromSellerId===item.id||m.toSellerId===item.id)||db.entries.some(x=>same(x.store,store?.name||'')&&same(x.seller,item.name))||adminState().sellerGoals.some(x=>x.sellerId===item.id)||adminState().sellerDailyGoals.some(x=>x.sellerId===item.id)||cloudProfiles.some(x=>x.sellerId===item.id||x.seller_id===item.id)){
+   $('#admin-feedback').textContent='Este vendedor possui resultados, metas ou uma conta vinculada. Use Desligar/arquivar para preservar o histórico.';return;
   }
   $('#confirm-text').textContent=`Excluir ${item.name}? Esta ação remove o cadastro definitivamente e não pode ser desfeita.`;
   confirmAction=async()=>{b.disabled=true;
   try{const next=validateDB(clone());next.admin.sellers=next.admin.sellers.filter(x=>x.id!==item.id);await save(next,`Excluiu vendedor: ${item.name}`);resetAdmin();renderAdmin();$('#admin-feedback').textContent='Vendedor excluído.';}
-  catch(err){$('#admin-feedback').textContent=/foreign key|23503/i.test(err.message)?'Este vendedor possui vínculos. Use Arquivar para preservar o histórico.':err.message;b.disabled=false;}
+  catch(err){$('#admin-feedback').textContent=/foreign key|23503/i.test(err.message)?'Este vendedor possui vínculos. Use Desligar/arquivar para preservar o histórico.':err.message;b.disabled=false;}
   };$('#confirm-dialog').showModal();return;
  }
  if(b.dataset.adminToggle){try{const next=validateDB(clone()),item=next.admin[adminTab].find(x=>x.id===b.dataset.adminToggle);if(!item)return;item.active=!item.active;await save(next,`${item.active?'Reativou':'Desativou'} ${adminLabels[adminTab]}: ${item.name}`);$('#admin-feedback').textContent='Status do cadastro atualizado.';}catch(err){$('#admin-feedback').textContent=err.message;}}
@@ -69,7 +70,7 @@ $('#admin-form').onsubmit=async e=>{
   if(item.sellerId&&!a.sellers.find(x=>x.id===item.sellerId&&x.active&&x.storeId===item.storeId))throw Error('Selecione um vendedor ativo da loja.');
   if(old&&adminTab==='stores'){for(const x of [...next.entries,...next.goals])if(same(x.store,old.name))x.store=item.name;}
   if(old&&adminTab==='sellers'){
-   if(item.storeId!==old.storeId)throw Error('Para preservar vínculos e histórico, arquive este cadastro e crie outro na nova loja.');
+   if(item.storeId!==old.storeId)throw Error('Use a ação Transferir para registrar a mudança sem alterar o histórico.');
    const store=a.stores.find(x=>x.id===old.storeId);for(const x of next.entries)if(same(x.store,store.name)&&same(x.seller,old.name))x.seller=item.name;
   }
   if(old)list[list.indexOf(old)]=item;else list.push(item);

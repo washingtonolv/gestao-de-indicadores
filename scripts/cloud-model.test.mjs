@@ -16,3 +16,7 @@ const added=structuredClone(local);added.goals.push({store:'Centro',month:'2026-
 const wrong=structuredClone(local);wrong.admin.users.push({});assert.throws(()=>changesFor(wrong,base),/Supabase/);
 assert.deepEqual(toLocal(Object.fromEntries(tables.map(t=>[t,[]]))).entries,[]);
 console.log('Cloud model: round-trip, minimal changes, FK-preserving rename, conflict timestamp and account guard passed.');
+
+const lifecycleBase=structuredClone(base);lifecycleBase.gi_sellers[0].person_id='person';lifecycleBase.gi_seller_periods=[{id:'period',seller_id:'seller',store_id:'store',started_on:null,ended_on:null,end_reason:null}];lifecycleBase.gi_seller_movements=[];
+const lifecycle=toLocal(lifecycleBase);assert.equal(lifecycle.admin.sellers[0].personId,'person');assert.equal(lifecycle.admin.sellerPeriods[0].startedOn,null);assert.deepEqual(changesFor(lifecycle,lifecycleBase),[]);
+lifecycle.admin.sellerPeriods=[];lifecycle.admin.sellers[0].personId='tampered';assert.deepEqual(changesFor(lifecycle,lifecycleBase),[]); // server-managed identity/history never becomes a generic write

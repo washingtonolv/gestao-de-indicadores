@@ -16,7 +16,8 @@ function batchEntryScope(data,context,today,profile){
  const sellers=data.admin.sellers.filter(s=>s.storeId===store.id&&s.active).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')).map(s=>{
   const overlap=data.entries.filter(e=>e.store===store.name&&e.seller===s.name&&(e.periodStart||e.date)<=end&&start<=e.date);
   const existing=overlap.find(e=>e.date===end&&(e.periodStart||e.date)===start&&Boolean(e.periodStart)===weekly);
-  return {...s,existing,conflict:overlap.some(e=>e.id!==existing?.id)};
+  const outside=Array.isArray(data.admin.sellerPeriods)&&!data.admin.sellerPeriods.some(p=>p.sellerId===s.id&&(!p.startedOn||p.startedOn<=start)&&(!p.endedOn||p.endedOn>=end));
+  return {...s,existing,conflict:outside||overlap.some(e=>e.id!==existing?.id),blockReason:outside?'Período fora do vínculo nesta loja. Confira a transferência e use lançamentos diários na semana da mudança.':''};
  });
  if(!sellers.length)fail('Esta loja não tem vendedores ativos cadastrados.');
  return {store,start,end,weekly,sellers};
@@ -31,7 +32,7 @@ function batchEntryPlan(data,context,inputs,today,profile){
   if(values.some(v=>v===null))throw Error(seller.name+': preencha vendas, atendimentos e peças. Use zero quando não houver resultado.');
   if(!values.every((v,i)=>Number.isSafeInteger(v)&&v>=0&&v<=(i===0?100000000000:1000000)))throw Error(seller.name+': confira os valores; atendimentos e peças devem ser números inteiros.');
   if(!input.orders&&(input.cents>0||input.pieces>0))throw Error(seller.name+': informe ao menos um atendimento para as vendas ou peças.');
-  if(seller.conflict)throw Error(seller.name+': já existem lançamentos em parte deste período. Confira o histórico antes de continuar.');
+  if(seller.conflict)throw Error(seller.name+': '+(seller.blockReason||'já existem lançamentos em parte deste período. Confira o histórico antes de continuar.'));
   const old=seller.existing;
   if(old&&old.cents===input.cents&&old.orders===input.orders&&old.pieces===input.pieces)continue;
   changes.push({sellerId:seller.id,seller:seller.name,before:old||null,record:{store:scope.store.name,seller:seller.name,date:scope.end,...(scope.weekly?{periodStart:scope.start}:{}),cents:input.cents,orders:input.orders,pieces:input.pieces}});

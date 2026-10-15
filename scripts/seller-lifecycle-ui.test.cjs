@@ -1,0 +1,17 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const c=vm.createContext({});vm.runInContext(fs.readFileSync('beta/seller-lifecycle-core.js','utf8')+'\n'+fs.readFileSync('beta/beta-schema.js','utf8'),c);
+const data={version:1,admin:{stores:[{id:'a',name:'Centro',active:true},{id:'b',name:'Norte',active:true}],sellers:[{id:'s',name:'Ana',storeId:'a',active:true,personId:'person',updatedAt:'2026-10-01T12:00:00Z'}],users:[],audit:[],sellerGoals:[{sellerId:'s',month:'2026-10',cents:100000}],sellerDailyGoals:[],sellerPeriods:[{id:'p',sellerId:'s',storeId:'a',startedOn:null,endedOn:null,endReason:null}],sellerMovements:[]},goals:[],entries:[{id:'e',seller:'Ana',store:'Centro',date:'2026-10-08',periodStart:'2026-10-01',cents:1000,orders:2,pieces:3}]};
+const admin={role:'admin'},today='2026-10-15',payload={sellerId:'s',action:'transfer',date:'2026-10-09',targetStoreId:'b'};
+const plan=c.sellerLifecyclePlan(data,admin,payload,today);assert.equal(plan.lastDay,'2026-10-08');assert.equal(plan.sourceGoal,100000);assert.equal(plan.targetGoal,0);assert.equal(plan.target,null);assert.equal(plan.source.active,true);
+assert.throws(()=>c.sellerLifecyclePlan(data,{role:'manager'},payload,today),/administradores/);
+assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,date:'2026-10-07'},today),/bloco semanal/);
+assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,date:'2026-10-17'},today),/até hoje/);
+assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,targetStoreId:'a'},today),/outra loja/);
+assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,adjustGoals:true,sourceGoalCents:0,targetGoalCents:-1},today),/metas/);
+assert.equal(c.sellerLifecyclePlan(data,admin,{...payload,adjustGoals:true,sourceGoalCents:40000,targetGoalCents:60000},today).sourceGoal,100000);
+const collision=structuredClone(data);collision.admin.sellers.push({id:'other',name:'Ana',active:true,storeId:'b',personId:'another'});assert.throws(()=>c.sellerLifecyclePlan(collision,admin,payload,today),/identidade/);
+const closed=structuredClone(data);closed.admin.sellers[0].active=false;closed.admin.sellerPeriods[0].endedOn='2026-10-10';closed.admin.sellerPeriods[0].endReason='dismiss';assert.throws(()=>c.sellerLifecyclePlan(closed,admin,{...payload,action:'reactivate',date:'2026-10-10'},today),/depois dos vínculos/);assert.equal(c.sellerLifecyclePlan(closed,admin,{...payload,action:'reactivate',date:'2026-10-11'},today).action,'reactivate');
+const valid=c.validateDB(data);assert.equal(valid.admin.sellers[0].personId,'person');assert.equal(valid.admin.sellerPeriods[0].startedOn,null);assert.equal(valid.admin.sellers[0].updatedAt,'2026-10-01T12:00:00Z');
+closed.admin.sellerMovements=[{id:'move',personId:'person',fromSellerId:'s',toSellerId:null,action:'dismiss',date:'2026-10-10',note:'teste',actor:'Admin',at:'2026-10-10T12:00:00Z',goalChanges:null}];assert.equal(c.validateDB(closed).admin.sellerMovements[0].action,'dismiss');
+const broken=structuredClone(closed);broken.admin.sellerPeriods[0].storeId='b';assert.throws(()=>c.validateDB(broken),/inválidos/);
+console.log('Seller lifecycle UI: dates, store/name identity collision, goal review, authorization, preservation and lifecycle schema round-trip passed.');

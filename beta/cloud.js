@@ -1,5 +1,5 @@
 import {createClient} from '@supabase/supabase-js';
-import {tables,toLocal,changesFor} from './cloud-model.js';
+import {readTables,toLocal,changesFor} from './cloud-model.js';
 const client=createClient('https://wyvtuvmsgncllwxxotjp.supabase.co','sb_publishable_DoCvT-BGsojQyt8giUy_Ow_m4vou2II',{
  auth:{storage:sessionStorage,storageKey:'gi-cloud-session-v1',persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},
  global:{fetch:(url,options)=>fetch(url,{...options,signal:AbortSignal.timeout(20000)})}
@@ -29,13 +29,13 @@ try{el('cloud-local').hidden=!localStorage.getItem('gestao-indicadores:beta:v1')
 el('cloud-local').onclick=()=>{try{const old=JSON.parse(localStorage.getItem('gestao-indicadores:beta:v1'));download(old.data,'gestao-backup-local.json');}catch{el('cloud-error').textContent='Não foi possível ler os dados locais.';}};
 let session=null,profile=null,base=null,revision=0,saving=false,loadedProfiles=[];
 function fail(message){if(publicPreview)return;frame.style.display='none';bar.hidden=true;login.hidden=false;el('cloud-error').textContent=message;el('cloud-form').hidden=!!session;el('cloud-exit').hidden=!session;el('cloud-retry').hidden=!session;}
-function errorMessage(e){if(e?.code==='40001')return 'Outra pessoa alterou este registro. Use Atualizar dados antes de salvar novamente.';if(e?.code==='23505')return 'Já existe um cadastro ou meta com esses dados.';if(e?.code==='42501')return 'Seu perfil não permite esta operação.';return 'Não foi possível confirmar a operação. Confira a conexão e atualize os dados antes de tentar novamente.';}
+function errorMessage(e){if(e?.code==='P0001'&&/^(Este vínculo|O período informado|Use Transferir|A meta não corresponde)/.test(e.message))return e.message;if(e?.code==='40001')return 'Outra pessoa alterou este registro. Use Atualizar dados antes de salvar novamente.';if(e?.code==='23505')return 'Já existe um cadastro ou meta com esses dados.';if(e?.code==='42501')return 'Seu perfil não permite esta operação.';return 'Não foi possível confirmar a operação. Confira a conexão e atualize os dados antes de tentar novamente.';}
 async function rows(table){let list=[];for(let offset=0;;offset+=500){const {data,error}=await client.from(table).select('*').order('id').range(offset,offset+499);if(error)throw error;list.push(...data);if(list.length>10000)throw Error('Limite de consulta atingido.');if(data.length<500)return list;}}
 async function read(){
  const {data:auth,error}=await client.auth.getUser();if(error||!auth.user){fail('Entre novamente para continuar.');throw Error('Sessão encerrada.');}
  const {data:p,error:pe}=await client.from('gi_profiles').select('*').eq('id',auth.user.id).maybeSingle();if(pe)throw pe;
  if(!p?.active){fail('Esta conta ainda não tem acesso ativo. Contate o administrador.');throw Error('Conta sem acesso ativo.');}
- const result=await Promise.all(tables.map(async t=>[t,await rows(t)]));const next=Object.fromEntries(result);
+ const result=await Promise.all(readTables.map(async t=>[t,await rows(t)]));const next=Object.fromEntries(result);
  if(p.role!=='admin'&&!next.gi_stores.some(s=>s.id===p.store_id&&s.active)||p.role==='seller'&&!next.gi_sellers.some(s=>s.id===p.seller_id&&s.active)){fail('Seu vínculo com a loja ou vendedor está inativo. Contate o administrador.');throw Error('Vínculo inativo.');}
  const profiles=await rows('gi_profiles');
  const {data:audit,error:ae}=await client.from('gi_audit').select('id,actor_id,table_name,operation,occurred_at').order('occurred_at',{ascending:false}).limit(200);if(ae)throw ae;
@@ -48,6 +48,18 @@ async function read(){
 async function save(payload){
  if(saving)throw Error('Aguarde o salvamento.');if(!base||payload.revision!==revision)throw Error('Atualize os dados antes de salvar.');if(profile.role==='seller')throw Error('O vendedor tem acesso somente para consulta.');
  saving=true;try{if([...payload.data.admin.stores,...payload.data.admin.sellers].some(x=>x.id.startsWith('legacy-')))throw Error('Cadastre a loja e o vendedor em Admin antes de lançar resultados ou metas.');const changes=changesFor(payload.data,base);if(changes.length){const {error}=await client.rpc('gi_apply_changes',{changes});if(error)throw Error(errorMessage(error));}try{return await read();}catch{base=null;throw Error('A operação foi enviada, mas a leitura de confirmação falhou. Atualize os dados antes de tentar novamente.');}}finally{saving=false;}
+}
+async function manageSeller(payload){
+ if(saving||!base||payload.revision!==revision)throw Error('Atualize os dados antes de confirmar a movimentação.');
+ if(profile?.role!=='admin')throw Error('Somente administradores podem movimentar vendedores.');
+ const source=base.gi_sellers.find(s=>s.id===payload.sellerId);if(!source)throw Error('Cadastro indisponível. Atualize os dados.');
+ const month=String(payload.date||'').slice(0,7)+'-01',target=base.gi_sellers.find(s=>s.person_id===source.person_id&&s.store_id===payload.targetStoreId),goal=id=>base.gi_seller_goals.find(g=>g.seller_id===id&&g.month===month);
+ saving=true;
+ try{
+  const {error}=await client.rpc('gi_manage_seller',{payload:{action:payload.action,sellerId:source.id,date:payload.date,targetStoreId:payload.targetStoreId||null,note:payload.note||'',adjustGoals:!!payload.adjustGoals,sourceGoalCents:payload.sourceGoalCents,targetGoalCents:payload.targetGoalCents,expected:source.updated_at,sourceGoalExpected:goal(source.id)?.updated_at||null,targetGoalExpected:goal(target?.id)?.updated_at||null}});
+  if(error)throw Error(error.code==='P0001'?error.message:errorMessage(error));
+  try{return await read();}catch{base=null;throw Error('A movimentação foi enviada, mas a confirmação falhou. Atualize os dados antes de tentar novamente.');}
+ }finally{saving=false;}
 }
 el('cloud-form').onsubmit=async e=>{e.preventDefault();const button=e.target.querySelector('button[type=submit]');button.disabled=true;el('cloud-error').textContent='Conectando…';try{const identifier=el('cloud-email').value.trim();let error;
 if(identifier.includes('@')){({error}=await client.auth.signInWithPassword({email:loginEmail(identifier),password:el('cloud-password').value}));}
@@ -65,4 +77,4 @@ async function createAccount(payload){
  try{return {...await read(),warning:data.warning||null};}catch{throw Error('A operação foi enviada, mas a confirmação da lista falhou. Atualize os dados antes de tentar novamente.');}
 }
 function evolutionSnapshot(){if(!base||!profile)throw Error('Atualize os dados antes de exportar.');return {data:validateDB(toLocal(base)),profile:{role:profile.role,storeId:profile.store_id,sellerId:profile.seller_id}};}
-window.GICloud={createAccount,ready,evolutionSnapshot,read:async()=>{try{return await read();}catch(e){fail(e.message||'Não foi possível carregar os dados. Tente novamente.');throw e;}},save,download};
+window.GICloud={createAccount,manageSeller,ready,evolutionSnapshot,read:async()=>{try{return await read();}catch(e){fail(e.message||'Não foi possível carregar os dados. Tente novamente.');throw e;}},save,download};

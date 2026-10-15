@@ -1,12 +1,15 @@
 export const tables=['gi_stores','gi_sellers','gi_entries','gi_store_goals','gi_seller_goals','gi_seller_daily_goals'];
+export const readTables=[...tables,'gi_seller_periods','gi_seller_movements'];
 export function toLocal(rows) {
  const stores=rows.gi_stores.map(r=>({id:r.id,name:r.name,active:r.active}));
- const sellers=rows.gi_sellers.map(r=>({id:r.id,name:r.name,active:r.active,storeId:r.store_id}));
+ const sellers=rows.gi_sellers.map(r=>({id:r.id,name:r.name,active:r.active,storeId:r.store_id,...(r.person_id?{personId:r.person_id}:{}),...(r.updated_at?{updatedAt:r.updated_at}:{})}));
  const store=id=>{const r=stores.find(x=>x.id===id);if(!r)throw Error('Loja indisponível. Recarregue os dados.');return r.name;};
  const seller=id=>{const r=sellers.find(x=>x.id===id);if(!r)throw Error('Vendedor indisponível. Recarregue os dados.');return r.name;};
  return {version:1,entries:rows.gi_entries.map(r=>({id:r.id,date:r.date,store:store(r.store_id),seller:seller(r.seller_id),cents:r.cents,orders:r.orders,pieces:r.pieces,updatedAt:r.updated_at,...(r.period_start?{periodStart:r.period_start}:{})})),
  goals:rows.gi_store_goals.map(r=>({store:store(r.store_id),month:r.month.slice(0,7),cents:r.cents})),
- admin:{stores,sellers,users:[],audit:[],sellerGoals:rows.gi_seller_goals.map(r=>({sellerId:r.seller_id,month:r.month.slice(0,7),cents:r.cents})),sellerDailyGoals:rows.gi_seller_daily_goals.map(r=>({sellerId:r.seller_id,date:r.date,cents:r.cents}))}};
+ admin:{stores,sellers,users:[],audit:[],sellerGoals:rows.gi_seller_goals.map(r=>({sellerId:r.seller_id,month:r.month.slice(0,7),cents:r.cents})),sellerDailyGoals:rows.gi_seller_daily_goals.map(r=>({sellerId:r.seller_id,date:r.date,cents:r.cents})),
+ ...(rows.gi_seller_periods?{sellerPeriods:rows.gi_seller_periods.map(r=>({id:r.id,sellerId:r.seller_id,storeId:r.store_id,startedOn:r.started_on,endedOn:r.ended_on,endReason:r.end_reason}))}:{}),
+ ...(rows.gi_seller_movements?{sellerMovements:rows.gi_seller_movements.map(r=>({id:r.id,personId:r.person_id,fromSellerId:r.from_seller_id,toSellerId:r.to_seller_id,action:r.action,date:r.effective_on,note:r.note,actor:r.actor_name,at:r.created_at,goalChanges:r.goal_changes}))}:{})}};
 }
 export function changesFor(data,base,uuid=()=>crypto.randomUUID()) {
  if(data.admin.users.length)throw Error('Contas de acesso são gerenciadas no Supabase nesta etapa.');

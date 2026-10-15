@@ -1,0 +1,19 @@
+#gi-beta :is(#seller-move-dialog,#seller-history-dialog){width:720px;max-width:calc(100vw - 32px);max-height:90vh;overflow:auto;background:var(--surface);color:var(--text);border-color:var(--divider)}
+#gi-beta #seller-move-fields{padding:0;margin:0;border:0;min-width:0}
+#gi-beta #seller-move-dialog :is(input,select,textarea){max-width:100%;min-height:44px}
+#gi-beta #seller-move-dialog textarea{resize:vertical;font:inherit;border:1px solid var(--divider);border-radius:10px;padding:12px;background:var(--surface);color:var(--text)}
+#gi-beta #seller-move-dialog small{font-size:12px;line-height:1.5;color:var(--text-support)}
+#gi-beta .seller-goal-check{display:flex;align-items:center;gap:10px;font-size:14px;line-height:1.5}
+#gi-beta .seller-goal-check input{width:20px;min-height:20px!important;flex-shrink:0;accent-color:var(--brand)}
+#gi-beta #seller-move-goals>p{font-size:12px;line-height:1.6;color:var(--text-support)}
+#gi-beta #seller-move-review{padding-top:20px;border-top:1px solid var(--divider)}
+#gi-beta #seller-move-summary p{font-size:14px;line-height:1.6}
+#gi-beta .seller-history-item{padding:18px 0;border-bottom:1px solid var(--divider)}
+#gi-beta .seller-history-item strong,#gi-beta .seller-history-item small{display:block;line-height:1.6}
+#gi-beta .seller-history-item p{font-size:13px;overflow-wrap:anywhere}
+#gi-beta .seller-history-item small{color:var(--text-support);font-size:12px}
+#gi-beta .admin-row:has([data-seller-history]) .actions{flex-shrink:1;min-width:0;max-width:340px;justify-content:flex-end;opacity:1;transform:none}
+html[data-theme=dark] #gi-beta :is(#seller-move-dialog,#seller-history-dialog) button:not(.primary){background:#303030;color:#F5F5F5;border-color:#666}
+html[data-theme=dark] #gi-beta #seller-move-dialog :is(input,select,textarea){background:#303030;color:#F5F5F5;border-color:#666}
+@media(max-width:759px){#gi-beta .admin-row:has([data-seller-history]) .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;max-width:100%;margin-left:0}#gi-beta .admin-row:has([data-seller-history]) .actions button{min-width:0;white-space:normal;min-height:44px}}
+@media(max-width:759px){#gi-beta #seller-move-dialog .form-grid{grid-template-columns:1fr}#gi-beta :is(#seller-move-dialog,#seller-history-dialog){padding:20px 16px}#gi-beta #seller-move-dialog .actions button{flex:1}}

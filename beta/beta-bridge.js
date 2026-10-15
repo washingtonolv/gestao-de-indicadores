@@ -21,6 +21,7 @@
    if(op==='read')reply(id,{ok:true,...await GICloud.read()});
    else if(op==='save')reply(id,{ok:true,...await GICloud.save({...payload,data:validateDB(payload.data)})});
    else if(op==='create-account')reply(id,{ok:true,...await GICloud.createAccount(payload)});
+   else if(op==='manage-seller')reply(id,{ok:true,...await GICloud.manageSeller(payload)});
    else if(op==='download-goals'){downloadGoals(payload?.csv);reply(id,{ok:true});}
    else if(op==='export-evolution'){const snapshot=GICloud.evolutionSnapshot(),writer=await loadExcelExport(),now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');await writer.downloadEvolution(snapshot,payload,today);reply(id,{ok:true});}
    else if(op==='export-ranking'){const snapshot=GICloud.evolutionSnapshot(),writer=await loadExcelExport(),now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');await writer.downloadRanking(snapshot,payload,today);reply(id,{ok:true});}
