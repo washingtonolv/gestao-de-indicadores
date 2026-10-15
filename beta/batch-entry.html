@@ -1,0 +1,19 @@
+<div class="segments entry-modes" role="group" aria-label="Forma de preenchimento"><button type="button" data-entry-mode="individual" aria-pressed="true">Por vendedor</button><button type="button" data-entry-mode="batch" aria-pressed="false">Por loja · em lote</button></div>
+<form id="batch-form" class="card form-card" hidden novalidate>
+ <div class="section-head"><div><h2>Lançar resultados da loja</h2><p>Preencha a equipe na mesma tabela. Revise os totais antes de salvar.</p></div></div>
+ <fieldset id="batch-context" class="batch-context"><legend class="sr-only">Loja e período do lote</legend>
+  <label>Loja<select id="batch-store" required><option value="">Selecione uma loja</option></select></label>
+  <label>Tipo de lançamento<select id="batch-kind"><option value="weekly">Semanal · 7 dias úteis</option><option value="daily">Diário</option></select></label>
+  <label id="batch-month-label">Mês<input id="batch-month" type="month" min="2000-01" max="2099-12"></label>
+  <label id="batch-week-label">Semana<select id="batch-week"></select></label>
+  <label id="batch-date-label" hidden>Data<input id="batch-date" type="date" min="2000-01-01" max="2099-12-31"></label>
+ </fieldset>
+ <div class="actions"><button id="batch-load" type="button">Carregar vendedores</button><button id="batch-reset" type="button" hidden>Trocar loja ou período</button></div>
+ <div id="batch-editor" hidden><p id="batch-period" class="batch-period"></p><p class="batch-help">Preencha o <strong>acumulado do período</strong>, sem somar novamente o que já foi salvo. Linhas totalmente vazias são ignoradas. Use 0 nos três campos para registrar ausência de resultado. Registros existentes serão atualizados, sem duplicar.</p>
+  <div class="batch-table-wrap"><table class="batch-table"><thead><tr><th scope="col">Vendedor</th><th scope="col">Vendas líquidas (R$)</th><th scope="col">Atendimentos</th><th scope="col">Peças</th><th scope="col">TM</th><th scope="col">P.A.</th></tr></thead><tbody id="batch-rows"></tbody></table></div>
+  <div id="batch-live" class="batch-totals" aria-live="polite"></div>
+  <div class="actions"><button class="primary" id="batch-review" type="submit">Conferir e continuar</button></div>
+ </div>
+ <p id="batch-error" class="error" role="alert"></p><p id="batch-feedback" role="status"></p>
+</form>
+<dialog id="batch-review-dialog" aria-labelledby="batch-review-title"><h2 id="batch-review-title">Conferir lançamentos</h2><p id="batch-review-context"></p><p id="batch-review-summary"></p><div id="batch-review-totals" class="batch-totals"></div><p id="batch-review-note"></p><div class="batch-table-wrap"><table class="batch-review-table"><thead><tr><th scope="col">Vendedor</th><th scope="col">Ação</th><th scope="col">Vendas</th><th scope="col">Atend.</th><th scope="col">Peças</th></tr></thead><tbody id="batch-review-rows"></tbody></table></div><p id="batch-save-error" class="error" role="alert"></p><div class="actions"><button type="button" id="batch-back">Voltar e ajustar</button><button type="button" class="primary" id="batch-confirm">Confirmar e salvar</button></div></dialog>
