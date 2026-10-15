@@ -1,17 +1,24 @@
 let entryMode='individual',batchLoaded=null,batchInitial='',batchPending=null,batchSaving=false;
 const batchDateLabel=value=>value.split('-').reverse().join('/');
-function batchContextValue(){return {storeId:$('#batch-store').value,kind:$('#batch-kind').value,date:$('#batch-date').value,month:$('#batch-month').value,week:$('#batch-week').value};}
+function batchContextValue(){return {storeId:$('#batch-store').value,kind:$('#batch-kind').value,date:$('#batch-date').value,month:$('#batch-month').value,week:$('#batch-week').value,periodStart:$('#batch-period-start').value,periodEnd:$('#batch-period-end').value};}
 function batchRawValues(){return all('#batch-rows tr').map(row=>({sellerId:row.dataset.sellerId,values:[...row.querySelectorAll('input')].map(input=>input.disabled?'':input.value)}));}
 function batchValues(){return batchRawValues().map(row=>({sellerId:row.sellerId,...Object.fromEntries(['cents','orders','pieces'].map((key,i)=>{const text=row.values[i].trim();try{return [key,text===''?null:i===0?amount(text):Number(text)];}catch{throw Error('Confira o valor de vendas digitado.');}}))}));}
 function batchTotalMarkup(t){return [['Vendas líquidas',money(t.cents)],['Atendimentos',num(t.orders)],['Peças',num(t.pieces)],['Ticket médio',t.orders?money(Math.round(t.cents/t.orders)):'—'],['P.A.',t.orders?num(t.pieces/t.orders):'—']].map(([title,value])=>`<span>${title}<strong>${value}</strong></span>`).join('');}
 function batchPeriodFields(){
  const weekly=$('#batch-kind').value==='weekly',month=$('#batch-month').value;
- $('#batch-date-label').hidden=weekly;$('#batch-month-label').hidden=!weekly;$('#batch-week-label').hidden=!weekly;
+ $('#batch-date-label').hidden=weekly;for(const id of ['month','week','period-start','period-end']){$('#batch-'+id+'-label').hidden=!weekly;$('#batch-'+id).required=weekly;}
  const chosen=$('#batch-week').value;
  $('#batch-week').innerHTML=/^20\d{2}-(0[1-9]|1[0-2])$/.test(month)?workingWeekRanges(month).map(r=>`<option value="${r.start}|${r.end}">Dias ${r.start}–${r.end} · ${r.workingDays} dias úteis</option>`).join(''):'';
  const current=month===currentMonth?workingWeekRanges(month).find(r=>Number(today.slice(-2))>=r.start&&Number(today.slice(-2))<=r.end):null;
  if([...$('#batch-week').options].some(o=>o.value===chosen))$('#batch-week').value=chosen;
  else if(current)$('#batch-week').value=current.start+'|'+current.end;
+ if(weekly&&$('#batch-week').value){
+  const {min,max}=weeklyEntryBounds(month,$('#batch-week').value),start=$('#batch-period-start'),end=$('#batch-period-end'),latest=max<today?max:today;
+  for(const field of [start,end]){field.min=min;field.max=latest;}
+  if(!start.value||start.value<min||start.value>max)start.value=min;
+  end.min=start.value;
+  if(!end.value||end.value<start.value||end.value>max)end.value=latest>=start.value?latest:start.value;
+ }
 }
 function setEntryMode(mode){
  entryMode=mode;$('#entry-form').hidden=mode==='batch';$('#batch-form').hidden=mode!=='batch';$('#records').classList.toggle('batch-mode',mode==='batch');
@@ -38,7 +45,7 @@ function loadBatch(){
   if(!ready||demo)throw Error('Entre com sua conta e saia do exemplo para lançar resultados.');
   const context=batchContextValue(),scope=batchEntryScope(db,context,today,cloudProfile);
   batchLoaded={context,scope,revision};$('#batch-context').disabled=true;$('#batch-load').hidden=true;$('#batch-reset').hidden=false;$('#batch-editor').hidden=false;
-  $('#batch-period').textContent=scope.store.name+' · '+(scope.weekly?'Acumulado de '+batchDateLabel(scope.start)+' a '+batchDateLabel(scope.end)+(scope.end>today?' · semana em andamento':''):'Diário · '+batchDateLabel(scope.start));
+  $('#batch-period').textContent=scope.store.name+' · '+(scope.weekly?'Acumulado de '+batchDateLabel(scope.start)+' a '+batchDateLabel(scope.end):'Diário · '+batchDateLabel(scope.start));
   $('#batch-rows').innerHTML=scope.sellers.map(s=>{const e=s.existing,blocked=s.conflict,labels=['Vendas líquidas','Atendimentos','Peças'];return `<tr data-seller-id="${s.id}"><td>${esc(s.name)}<small class="${blocked?'batch-conflict':''}">${blocked?esc(s.blockReason||'Há lançamentos sobrepostos. Confira o histórico.'):e?'Registro existente · preencha o novo acumulado':'Novo lançamento'}</small></td>${['cents','orders','pieces'].map((key,i)=>`<td data-label="${labels[i]}"><input aria-label="${labels[i]} de ${esc(s.name)}" data-field="${key}" ${i===0?'type="text" inputmode="decimal" placeholder="0,00"':'type="number" inputmode="numeric" min="0" max="1000000" step="1" placeholder="0"'} ${blocked?'disabled':''} value="${blocked?'':e?i===0?amountInput(e[key]):e[key]:''}"></td>`).join('')}<td data-label="TM"><output data-tm>—</output></td><td data-label="P.A."><output data-pa>—</output></td></tr>`;}).join('');
   batchInitial=JSON.stringify(batchRawValues());updateBatchLive();
  }catch(error){$('#batch-error').textContent=error.message;}
@@ -66,7 +73,7 @@ function reviewBatch(event){
   $('#batch-review-context').textContent=plan.scope.store.name+' · '+batchDateLabel(plan.scope.start)+(plan.scope.weekly?' a '+batchDateLabel(plan.scope.end):'');
   $('#batch-review-summary').textContent=`${plan.newCount} novo(s) lançamento(s) e ${plan.updateCount} atualização(ões). Somente as linhas abaixo serão salvas. Os demais registros serão preservados.`;
   $('#batch-review-totals').innerHTML=batchTotalMarkup(plan.totals);
-  $('#batch-review-note').textContent='Totais previstos da loja no período, incluindo os registros já salvos.'+(plan.partialOverlap?' Há acumulados que abrangem datas fora deste intervalo; eles não entram neste total.':'')+(plan.scope.end>today?' Semana em andamento: estes valores representam o acumulado informado até agora.':'');
+  $('#batch-review-note').textContent='Totais previstos da loja no período, incluindo os registros já salvos. Ao atualizar um acumulado, informe o total até a data final, sem somar de novo o valor anterior.'+(plan.partialOverlap?' Há acumulados que abrangem datas fora deste intervalo; eles não entram neste total.':'');
   $('#batch-review-rows').innerHTML=plan.changes.map(c=>`<tr><td>${esc(c.seller)}</td><td data-label="Ação">${c.before?'Atualizar':'Novo'}</td><td data-label="Vendas">${money(c.record.cents)}${c.before?`<small>Antes: ${money(c.before.cents)}</small>`:''}</td><td data-label="Atendimentos">${num(c.record.orders)}${c.before?`<small>Antes: ${num(c.before.orders)}</small>`:''}</td><td data-label="Peças">${num(c.record.pieces)}${c.before?`<small>Antes: ${num(c.before.pieces)}</small>`:''}</td></tr>`).join('');
   $('#batch-save-error').textContent='';$('#batch-review-dialog').showModal();
  }catch(error){$('#batch-error').textContent=error.message;}
@@ -86,7 +93,7 @@ async function confirmBatch(){
  finally{batchSaving=false;button.disabled=false;$('#batch-back').disabled=false;button.textContent='Confirmar e salvar';syncBatchUI();}
 }
 $('#batch-month').value=currentMonth;$('#batch-date').value=today;batchPeriodFields();
-$('#batch-kind').onchange=batchPeriodFields;$('#batch-month').onchange=()=>{$('#batch-week').value='';batchPeriodFields();};
+$('#batch-kind').onchange=batchPeriodFields;$('#batch-month').onchange=()=>{$('#batch-week').value='';batchPeriodFields();};$('#batch-week').onchange=()=>{$('#batch-period-start').value='';$('#batch-period-end').value='';batchPeriodFields();};$('#batch-period-start').onchange=batchPeriodFields;
 $('#batch-load').onclick=loadBatch;
 $('#batch-reset').onclick=()=>{if(JSON.stringify(batchRawValues())!==batchInitial){$('#confirm-text').textContent='Descartar os valores ainda não salvos deste lote e escolher outra loja ou período?';confirmAction=async()=>{clearBatch();$('#batch-feedback').textContent='';};$('#confirm-dialog').showModal();}else{clearBatch();$('#batch-feedback').textContent='';}};
 $('#batch-rows').addEventListener('input',event=>{if(event.target.dataset.field==='cents'){const input=event.target,tail=input.value.slice(input.selectionStart??input.value.length).replace(/\D/g,'').length;input.value=formatSaleDigits(input.value);let cursor=input.value.length,remaining=tail;while(cursor>0&&remaining>0)if(/\d/.test(input.value[--cursor]))remaining--;input.setSelectionRange(cursor,cursor);}$('#batch-error').textContent='';updateBatchLive();});

@@ -1,6 +1,6 @@
 #gi-beta .entry-modes{margin:0 0 20px;width:max-content;max-width:100%}
 #gi-beta #batch-form{margin-bottom:20px;min-width:0}
-#gi-beta .batch-context{border:0;padding:0;margin:20px 0;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:14px;min-width:0}
+#gi-beta .batch-context{border:0;padding:0;margin:20px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;min-width:0}
 #gi-beta .batch-context label{display:grid;gap:8px;font-size:13px;min-width:0}
 #gi-beta .batch-context :is(input,select){width:100%;min-width:0;min-height:44px}
 #gi-beta .batch-period{font-weight:600;margin:24px 0 8px}

@@ -16,7 +16,7 @@ function sellerLifecyclePlan(data,profile,payload,today){
   if(!source.active)throw Error('Este vínculo não está ativo.');
   if(action==='transfer'){const previous=new Date(date+'T12:00:00Z');previous.setUTCDate(previous.getUTCDate()-1);lastDay=previous.toISOString().slice(0,10);}
   if(current?.startedOn&&lastDay<current.startedOn)throw Error('A data é anterior ao início deste vínculo.');
-  if(data.entries.some(e=>e.store===sourceStore.name&&e.seller===source.name&&e.date>lastDay))throw Error('Há vendas ou um bloco semanal após o último dia na loja. Confira esses lançamentos antes de movimentar.');
+  if(data.entries.some(e=>e.store===sourceStore.name&&e.seller===source.name&&e.date>lastDay))throw Error('Há vendas ou um acumulado semanal após o último dia na loja. Ajuste o fim do acumulado antes de movimentar.');
   if(action==='transfer'){
    targetStore=a.stores.find(s=>s.id===targetStoreId&&s.active&&s.id!==sourceStore.id);if(!targetStore)throw Error('Selecione outra loja ativa.');
    target=personSellers.find(s=>s.storeId===targetStore.id)||null;

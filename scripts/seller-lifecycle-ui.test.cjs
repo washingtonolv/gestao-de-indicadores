@@ -4,7 +4,7 @@ const data={version:1,admin:{stores:[{id:'a',name:'Centro',active:true},{id:'b',
 const admin={role:'admin'},today='2026-10-15',payload={sellerId:'s',action:'transfer',date:'2026-10-09',targetStoreId:'b'};
 const plan=c.sellerLifecyclePlan(data,admin,payload,today);assert.equal(plan.lastDay,'2026-10-08');assert.equal(plan.sourceGoal,100000);assert.equal(plan.targetGoal,0);assert.equal(plan.target,null);assert.equal(plan.source.active,true);
 assert.throws(()=>c.sellerLifecyclePlan(data,{role:'manager'},payload,today),/administradores/);
-assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,date:'2026-10-07'},today),/bloco semanal/);
+assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,date:'2026-10-07'},today),/acumulado semanal/);
 assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,date:'2026-10-17'},today),/até hoje/);
 assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,targetStoreId:'a'},today),/outra loja/);
 assert.throws(()=>c.sellerLifecyclePlan(data,admin,{...payload,adjustGoals:true,sourceGoalCents:0,targetGoalCents:-1},today),/metas/);

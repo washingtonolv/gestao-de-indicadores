@@ -21,10 +21,12 @@ antes de confirmar. Gestores e vendedores não podem executar movimentações.
   Os valores informados são as metas totais do mês em cada vínculo; zero remove
   a meta correspondente. O histórico conserva os valores antes/depois.
   Metas de lojas e metas diárias não são redistribuídas automaticamente.
-- Datas futuras não são agendadas. Uma mudança não pode cortar resultados ou
-  blocos semanais existentes. Na semana da transferência, use lançamentos diários
-  que respeitem os dias de cada vínculo. O sistema não inventa a divisão de um
-  acumulado semanal.
+- Datas futuras não são agendadas. Uma mudança não pode cortar resultados já
+  registrados. O acumulado semanal pode ter início e fim parciais dentro do
+  mesmo bloco; atualize o mesmo lançamento conforme a semana avança. Na
+  transferência, encerre o acumulado da loja de origem no último dia do vínculo
+  e registre outro acumulado na nova loja a partir do primeiro dia nela. Os
+  valores precisam ser informados por loja; o sistema não inventa a divisão.
 - Cadastros sem resultados, metas, contas ou movimentações ainda podem ser
   excluídos. Movimentações e relações de histórico impedem exclusão definitiva.
 
