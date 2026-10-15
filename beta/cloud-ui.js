@@ -49,7 +49,7 @@ function renderCloudUI(){
  if(!cloudProfile)return;
  const seller=cloudProfile.role==='seller';
  for(const b of all('[data-view]'))b.hidden=(seller&&!['evolution','backup'].includes(b.dataset.view))||(cloudProfile.role!=='admin'&&b.dataset.view==='admin');
- $('#new-entry').hidden=seller||['evolution','admin'].includes(view);$('#demo').hidden=seller;
+ $('#new-entry').hidden=seller||['evolution','ranking','admin'].includes(view);$('#demo').hidden=seller;
  if(seller){$('#evo-mode').value='individual';$('#evo-mode').disabled=true;$('#evo-seller').value=cloudProfile.sellerId;$('#evo-seller').disabled=true;renderEvolution();}
  renderGreeting();
  const counts=all('#admin-counts strong');if(counts[2])counts[2].textContent=cloudProfiles.length;

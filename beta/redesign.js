@@ -13,7 +13,7 @@ function goalProgress(list,goals,individual){
 let goalMode='store';
 function redesignSync(){
  syncBatchUI();
- const sections={dashboard:'VISÃO GERAL',evolution:'EVOLUÇÃO',records:'LANÇAMENTOS',targets:'METAS',admin:'ADMINISTRAÇÃO'};$('#page-eyebrow').textContent=(sections[view]||'PAINEL')+' · '+new Date($('#month').value+'-01T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).toLocaleUpperCase('pt-BR');
+ const sections={ranking:'RANKING',dashboard:'VISÃO GERAL',evolution:'EVOLUÇÃO',records:'LANÇAMENTOS',targets:'METAS',admin:'ADMINISTRAÇÃO'};$('#page-eyebrow').textContent=(sections[view]||'PAINEL')+' · '+new Date($('#month').value+'-01T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).toLocaleUpperCase('pt-BR');
  $('#mobile-sales-gap').textContent='Faltam '+$('#gap-value').textContent;$('#demo').hidden=!cloudProfile||cloudProfile.role==='seller';for(const row of all('#team-body tr'))[...row.children].forEach((td,i)=>td.dataset.label=['Vendedor','Vendas','Atingimento','Status','TM','PA'][i]);
  for(const b of all('.rail [data-view]')){b.setAttribute('aria-label',b.textContent.trim());b.title=b.textContent.trim();}
  if(!$('#seller-goal-add')){const button=document.createElement('button');button.id='seller-goal-add';button.textContent='+ Meta individual';button.type='button';button.onclick=()=>{goalMode='seller';redesignSync();$('#seller-goal-person').focus();};$('#seller-goal-list').closest('article').append(button);}

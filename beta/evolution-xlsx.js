@@ -1,5 +1,6 @@
 import ExcelJS from 'exceljs/dist/exceljs.min.js';
 import {evolutionReport} from './evolution-export.js';
+export {createRankingWorkbook,downloadRanking} from './ranking-xlsx.js';
 const currency='"R$" #,##0.00;[Red]("R$" #,##0.00);"R$" 0.00';
 const rate='0.00;[Red](0.00);0.00';
 const integer='#,##0;[Red](#,##0);0';

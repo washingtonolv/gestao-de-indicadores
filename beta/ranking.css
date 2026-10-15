@@ -1,0 +1,52 @@
+#gi-beta .ranking-controls{margin-bottom:20px}
+#gi-beta .ranking-controls .segments{max-width:100%;width:280px}
+#gi-beta .ranking-fields{display:grid;grid-template-columns:repeat(2,minmax(180px,280px));gap:16px;margin:20px 0}
+#gi-beta .ranking-fields label{display:grid;gap:8px;font-size:13px}
+#gi-beta .ranking-fields select{width:100%;min-height:44px}
+#gi-beta .ranking-controls p{margin:8px 0;color:var(--text-support);font-size:12px;line-height:1.5}
+#gi-beta #ranking-period{font-size:14px;font-weight:600;color:var(--text)}
+#gi-beta .ranking-notice{padding:16px 20px;margin-bottom:20px;border-left:3px solid var(--brand);font-size:13px;line-height:1.6}
+#gi-beta .ranking-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:20px}
+#gi-beta .ranking-highlight{padding:24px;position:relative;min-width:0;border-top:3px solid var(--brand)}
+#gi-beta .ranking-highlight.rank-1{border-top-color:#C48B13}
+#gi-beta .ranking-highlight.rank-2{border-top-color:#64748B}
+#gi-beta .ranking-highlight.rank-3{border-top-color:#B97245}
+#gi-beta .ranking-highlight h2{font-size:16px;line-height:1.5;margin:16px 0 4px;overflow-wrap:anywhere;min-height:48px}
+#gi-beta .ranking-highlight :is(p,small){font-size:12px;color:var(--text-support);display:block}
+#gi-beta .ranking-highlight>strong{display:block;font-size:30px;margin:18px 0 6px;font-weight:700;overflow-wrap:anywhere}
+#gi-beta .ranking-medal{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:14px;background:var(--track);font-size:21px;font-weight:700;margin-right:10px}
+#gi-beta .ranking-highlight-label{font-size:12px;color:var(--text-support)}
+#gi-beta .ranking-rule{font-size:12px;color:var(--text-support);line-height:1.6;margin:12px 0}
+#gi-beta .ranking-table-wrap{overflow:auto;max-height:720px}
+#gi-beta #ranking-table{width:100%;min-width:1120px;table-layout:fixed}
+#gi-beta #ranking-table :is(th,td){padding:16px 10px;white-space:normal;overflow-wrap:anywhere;text-align:right;vertical-align:middle}
+#gi-beta #ranking-table :is(th,td):nth-child(2){width:230px;text-align:left}
+#gi-beta #ranking-table :is(th,td):first-child{width:100px;text-align:left}
+#gi-beta #ranking-table :is(th,td):last-child{width:120px;text-align:left}
+#gi-beta #ranking-table th:nth-child(3),#gi-beta #ranking-table th:nth-child(4){width:130px}
+#gi-beta #ranking-table th{position:sticky;top:0;background:var(--surface);z-index:1}
+#gi-beta .ranking-person strong{font-size:13px;font-weight:600;line-height:1.5}
+#gi-beta #ranking-table small{display:block;margin-top:5px;font-size:11px;color:var(--text-support)}
+#gi-beta .ranking-position{font-size:18px;font-weight:700}
+#gi-beta #ranking-table button{font-size:12px;min-height:44px;padding:8px 10px}
+@media(max-width:1000px){#gi-beta .ranking-podium{gap:10px}#gi-beta .ranking-highlight{padding:18px}#gi-beta .ranking-highlight-label{display:block;margin-top:10px}}
+@media(max-width:759px){
+ #gi-beta .ranking-fields{grid-template-columns:1fr}
+ #gi-beta .ranking-controls .section-head{align-items:stretch}
+ #gi-beta .ranking-controls .segments{width:100%}
+ #gi-beta .ranking-podium{grid-template-columns:1fr}
+ #gi-beta .ranking-highlight h2{min-height:0;margin:12px 0 4px}
+ #gi-beta .ranking-highlight-label{display:inline}
+ #gi-beta .ranking-highlight>strong{font-size:28px;margin-top:12px}
+ #gi-beta .ranking-list{padding:20px 16px}
+ #gi-beta .ranking-table-wrap{overflow:visible;max-height:none}
+ #gi-beta #ranking-table{display:block;min-width:0}
+ #gi-beta #ranking-table thead{display:none}
+ #gi-beta #ranking-table tbody{display:grid;gap:14px}
+ #gi-beta #ranking-table tr{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px;border:1px solid var(--divider);border-radius:12px}
+ #gi-beta #ranking-table td{display:block;padding:0;border:0;width:auto!important;text-align:left!important;min-width:0}
+ #gi-beta #ranking-table td:first-child,#gi-beta #ranking-table td:nth-child(2),#gi-beta #ranking-table td:last-child{grid-column:1/-1}
+ #gi-beta #ranking-table td:first-child{display:flex;gap:12px;align-items:center}
+ #gi-beta #ranking-table td[data-label]:not(:first-child):before{content:attr(data-label);display:block;font-size:11px;color:var(--text-support);margin-bottom:6px}
+ #gi-beta #ranking-table .ranking-action button{width:100%}
+}

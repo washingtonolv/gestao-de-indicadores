@@ -23,6 +23,7 @@
    else if(op==='create-account')reply(id,{ok:true,...await GICloud.createAccount(payload)});
    else if(op==='download-goals'){downloadGoals(payload?.csv);reply(id,{ok:true});}
    else if(op==='export-evolution'){const snapshot=GICloud.evolutionSnapshot(),writer=await loadExcelExport(),now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');await writer.downloadEvolution(snapshot,payload,today);reply(id,{ok:true});}
+   else if(op==='export-ranking'){const snapshot=GICloud.evolutionSnapshot(),writer=await loadExcelExport(),now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');await writer.downloadRanking(snapshot,payload,today);reply(id,{ok:true});}
    else if(op==='export'){const state=await GICloud.read();GICloud.download({...state.data,exportedAt:new Date().toISOString()},'gestao-indicadores-nuvem.json');reply(id,{ok:true,...state});}
    else throw Error('Operação indisponível.');
   }catch(err){reply(id,{ok:false,error:err.message||'Não foi possível conectar. Atualize os dados.'});}
