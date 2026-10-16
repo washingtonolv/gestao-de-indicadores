@@ -9,6 +9,8 @@ const changed=structuredClone(local);changed.entries[0].cents=1500;
 const delta=changesFor(changed,base);assert.equal(delta.length,1);assert.equal(delta[0].action,'update');assert.equal(delta[0].expected,stamp);
 const dailyChanged=structuredClone(local);dailyChanged.admin.sellerDailyGoals[0].cents=1200;const dailyDelta=changesFor(dailyChanged,base);assert.equal(dailyDelta.length,1);assert.equal(dailyDelta[0].table,'gi_seller_daily_goals');assert.equal(dailyDelta[0].action,'update');
 const dailyAdded=structuredClone(local);dailyAdded.admin.sellerDailyGoals.push({sellerId:'seller',date:'2026-10-09',cents:900});assert.equal(changesFor(dailyAdded,base,()=> 'new-daily')[0].row.id,'new-daily');
+const dailyRemoved=structuredClone(local);dailyRemoved.admin.sellerDailyGoals=[];
+assert.deepEqual(changesFor(dailyRemoved,base),[{table:'gi_seller_daily_goals',action:'delete',row:{id:'dg'},expected:stamp}]);
 const renamed=structuredClone(local);renamed.admin.stores[0].name='Centro novo';renamed.entries[0].store='Centro novo';renamed.goals[0].store='Centro novo';
 assert.equal(changesFor(renamed,base).length,1); // Renames preserve result FKs.
 const removed=structuredClone(local);removed.entries=[];assert.equal(changesFor(removed,base)[0].action,'delete');

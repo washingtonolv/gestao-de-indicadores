@@ -82,7 +82,7 @@ function renderSellerDailyGoals(){
  const goals=a.sellerDailyGoals.filter(g=>g.date.startsWith(month)&&a.sellers.some(s=>s.id===g.sellerId&&(!store||a.stores.some(t=>t.id===s.storeId&&same(t.name,store))))).sort((x,y)=>y.date.localeCompare(x.date)||a.sellers.find(s=>s.id===x.sellerId).name.localeCompare(a.sellers.find(s=>s.id===y.sellerId).name,'pt-BR'));
  $('#seller-daily-goal-list').innerHTML=goals.map(g=>{
   const s=a.sellers.find(x=>x.id===g.sellerId),t=a.stores.find(x=>x.id===s.storeId),daily=d.entries.filter(e=>!e.periodStart&&e.date===g.date&&same(e.store,t.name)&&same(e.seller,s.name)),sales=daily.reduce((sum,e)=>sum+e.cents,0),weekly=d.entries.some(e=>e.periodStart&&e.periodStart<=g.date&&e.date>=g.date&&same(e.store,t.name)&&same(e.seller,s.name)),pct=daily.length?sales/g.cents*100:null,status=g.date>today?{...statusFor(null),label:'Período futuro'}:weekly?{...statusFor(null),label:'Sem resultado diário'}:state(pct||0,g.date.slice(0,7),true,daily.length>0);
-  return `<div class="goal-row"><div><strong>${esc(s.name)}</strong><small>${esc(t.name)} · ${g.date.split('-').reverse().join('/')}</small><small>Meta ${money(g.cents)} · ${weekly?'Resultado semanal não distribuído por dia':daily.length?'Realizado '+money(sales)+' · '+num(pct)+'%':'Sem resultado diário'}</small></div><div>${statusChip(status)}<button data-seller-daily-goal="${esc(s.id+'|'+g.date)}">Editar</button></div></div>`;
+  return `<div class="goal-row"><div><strong>${esc(s.name)}</strong><small>${esc(t.name)} · ${g.date.split('-').reverse().join('/')}</small><small>Meta ${money(g.cents)} · ${weekly?'Resultado semanal não distribuído por dia':daily.length?'Realizado '+money(sales)+' · '+num(pct)+'%':'Sem resultado diário'}</small></div><div>${statusChip(status)}<button type="button" data-seller-daily-goal="${esc(s.id+'|'+g.date)}">Editar</button>${!demo&&cloudProfile&&['admin','manager'].includes(cloudProfile.role)?`<button type="button" class="admin-delete" data-delete-seller-daily-goal="${esc(s.id+'|'+g.date)}" aria-label="Excluir meta diária de ${esc(s.name)} em ${g.date.split('-').reverse().join('/')}">Excluir</button>`:''}</div></div>`;
  }).join('')||'<p>Nenhuma meta diária neste período.</p>';
 }
 $('#evo-mode').onchange=()=>{animationIntent=true;renderEvolution();};$('#evo-seller').onchange=()=>{animationIntent=true;renderEvolution();};$('#evo-group').onchange=()=>{animationIntent=true;renderEvolution();};
@@ -100,6 +100,30 @@ root.addEventListener('click',e=>{
  const b=e.target.closest('button[data-seller-daily-goal]');if(!b)return;
  const [sellerId,date]=b.dataset.sellerDailyGoal.split('|'),g=evoData().admin.sellerDailyGoals.find(x=>x.sellerId===sellerId&&x.date===date);if(!g)return;
  goalMode='seller';redesignSync();$('#seller-daily-goal-date').value=g.date;$('#seller-daily-goal-person').value=g.sellerId;$('#seller-daily-goal-value').value=amountInput(g.cents);$('#seller-daily-goal-value').focus();
+});
+root.addEventListener('click',e=>{
+ const button=e.target.closest('button[data-delete-seller-daily-goal]');
+ if(!button||demo||busy||!ready||!['admin','manager'].includes(cloudProfile?.role))return;
+ const [sellerId,date]=button.dataset.deleteSellerDailyGoal.split('|'),
+ goal=db.admin.sellerDailyGoals.find(g=>g.sellerId===sellerId&&g.date===date),
+ seller=db.admin.sellers.find(s=>s.id===sellerId);
+ if(!goal||!seller||(cloudProfile.role==='manager'&&seller.storeId!==cloudProfile.storeId))return;
+ const store=db.admin.stores.find(s=>s.id===seller.storeId),confirmedRevision=revision;
+ $('#confirm-text').textContent=`Excluir a meta diária de ${seller.name} · ${store?.name||''} · ${date.split('-').reverse().join('/')} · ${money(goal.cents)}? Apenas esta meta do dia será removida. Vendas e demais metas serão preservadas.`;
+ let deleting=false,deleted=false;
+ confirmAction=async()=>{
+  if(deleting||deleted)return;
+  if(revision!==confirmedRevision)throw Error('Os dados foram atualizados. Confira a meta e tente novamente.');
+  deleting=true;$('#confirm-yes').disabled=true;
+  try{
+   const next=validateDB(clone());
+   next.admin.sellerDailyGoals=next.admin.sellerDailyGoals.filter(g=>g.sellerId!==sellerId||g.date!==date);
+   await save(next,`Excluiu meta diária de ${seller.name} em ${date}`);deleted=true;
+   if($('#seller-daily-goal-person').value===sellerId&&$('#seller-daily-goal-date').value===date)$('#seller-daily-goal-value').value='';
+   notify('Meta diária excluída.');
+  }finally{deleting=false;$('#confirm-yes').disabled=false;}
+ };
+ $('#confirm-dialog').showModal();
 });
 $('#seller-daily-goal-date').value=today;
 $('#seller-daily-goal-form').onsubmit=async e=>{e.preventDefault();$('#seller-daily-goal-error').textContent='';try{
