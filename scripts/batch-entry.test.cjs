@@ -31,3 +31,11 @@ assert.equal(c.batchEntryPlan(data,{...day,date:'2026-10-08'},[input('s1',123,1,
 const conflict=structuredClone(data);conflict.entries.push({id:'daily',store:'Centro',seller:'Bia',date:'2026-10-12',cents:100,orders:1,pieces:1});
 assert.throws(()=>c.batchEntryPlan(conflict,ctx,[input('s2',200,2,2)],today,admin),/parte deste período/);
 console.log('Batch entries: partial weekly accumulation, date extension, permissions, store isolation, update vs insert, totals and overlap validation passed.');
+
+// History shortcuts preserve edits to archived sellers, without enabling new results.
+const historical={...ctx,editId:'archive',periodEnd:'2026-10-11'};
+const correction=c.batchEntryPlan(data,historical,[input('s4',5000,2,3)],today,admin);
+assert.equal(correction.changes[0].before.id,'archive');
+assert.throws(()=>c.batchEntryPlan(data,{...historical,periodEnd:'2026-10-14'},[input('s4',5000,2,3)],today,admin),/arquivado/);
+assert.throws(()=>c.batchEntryPlan(data,{...historical,periodStart:'2026-10-12',periodEnd:'2026-10-14'},[input('s4',5000,2,3)],today,admin),/arquivado/);
+assert.throws(()=>c.batchEntryScope(data,{...historical,storeId:'a'},today,{role:'manager',storeId:'b'}),/disponível/);

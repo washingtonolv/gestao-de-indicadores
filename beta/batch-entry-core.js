@@ -15,7 +15,8 @@ function weeklyEntryRange(context,today){
 function batchEntryScope(data,context,today,profile){
  const fail=message=>{throw Error(message);},validDate=value=>typeof value==='string'&&/^20\d{2}-\d{2}-\d{2}$/.test(value)&&!isNaN(Date.parse(value))&&new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value;
  if(!profile||!['admin','manager'].includes(profile.role))fail('Somente administradores e gestores podem lançar resultados.');
- const store=data.admin.stores.find(s=>s.id===context.storeId&&s.active);
+ const edit=context.editId?data.entries.find(e=>e.id===context.editId):null;
+ const store=data.admin.stores.find(s=>s.id===context.storeId&&(s.active||edit?.store===s.name));
  if(!store||profile.role==='manager'&&profile.storeId!==store.id)fail('Selecione uma loja ativa disponível para sua conta.');
  let start,end,weekly=context.kind==='weekly';
  if(weekly){
@@ -23,12 +24,13 @@ function batchEntryScope(data,context,today,profile){
  }else if(context.kind==='daily'&&validDate(context.date)){start=end=context.date;}
  else fail('Selecione uma data válida.');
  if(start>today)fail('O lançamento não pode começar em uma data futura.');
- const sellers=data.admin.sellers.filter(s=>s.storeId===store.id&&s.active).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')).map(s=>{
+ const sellers=data.admin.sellers.filter(s=>s.storeId===store.id&&(s.active||edit?.seller===s.name&&edit.store===store.name)).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')).map(s=>{
   const own=data.entries.filter(e=>e.store===store.name&&e.seller===s.name);
   const existing=own.find(e=>weekly?e.periodStart===start:!e.periodStart&&e.date===end);
   const overlap=own.filter(e=>e.id!==existing?.id&&(e.periodStart||e.date)<=end&&start<=e.date);
+  const archived=(!s.active||!store.active)&&(!existing||existing.id!==edit?.id||existing.date!==end);
   const outside=Array.isArray(data.admin.sellerPeriods)&&!data.admin.sellerPeriods.some(p=>p.sellerId===s.id&&(!p.startedOn||p.startedOn<=start)&&(!p.endedOn||p.endedOn>=end));
-  return {...s,existing,conflict:outside||overlap.length>0,blockReason:outside?'Período fora do vínculo nesta loja. Ajuste o início e o fim do acumulado conforme a data da transferência.':''};
+  return {...s,existing,conflict:archived||outside||overlap.length>0,blockReason:archived?'Cadastro arquivado: somente a correção do período original é permitida.':outside?'Período fora do vínculo nesta loja. Ajuste o início e o fim do acumulado conforme a data da transferência.':''};
  });
  if(!sellers.length)fail('Esta loja não tem vendedores ativos cadastrados.');
  return {store,start,end,weekly,sellers};
