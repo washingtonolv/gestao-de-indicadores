@@ -66,3 +66,8 @@ html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,
 #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-ranking-detail]):not(:disabled):hover,
 #gi-beta:has(#empty:not([hidden])) #new-entry.primary:not(:disabled):hover,
 html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-ranking-detail]):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
+
+/* alternadores (Vendedores/Lojas, abas): item selecionado em azul */
+#gi-beta .segments button[aria-pressed=true],#gi-beta .admin-tabs button[aria-pressed=true]{background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
+#gi-beta .has-sliding-pill>.segment-pill,html[data-theme=dark] #gi-beta .has-sliding-pill>.segment-pill{background:#0466C8;box-shadow:none}
+#gi-beta .has-sliding-pill>button[aria-pressed=true],html[data-theme=dark] #gi-beta .has-sliding-pill>button[aria-pressed=true]{color:#FFFFFF;font-weight:600}
