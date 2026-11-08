@@ -60,23 +60,17 @@
 #gi-beta .goal-template-help code{font-family:monospace;background:var(--track,#E6E6E4);color:var(--text-primary);padding:1px 5px;border-radius:5px}
 
 /* botões de ação (CTA) sempre azuis, texto branco (5,6:1) */
-#gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-evo-store],[data-ranking-detail]),
+#gi-beta :is(#ranking-export,#evo-export,#new-entry),
 #gi-beta:has(#empty:not([hidden])) #new-entry.primary,
-html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-evo-store],[data-ranking-detail]){background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
-#gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-evo-store],[data-ranking-detail]):not(:disabled):hover,
+html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#new-entry){background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
+#gi-beta :is(#ranking-export,#evo-export,#new-entry):not(:disabled):hover,
 #gi-beta:has(#empty:not([hidden])) #new-entry.primary:not(:disabled):hover,
-html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-evo-store],[data-ranking-detail]):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
+html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#new-entry):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
 
 /* alternadores (Vendedores/Lojas, abas): item selecionado em azul */
 #gi-beta .segments button[aria-pressed=true],#gi-beta .admin-tabs button[aria-pressed=true]{background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
 #gi-beta .has-sliding-pill>.segment-pill,html[data-theme=dark] #gi-beta .has-sliding-pill>.segment-pill{background:#0466C8;box-shadow:none}
 #gi-beta .has-sliding-pill>button[aria-pressed=true],html[data-theme=dark] #gi-beta .has-sliding-pill>button[aria-pressed=true]{color:#FFFFFF;font-weight:600}
-
-/* importar/exportar metas: botões de ação azuis */
-#gi-beta :is(#goal-export,#goal-template,#goal-import),
-html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import){background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
-#gi-beta :is(#goal-export,#goal-template,#goal-import):not(:disabled):hover,
-html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
 
 /* cabeçalho fixo do ranking: azul claro a 20% translúcido, com desfoque do conteúdo que passa por baixo */
 #gi-beta #ranking-table th{background:linear-gradient(#0466C833,#0466C833),#FFFFFFB3;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#212529}
@@ -136,7 +130,7 @@ html[data-theme=dark] #gi-beta #evo-chart .evo-dot{stroke:#262626}
 #gi-beta:not(.rail-collapsed) .rail .logo{align-self:flex-start;margin:0 0 8px 8px}
 #gi-beta:not(.rail-collapsed) .rail nav{display:flex;flex-direction:column;gap:2px;justify-items:stretch}
 #gi-beta:not(.rail-collapsed) .rail nav>.nav-indicator{display:none!important}
-#gi-beta:not(.rail-collapsed) .rail nav button{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:40px;padding:8px 12px;border-radius:10px;text-align:left;font-size:14px;font-weight:500;color:var(--text-support);transition:background 150ms,color 150ms}
+#gi-beta:not(.rail-collapsed) .rail nav button{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:44px;padding:10px 12px;border-radius:10px;text-align:left;font-size:14px;font-weight:500;color:var(--text-support);transition:background 150ms,color 150ms}
 #gi-beta:not(.rail-collapsed) .rail nav button svg{width:20px;height:20px;margin:0;flex:none}
 #gi-beta:not(.rail-collapsed) .rail nav button span{position:static!important;width:auto!important;max-width:none;padding:0;background:transparent;color:inherit;border-radius:0;font-size:14px!important;font-weight:inherit;opacity:1;transform:none;pointer-events:auto}
 #gi-beta:not(.rail-collapsed) .rail nav button:hover span,#gi-beta:not(.rail-collapsed) .rail nav button:focus-visible span{transform:none}
@@ -157,7 +151,7 @@ html[data-theme=dark] #gi-beta:not(.rail-collapsed) .rail nav button[aria-curren
 /* botão ocultar/mostrar menu */
 #gi-beta .rail-toggle{display:none}
 @media(min-width:761px) and (min-height:501px){
-#gi-beta .rail-toggle{display:flex;align-items:center;gap:12px;margin-top:18px;width:100%;min-height:40px;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--text-support);font-size:13px;font-weight:500;text-align:left;cursor:pointer}
+#gi-beta .rail-toggle{display:flex;align-items:center;gap:12px;margin-top:18px;width:100%;min-height:44px;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--text-support);font-size:13px;font-weight:500;text-align:left;cursor:pointer}
 #gi-beta .rail-toggle svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;transition:transform 200ms}
 #gi-beta .rail-toggle:hover{background:var(--track);color:var(--text)}
 #gi-beta.rail-collapsed .rail-toggle{width:48px;height:48px;padding:0;justify-content:center;align-self:center}
@@ -193,3 +187,17 @@ html[data-theme=dark] #gi-beta .rail-toggle:hover{background:#333333}
 #gi-beta h1{font-size:24px;line-height:32px;letter-spacing:-.3px}
 #gi-beta h2{font-size:20px;line-height:28px}
 }
+
+/* um botão principal (azul cheio) por tela; os demais em contorno */
+#gi-beta :is([data-evo-seller],[data-evo-store],[data-ranking-detail],#seller-goal-add,#goal-export,#goal-template,#goal-import),
+#gi-beta:has(#targets:not([hidden])) #new-entry{background:transparent;border:1px solid #0466C8;color:#0466C8;font-weight:600}
+#gi-beta :is([data-evo-seller],[data-evo-store],[data-ranking-detail],#seller-goal-add,#goal-export,#goal-template,#goal-import):not(:disabled):hover,
+#gi-beta:has(#targets:not([hidden])) #new-entry:not(:disabled):hover{background:#0466C814;border-color:#0353A4;color:#0353A4}
+html[data-theme=dark] #gi-beta :is([data-evo-seller],[data-evo-store],[data-ranking-detail],#seller-goal-add,#goal-export,#goal-template,#goal-import),
+html[data-theme=dark] #gi-beta:has(#targets:not([hidden])) #new-entry{background:transparent;border-color:#6FA8F0;color:#6FA8F0}
+html[data-theme=dark] #gi-beta :is([data-evo-seller],[data-evo-store],[data-ranking-detail],#seller-goal-add,#goal-export,#goal-template,#goal-import):not(:disabled):hover,
+html[data-theme=dark] #gi-beta:has(#targets:not([hidden])) #new-entry:not(:disabled):hover{background:#6FA8F01F;border-color:#9CC3F5;color:#9CC3F5}
+/* listas longas: "Mostrar mais" */
+#gi-beta .show-more{display:block;margin:12px auto 0;min-height:44px;padding:0 20px;border:1px solid var(--divider);background:transparent;color:var(--brand);font-weight:600}
+html[data-theme=dark] #gi-beta .show-more{color:#6FA8F0}
+@media(max-width:759px){#gi-beta .show-more{width:100%}}
