@@ -52,9 +52,27 @@
 }
 
 #gi-beta .ranking-highlight .ranking-trophy{position:absolute;top:20px;right:20px;width:72px;height:72px;pointer-events:none}
-#gi-beta .ranking-highlight .ranking-podium-medal{position:absolute;top:100px;right:36px;width:40px;height:40px;pointer-events:none}
-#gi-beta .ranking-podium-medal svg{display:block;width:100%;height:100%}
 #gi-beta .ranking-trophy svg,#gi-beta .ranking-icon svg{display:block;width:100%;height:100%}
 #gi-beta .ranking-position{display:inline-flex;align-items:center;gap:8px}
 #gi-beta .ranking-icon{display:inline-block;width:24px;height:24px;flex:none}
-@media(max-width:1000px){#gi-beta .ranking-highlight .ranking-trophy{width:56px;height:56px;top:16px;right:16px}#gi-beta .ranking-highlight .ranking-podium-medal{width:34px;height:34px;top:82px;right:27px}}
+@media(max-width:1000px){#gi-beta .ranking-highlight .ranking-trophy{width:56px;height:56px;top:16px;right:16px}}
+
+#gi-beta .ranking-trophy svg{transform-origin:50% 90%}
+#gi-beta .ranking-trophy:before,#gi-beta .ranking-trophy:after{content:"";position:absolute;width:14px;height:14px;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;pointer-events:none;filter:drop-shadow(0 0 3px rgba(255,255,255,.9))}
+#gi-beta .ranking-trophy:before{top:2px;left:-4px}
+#gi-beta .ranking-trophy:after{bottom:26px;right:-6px;width:10px;height:10px}
+@media(prefers-reduced-motion:no-preference){
+#gi-beta .ranking-highlight .ranking-trophy svg{animation:rk-pop .7s cubic-bezier(.34,1.56,.64,1) both}
+#gi-beta .ranking-highlight.rank-2 .ranking-trophy svg{animation-delay:.15s}
+#gi-beta .ranking-highlight.rank-3 .ranking-trophy svg{animation-delay:.3s}
+#gi-beta .ranking-highlight.rank-1 .ranking-trophy svg{animation:rk-pop .7s cubic-bezier(.34,1.56,.64,1) both,rk-wiggle 4s ease-in-out 1.4s infinite}
+#gi-beta .ranking-trophy:before{animation:rk-twinkle 3s ease-in-out 1s infinite}
+#gi-beta .ranking-trophy:after{animation:rk-twinkle 3s ease-in-out 2s infinite}
+#gi-beta .ranking-highlight.rank-2 .ranking-trophy:before{animation-delay:1.4s}
+#gi-beta .ranking-highlight.rank-3 .ranking-trophy:before{animation-delay:1.8s}
+#gi-beta .ranking-highlight.rank-2 .ranking-trophy:after{animation-delay:2.4s}
+#gi-beta .ranking-highlight.rank-3 .ranking-trophy:after{animation-delay:2.8s}
+}
+@keyframes rk-pop{0%{opacity:0;transform:translateY(14px) scale(.4) rotate(-12deg)}100%{opacity:1;transform:none}}
+@keyframes rk-wiggle{0%,82%,100%{transform:rotate(0)}86%{transform:rotate(-7deg)}90%{transform:rotate(6deg)}94%{transform:rotate(-3deg)}}
+@keyframes rk-twinkle{0%,70%,100%{opacity:0;transform:scale(.3) rotate(0)}85%{opacity:1;transform:scale(1) rotate(45deg)}}

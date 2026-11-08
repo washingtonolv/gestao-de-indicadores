@@ -2052,12 +2052,30 @@ html[data-theme=dark] #gi-beta .skeleton-card :is(i,b,small){background-image:li
 }
 
 #gi-beta .ranking-highlight .ranking-trophy{position:absolute;top:20px;right:20px;width:72px;height:72px;pointer-events:none}
-#gi-beta .ranking-highlight .ranking-podium-medal{position:absolute;top:100px;right:36px;width:40px;height:40px;pointer-events:none}
-#gi-beta .ranking-podium-medal svg{display:block;width:100%;height:100%}
 #gi-beta .ranking-trophy svg,#gi-beta .ranking-icon svg{display:block;width:100%;height:100%}
 #gi-beta .ranking-position{display:inline-flex;align-items:center;gap:8px}
 #gi-beta .ranking-icon{display:inline-block;width:24px;height:24px;flex:none}
-@media(max-width:1000px){#gi-beta .ranking-highlight .ranking-trophy{width:56px;height:56px;top:16px;right:16px}#gi-beta .ranking-highlight .ranking-podium-medal{width:34px;height:34px;top:82px;right:27px}}
+@media(max-width:1000px){#gi-beta .ranking-highlight .ranking-trophy{width:56px;height:56px;top:16px;right:16px}}
+
+#gi-beta .ranking-trophy svg{transform-origin:50% 90%}
+#gi-beta .ranking-trophy:before,#gi-beta .ranking-trophy:after{content:&quot;&quot;;position:absolute;width:14px;height:14px;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;pointer-events:none;filter:drop-shadow(0 0 3px rgba(255,255,255,.9))}
+#gi-beta .ranking-trophy:before{top:2px;left:-4px}
+#gi-beta .ranking-trophy:after{bottom:26px;right:-6px;width:10px;height:10px}
+@media(prefers-reduced-motion:no-preference){
+#gi-beta .ranking-highlight .ranking-trophy svg{animation:rk-pop .7s cubic-bezier(.34,1.56,.64,1) both}
+#gi-beta .ranking-highlight.rank-2 .ranking-trophy svg{animation-delay:.15s}
+#gi-beta .ranking-highlight.rank-3 .ranking-trophy svg{animation-delay:.3s}
+#gi-beta .ranking-highlight.rank-1 .ranking-trophy svg{animation:rk-pop .7s cubic-bezier(.34,1.56,.64,1) both,rk-wiggle 4s ease-in-out 1.4s infinite}
+#gi-beta .ranking-trophy:before{animation:rk-twinkle 3s ease-in-out 1s infinite}
+#gi-beta .ranking-trophy:after{animation:rk-twinkle 3s ease-in-out 2s infinite}
+#gi-beta .ranking-highlight.rank-2 .ranking-trophy:before{animation-delay:1.4s}
+#gi-beta .ranking-highlight.rank-3 .ranking-trophy:before{animation-delay:1.8s}
+#gi-beta .ranking-highlight.rank-2 .ranking-trophy:after{animation-delay:2.4s}
+#gi-beta .ranking-highlight.rank-3 .ranking-trophy:after{animation-delay:2.8s}
+}
+@keyframes rk-pop{0%{opacity:0;transform:translateY(14px) scale(.4) rotate(-12deg)}100%{opacity:1;transform:none}}
+@keyframes rk-wiggle{0%,82%,100%{transform:rotate(0)}86%{transform:rotate(-7deg)}90%{transform:rotate(6deg)}94%{transform:rotate(-3deg)}}
+@keyframes rk-twinkle{0%,70%,100%{opacity:0;transform:scale(.3) rotate(0)}85%{opacity:1;transform:scale(1) rotate(45deg)}}
 #gi-beta :is(#seller-move-dialog,#seller-history-dialog){width:720px;max-width:calc(100vw - 32px);max-height:90vh;overflow:auto;background:var(--surface);color:var(--text);border-color:var(--divider)}
 #gi-beta #seller-move-fields{padding:0;margin:0;border:0;min-width:0}
 #gi-beta #seller-move-dialog :is(input,select,textarea){max-width:100%;min-height:44px}
@@ -3189,7 +3207,7 @@ function renderRanking(){
  const medalTiers={1:[&#x27;#EFC55D&#x27;,&#x27;#D8B254&#x27;,&#x27;#E25B4C&#x27;,&#x27;#C0392B&#x27;],2:[&#x27;#D3DAE3&#x27;,&#x27;#AAB3BF&#x27;,&#x27;#5B8DEF&#x27;,&#x27;#3F6FD1&#x27;],3:[&#x27;#D99A62&#x27;,&#x27;#B8763F&#x27;,&#x27;#4FA67A&#x27;,&#x27;#388A60&#x27;]};
  const medalSvg=rank=&gt;{const [fill,ring,r1,r2]=medalTiers[rank]||[&#x27;#CBD2DA&#x27;,&#x27;#AEB6C0&#x27;,&#x27;#98A2AE&#x27;,&#x27;#7E8995&#x27;];return `&lt;svg viewBox=&quot;0 0 512 512&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path d=&quot;M330 0H472L345 182L255 160Z&quot; fill=&quot;${r2}&quot;/&gt;&lt;path d=&quot;M40 0H190L300 165L170 190Z&quot; fill=&quot;${r1}&quot;/&gt;&lt;circle cx=&quot;264&quot; cy=&quot;336&quot; r=&quot;176&quot; fill=&quot;${fill}&quot;/&gt;&lt;circle cx=&quot;264&quot; cy=&quot;336&quot; r=&quot;112&quot; fill=&quot;none&quot; stroke=&quot;${ring}&quot; stroke-width=&quot;32&quot;/&gt;&lt;/svg&gt;`;};
  const rankIcon=rank=&gt;medalSvg(rank);
-  $(&#x27;#ranking-podium&#x27;).innerHTML=report.rows.filter(r=&gt;r.rank!==null).slice(0,3).map(r=&gt;`&lt;article class=&quot;card ranking-highlight rank-${Math.min(r.rank,3)}&quot;&gt;&lt;span class=&quot;ranking-medal&quot; aria-label=&quot;Posição ${r.rank}&quot;&gt;${r.rank}º&lt;/span&gt;&lt;span class=&quot;ranking-trophy&quot; aria-hidden=&quot;true&quot;&gt;${trophySvg(Math.min(r.rank,3))}&lt;/span&gt;&lt;span class=&quot;ranking-podium-medal&quot; aria-hidden=&quot;true&quot;&gt;${medalSvg(Math.min(r.rank,3))}&lt;/span&gt;&lt;span class=&quot;ranking-highlight-label&quot;&gt;${esc(rankingCriteria[criterion])}&lt;/span&gt;&lt;h2&gt;${esc(r.name)}&lt;/h2&gt;${report.mode===&#x27;sellers&#x27;?`&lt;p&gt;${esc(r.storeName)}&lt;/p&gt;`:&#x27;&#x27;}&lt;strong&gt;${esc(rankingMetric(r,criterion))}&lt;/strong&gt;&lt;small&gt;${money(r.cents)} em vendas&lt;/small&gt;&lt;/article&gt;`).join(&#x27;&#x27;);
+  $(&#x27;#ranking-podium&#x27;).innerHTML=report.rows.filter(r=&gt;r.rank!==null).slice(0,3).map(r=&gt;`&lt;article class=&quot;card ranking-highlight rank-${Math.min(r.rank,3)}&quot;&gt;&lt;span class=&quot;ranking-medal&quot; aria-label=&quot;Posição ${r.rank}&quot;&gt;${r.rank}º&lt;/span&gt;&lt;span class=&quot;ranking-trophy&quot; aria-hidden=&quot;true&quot;&gt;${trophySvg(Math.min(r.rank,3))}&lt;/span&gt;&lt;span class=&quot;ranking-highlight-label&quot;&gt;${esc(rankingCriteria[criterion])}&lt;/span&gt;&lt;h2&gt;${esc(r.name)}&lt;/h2&gt;${report.mode===&#x27;sellers&#x27;?`&lt;p&gt;${esc(r.storeName)}&lt;/p&gt;`:&#x27;&#x27;}&lt;strong&gt;${esc(rankingMetric(r,criterion))}&lt;/strong&gt;&lt;small&gt;${money(r.cents)} em vendas&lt;/small&gt;&lt;/article&gt;`).join(&#x27;&#x27;);
   $(&#x27;#ranking-name-head&#x27;).textContent=report.mode===&#x27;stores&#x27;?&#x27;Loja&#x27;:&#x27;Vendedor / Loja&#x27;;
   $(&#x27;#ranking-count&#x27;).textContent=`${report.rows.length} participante(s) · ${report.rankedCount} com posição · ${rankingCriteria[criterion]}`;
   $(&#x27;#ranking-body&#x27;).innerHTML=report.rows.map(r=&gt;`&lt;tr&gt;&lt;td data-label=&quot;Posição&quot;&gt;&lt;span class=&quot;ranking-position&quot;&gt;${r.rank===null?&#x27;&#x27;:`&lt;span class=&quot;ranking-icon&quot;&gt;${rankIcon(r.rank)}&lt;/span&gt;`}${r.rank===null?&#x27;—&#x27;:r.rank+&#x27;º&#x27;}&lt;/span&gt;${r.reason?`&lt;small class=&quot;ranking-reason&quot;&gt;${esc(r.reason)}&lt;/small&gt;`:&#x27;&#x27;}&lt;/td&gt;&lt;td class=&quot;ranking-person&quot;&gt;&lt;strong&gt;${esc(r.name)}&lt;/strong&gt;${report.mode===&#x27;sellers&#x27;?`&lt;small&gt;${esc(r.storeName)}&lt;/small&gt;`:&#x27;&#x27;}${r.active?&#x27;&#x27;:&#x27;&lt;small&gt;Arquivado · resultado histórico&lt;/small&gt;&#x27;}&lt;/td&gt;&lt;td data-label=&quot;Vendas líquidas&quot;&gt;${money(r.cents)}&lt;/td&gt;&lt;td data-label=&quot;Meta do período&quot;&gt;${r.goal?money(r.goal):&#x27;Sem meta&#x27;}&lt;/td&gt;&lt;td data-label=&quot;Atingimento&quot;&gt;${r.attainment===null?&#x27;—&#x27;:num(r.attainment)+&#x27;%&#x27;}&lt;/td&gt;&lt;td data-label=&quot;Ticket médio&quot;&gt;${r.tm===null?&#x27;—&#x27;:money(Math.round(r.tm))}&lt;/td&gt;&lt;td data-label=&quot;P.A.&quot;&gt;${r.pa===null?&#x27;—&#x27;:num(r.pa)}&lt;/td&gt;&lt;td data-label=&quot;Atendimentos&quot;&gt;${num(r.orders)}&lt;/td&gt;&lt;td data-label=&quot;Peças&quot;&gt;${num(r.pieces)}&lt;/td&gt;&lt;td class=&quot;ranking-action&quot;&gt;&lt;button type=&quot;button&quot; data-ranking-detail=&quot;${r.id}&quot; data-ranking-store=&quot;${esc(r.storeName)}&quot; data-ranking-kind=&quot;${report.mode}&quot;&gt;Ver evolução&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`).join(&#x27;&#x27;)||&#x27;&lt;tr&gt;&lt;td colspan=&quot;10&quot;&gt;Nenhum participante disponível para estes filtros.&lt;/td&gt;&lt;/tr&gt;&#x27;;
