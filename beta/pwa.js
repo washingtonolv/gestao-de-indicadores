@@ -2,7 +2,7 @@
   const standalone = window.matchMedia('(display-mode: standalone)');
   let installPrompt = null;
   const css = document.createElement('style');
-  css.textContent = `.gi-install{margin:12px 8px 0 0}#gi-install-dialog{box-sizing:border-box;width:calc(100% - 32px);max-width:480px;padding:28px;border:1px solid #E5E7EB;border-radius:24px;background:#fff;color:#1F2937;font:16px system-ui;box-shadow:0 24px 80px #1F293730}#gi-install-dialog::backdrop{background:#1F293755;backdrop-filter:blur(4px)}#gi-install-dialog h2{margin:0 0 16px;font-size:24px}#gi-install-dialog li{margin:14px 0;line-height:1.6}#gi-install-dialog p{color:#6B7280;line-height:1.6}#gi-install-dialog button{min-height:44px;padding:12px 20px;border:0;border-radius:12px;background:#3B82F6;color:#171717;font:600 16px system-ui;cursor:pointer}.gi-install:focus-visible,#gi-install-dialog button:focus-visible{outline:3px solid #3B82F6;outline-offset:3px}`;
+  css.textContent = `.gi-install{margin:12px 8px 0 0}#cloud-bar .gi-install{margin:0}#gi-install-dialog{box-sizing:border-box;width:calc(100% - 32px);max-width:480px;padding:28px;border:1px solid #E5E7EB;border-radius:24px;background:#fff;color:#1F2937;font:16px system-ui;box-shadow:0 24px 80px #1F293730}#gi-install-dialog::backdrop{background:#1F293755;backdrop-filter:blur(4px)}#gi-install-dialog h2{margin:0 0 16px;font-size:24px}#gi-install-dialog li{margin:14px 0;line-height:1.6}#gi-install-dialog p{color:#6B7280;line-height:1.6}#gi-install-dialog button{min-height:44px;padding:12px 20px;border:0;border-radius:12px;background:#3B82F6;color:#171717;font:600 16px system-ui;cursor:pointer}.gi-install:focus-visible,#gi-install-dialog button:focus-visible{outline:3px solid #3B82F6;outline-offset:3px}`;
   document.head.append(css);
   const dialog = document.createElement('dialog');
   dialog.id = 'gi-install-dialog';
@@ -16,7 +16,8 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'gi-install';
-    button.textContent = 'Instalar aplicativo';
+    if (id === 'cloud-bar') { button.classList.add('gi-icon-btn'); button.innerHTML = '<svg class="gi-ico" viewBox="0 -960 960 960" aria-hidden="true"><path d="M330-120v-80H140q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h360v60H140v520h680v-140h60v140q0 24-18 42t-42 18H630v80H330Zm350-294L494-600l42-42 114 114v-312h60v312l114-114 42 42-186 186Z"/></svg>'; button.setAttribute('aria-label', 'Instalar aplicativo'); button.title = 'Instalar aplicativo'; }
+    else button.textContent = 'Instalar aplicativo';
     button.addEventListener('click', async () => {
       if (!installPrompt) { dialog.showModal(); return; }
       const prompt = installPrompt;
