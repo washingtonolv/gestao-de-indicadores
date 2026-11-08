@@ -1,13 +1,13 @@
 #gi-beta{--ease-out:cubic-bezier(.2,.7,.3,1);--t-fast:150ms;--t-base:250ms;--t-slow:600ms;--t-enter:1200ms;--focus-ring:0 0 0 4px #DBEAFE}
-#gi-beta :is(button,input,select):focus-visible{outline:2px solid #3B82F6;outline-offset:2px;box-shadow:var(--focus-ring)}
+#gi-beta :is(button,input,select):focus-visible{outline:2px solid #0466C8;outline-offset:2px;box-shadow:var(--focus-ring)}
 #gi-beta button{transition:background-color var(--t-fast),border-color var(--t-fast),box-shadow var(--t-fast),transform 100ms;color:var(--text)}
 #gi-beta button:active{transform:scale(.97)}
 #gi-beta button:not(:disabled):hover{border-color:#171717;background:#FAFAF9;box-shadow:0 4px 12px #17171712}
-#gi-beta button.primary:not(:disabled):hover{background:#2563EB;border-color:#2563EB;color:#fff;box-shadow:0 6px 16px -6px #3B82F699}
-#gi-beta :is(.history-actions,.admin-row .actions,.goal-row)>button:hover,[data-edit]:hover{border-color:#3B82F6}
+#gi-beta button.primary:not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#fff;box-shadow:0 6px 16px -6px #0466C899}
+#gi-beta :is(.history-actions,.admin-row .actions,.goal-row)>button:hover,[data-edit]:hover{border-color:#0466C8}
 #gi-beta :is(.danger,.admin-delete,[data-delete]):hover{border-color:#FCA5A5;background:#FEF2F2;color:#B91C1C}
 #gi-beta :is(input,select){transition:background-color var(--t-fast),border-color var(--t-fast),box-shadow var(--t-fast)}
-#gi-beta :is(input,select):focus-visible{border-color:#3B82F6;box-shadow:var(--focus-ring)}
+#gi-beta :is(input,select):focus-visible{border-color:#0466C8;box-shadow:var(--focus-ring)}
 #gi-beta .card.is-interactive{transition:transform 200ms var(--ease-out),box-shadow 200ms,border-color 200ms}
 #gi-beta .card.is-interactive:hover,#gi-beta .card.is-interactive:focus-visible{transform:translateY(-3px);box-shadow:0 14px 30px -14px #17171747;border-color:#BFDBFE}
 #gi-beta .history-row,#gi-beta .goal-row,#gi-beta .admin-row{border-radius:12px;transition:background-color var(--t-fast)}
@@ -38,16 +38,16 @@
 #gi-beta .week .track span,#gi-beta .goal-metrics .track span,#gi-beta #evo-goal-bar,#gi-beta .seller-card .track span{transition-delay:calc(300ms + var(--stagger-index,0)*80ms)}
 #gi-beta :is(#chart,#evo-chart) svg.has-highlight [data-chart-point]:not([data-active=true]),#gi-beta #evo-chart svg.has-highlight [data-evo-point]:not([data-active=true]){opacity:.2}
 #gi-beta :is(#chart,#evo-chart) [data-chart-point],#gi-beta #evo-chart [data-evo-point]{cursor:pointer;transition:opacity 150ms,color 150ms}
-#gi-beta :is(#chart,#evo-chart) [data-chart-point][data-active=true] circle:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point][data-active=true] rect:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point][data-active=true] circle:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point][data-active=true] rect:not([fill=transparent]){fill:#3B82F6!important}
-#gi-beta :is(#chart,#evo-chart) [data-chart-point]:hover circle:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point]:focus-visible circle:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point]:hover rect:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point]:focus-visible rect:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:hover circle:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:focus-visible circle:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:hover rect:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:focus-visible rect:not([fill=transparent]){fill:#3B82F6!important}
-#gi-beta :is(#chart,#evo-chart) [data-chart-point]:focus-visible,#gi-beta #evo-chart [data-evo-point]:focus-visible{outline:none;filter:drop-shadow(0 0 2px #3B82F6)}
+#gi-beta :is(#chart,#evo-chart) [data-chart-point][data-active=true] circle:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point][data-active=true] rect:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point][data-active=true] circle:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point][data-active=true] rect:not([fill=transparent]){fill:#0466C8!important}
+#gi-beta :is(#chart,#evo-chart) [data-chart-point]:hover circle:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point]:focus-visible circle:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point]:hover rect:not([fill=transparent]),#gi-beta :is(#chart,#evo-chart) [data-chart-point]:focus-visible rect:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:hover circle:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:focus-visible circle:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:hover rect:not([fill=transparent]),#gi-beta #evo-chart [data-evo-point]:focus-visible rect:not([fill=transparent]){fill:#0466C8!important}
+#gi-beta :is(#chart,#evo-chart) [data-chart-point]:focus-visible,#gi-beta #evo-chart [data-evo-point]:focus-visible{outline:none;filter:drop-shadow(0 0 2px #0466C8)}
 #gi-beta .chart-line{transition:stroke-dasharray 600ms var(--ease-out)}
 #gi-beta .chart-bar{transform-box:fill-box;transform-origin:center bottom;transition:transform 600ms var(--ease-out);transition-delay:calc(var(--stagger-index,0)*18ms)}
 #gi-beta .sales-tooltip{position:absolute;z-index:8;max-width:min(260px,90%);white-space:pre-line;pointer-events:none;background:#171717;color:#fff;border-radius:10px;padding:8px 12px;font-size:12px;box-shadow:0 8px 20px #17171733;opacity:1;transition:left 150ms var(--ease-out),opacity 150ms}
 #gi-beta .sales-tooltip[hidden]{display:none}
 #gi-beta #chart,#gi-beta #evo-chart{position:relative}
 #gi-beta #toast{position:fixed;z-index:1200;right:24px;bottom:24px;max-width:min(360px,calc(100vw - 32px));min-height:0;margin:0;padding:12px 16px 12px 34px;border-radius:12px;background:#171717;color:#fff;box-shadow:0 8px 24px #17171733;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 300ms var(--ease-out),transform 300ms var(--ease-out)}
-#gi-beta #toast:before{content:'';position:absolute;left:14px;top:50%;width:8px;height:8px;border-radius:50%;background:#3B82F6;transform:translateY(-50%)}
+#gi-beta #toast:before{content:'';position:absolute;left:14px;top:50%;width:8px;height:8px;border-radius:50%;background:#0466C8;transform:translateY(-50%)}
 #gi-beta #toast.is-success:before{background:#10B981}
 #gi-beta #toast.is-visible{opacity:1;transform:translateY(0)}
 #gi-beta .save-spinner{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:8px;border:2px solid #fff;border-right-color:transparent;border-radius:50%;animation:save-spin .7s linear infinite}
