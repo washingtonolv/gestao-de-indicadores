@@ -81,3 +81,22 @@ html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import):not
 /* cabeçalho fixo do ranking: azul claro a 20% translúcido, com desfoque do conteúdo que passa por baixo */
 #gi-beta #ranking-table th{background:linear-gradient(#0466C833,#0466C833),#FFFFFFB3;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#212529}
 html[data-theme=dark] #gi-beta #ranking-table th{background:linear-gradient(#0466C833,#0466C833),#262626B3;color:#F5F5F5}
+
+/* gráfico de evolução: linha suave com degradê azul, brilho ao fundo, guia vertical e etiqueta do dia */
+#gi-beta .chart-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 22px 0}
+#gi-beta .chart-card .chart-head{padding-top:16px;align-items:flex-end}
+#gi-beta .chart-total{text-align:right;min-width:0}
+#gi-beta .chart-total strong{display:block;font-size:30px;font-weight:600;letter-spacing:-1px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text)}
+#gi-beta .chart-total small{display:block;margin-top:4px;font-size:12px;color:var(--text-support)}
+#gi-beta .chart-card #chart{border-radius:0 0 16px 16px;background:radial-gradient(ellipse 45% 55% at 12% 85%,#0466C81f,transparent),radial-gradient(ellipse 40% 60% at 88% 35%,#6FA8F02e,transparent)}
+#gi-beta .chart-card[data-chart-mode=day] .chart-legend span:nth-child(2){display:none}
+#gi-beta #chart svg .chart-guide{stroke:#212529}
+#gi-beta #chart svg .chart-chip rect{fill:#FFFFFF;stroke:#CED4DA}
+#gi-beta #chart svg .chart-chip text{fill:#212529;font:600 12px Inter,Arial}
+#gi-beta #chart .chart-point circle:not(.point-ring){opacity:0;transition:opacity 150ms}
+#gi-beta #chart .chart-point[data-active=true] circle:not(.point-ring){opacity:1;fill:#0466C8;stroke:#FFFFFF;stroke-width:2.5;r:6}
+html[data-theme=dark] #gi-beta #chart svg .chart-guide{stroke:#F5F5F5}
+html[data-theme=dark] #gi-beta #chart svg .chart-chip rect{fill:#F5F5F5;stroke:#F5F5F5}
+html[data-theme=dark] #gi-beta #chart svg .chart-chip text{fill:#171717}
+html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(.point-ring){stroke:#262626}
+@media(max-width:760px){#gi-beta .chart-total strong{font-size:24px}#gi-beta .chart-controls{padding:16px 16px 0}}
