@@ -7,17 +7,17 @@
 
   /* superfícies e texto */
   --background:#DEDEDE;
-  --foreground:#171717;
+  --foreground:#212529;
   --card:rgba(255,255,255,.82);
-  --card-foreground:#171717;
+  --card-foreground:#212529;
   --popover:#FFFFFF;
-  --popover-foreground:#171717;
+  --popover-foreground:#212529;
   --muted:#EDEDED;
-  --muted-foreground:#4D4D4D;
+  --muted-foreground:#495057;
   --secondary:#FFFFFF;
-  --secondary-foreground:#171717;
+  --secondary-foreground:#212529;
   --accent:#F1F1F1;
-  --accent-foreground:#171717;
+  --accent-foreground:#212529;
 
   /* marca: azul só em ações e destaques; texto branco por contraste (4,9:1) */
   --primary:#0077B6;
@@ -40,17 +40,17 @@
 
 html.dark{
   --background:#111827;
-  --foreground:#F9FAFB;
+  --foreground:#F8F9FA;
   --card:rgba(31,41,55,.88);
-  --card-foreground:#F9FAFB;
+  --card-foreground:#F8F9FA;
   --popover:#1F2937;
-  --popover-foreground:#F9FAFB;
+  --popover-foreground:#F8F9FA;
   --muted:#273449;
-  --muted-foreground:#CBD5E1;
+  --muted-foreground:#CED4DA;
   --secondary:#273449;
-  --secondary-foreground:#F9FAFB;
+  --secondary-foreground:#F8F9FA;
   --accent:#374151;
-  --accent-foreground:#F9FAFB;
+  --accent-foreground:#F8F9FA;
   --primary:#0077B6;
   --primary-foreground:#FFFFFF;
   --border:#374151;
@@ -98,7 +98,7 @@ html.dark .card{border-color:#374151}
 
 /* ---------- badges de resultado: marca + rótulo, fundo opaco, texto escuro ---------- */
 .badge[data-resultado]{
-  background:var(--fundo);color:#171717;border:1px solid rgba(23,23,23,.28);
+  background:var(--fundo);color:#212529;border:1px solid rgba(23,23,23,.28);
   font-weight:600;padding-inline:.6rem
 }
 .badge[data-resultado]::before{
@@ -114,9 +114,9 @@ html.dark .card{border-color:#374151}
 .progress[data-resultado] span{background:var(--marca)}
 
 /* alertas por tom (fundo claro e texto escuro nos dois modos) */
-.alert[data-resultado]{background:var(--fundo);color:#171717;border-color:var(--marca);border-inline-start-width:5px}
-.alert[data-resultado] section{color:#171717}
-.alert[data-resultado] svg{color:#171717}
+.alert[data-resultado]{background:var(--fundo);color:#212529;border-color:var(--marca);border-inline-start-width:5px}
+.alert[data-resultado] section{color:#212529}
+.alert[data-resultado] svg{color:#212529}
 
 /* no escuro, o azul da marca sobre o fundo dá só 3,6:1; links usam um tom mais claro (7,8:1) */
 html.dark .btn[data-variant=link]{color:#5BB5E8}
