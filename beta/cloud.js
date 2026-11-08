@@ -20,7 +20,7 @@ const loginEmail=value=>{const login=value.trim().toLowerCase();return login.inc
 const el=id=>document.getElementById(id);
 let publicPreview=false;
 el('show-password').onclick=()=>{const visible=el('cloud-password').type==='password';el('cloud-password').type=visible?'text':'password';el('show-password').textContent=visible?'Ocultar senha':'Mostrar senha';el('show-password').setAttribute('aria-pressed',String(visible));};
-const previewBack=document.createElement('button');previewBack.id='preview-back';previewBack.textContent='← Voltar ao login';previewBack.hidden=true;login.after(previewBack);
+const previewBack=document.createElement('button');previewBack.id='preview-back';previewBack.innerHTML='<svg class="gi-ico" viewBox="0 -960 960 960" aria-hidden="true"><path d="m274-450 248 248-42 42-320-320 320-320 42 42-248 248h526v60H274Z"/></svg> Voltar ao login';previewBack.hidden=true;login.after(previewBack);
 el('cloud-example').onclick=()=>{publicPreview=true;login.hidden=true;frame.style.display='block';previewBack.hidden=false;frame.contentWindow.postMessage({type:'gi-public-preview'},'*');};
 previewBack.onclick=()=>{publicPreview=false;previewBack.hidden=true;frame.style.display='none';login.hidden=false;};
 
