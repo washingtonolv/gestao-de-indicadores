@@ -56,7 +56,7 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
 <!-- 1. CORES -->
 <section class="sec" aria-labelledby="s-cores">
   <h2 id="s-cores">1. Cores e tokens</h2>
-  <p class="d">Cada cor tem um papel fixo. O azul é só marca e ação e nunca indica resultado. Vermelho, amarelo e verde ficam reservados ao resultado. Texto branco sobre o azul dá contraste de 4,9:1 (texto escuro daria só 3,7:1).</p>
+  <p class="d">Cada cor tem um papel fixo. O azul é só marca e ação e nunca indica resultado. Vermelho, amarelo e verde ficam reservados ao resultado. O azul ocupa só uns 10% da tela e aparece numa escala de tons (veja abaixo); texto branco sobre o azul de ação dá 5,6:1.</p>
   <div class="grid g4">
     <div class="sw"><i style="background:#212529"></i><div><b>Texto principal</b><span>#212529 · escuro: #F8F9FA</span></div></div>
     <div class="sw"><i style="background:#495057"></i><div><b>Texto de apoio</b><span>#495057 · escuro: #CED4DA</span></div></div>
@@ -65,7 +65,17 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
     <div class="sw"><i style="background:#E9ECEF"></i><div><b>Áreas discretas</b><span>#E9ECEF · cabeçalho e rodapé de tabela</span></div></div>
     <div class="sw"><i style="background:#CED4DA"></i><div><b>Linhas e divisórias</b><span>#CED4DA</span></div></div>
     <div class="sw"><i style="background:#ADB5BD"></i><div><b>Detalhe decorativo</b><span>#ADB5BD · nunca em texto</span></div></div>
-    <div class="sw"><i style="background:#0077B6"></i><div><b>Marca e ações</b><span>#0077B6</span></div></div>
+    <div class="sw"><i style="background:#0466C8"></i><div><b>Ação primária</b><span>#0466C8 · texto branco 5,6:1</span></div></div>
+    <div class="sw"><i style="background:#0353A4"></i><div><b>Passar o mouse e links</b><span>#0353A4</span></div></div>
+    <div class="sw"><i style="background:#023E7D"></i><div><b>Botão pressionado</b><span>#023E7D</span></div></div>
+    <div class="sw"><i style="background:#002855"></i><div><b>Item ativo do menu</b><span>#002855</span></div></div>
+    <div class="sw"><i style="background:#979DAC"></i><div><b>Primário desabilitado</b><span>#979DAC</span></div></div>
+    <div class="sw"><i style="background:#6FA8F0"></i><div><b>Link no modo escuro</b><span>#6FA8F0 · fora da paleta</span></div></div>
+    <div class="sw"><i style="background:#001845"></i><div><b>Reservado</b><span>#001845</span></div></div>
+    <div class="sw"><i style="background:#001233"></i><div><b>Reservado</b><span>#001233</span></div></div>
+    <div class="sw"><i style="background:#33415C"></i><div><b>Reservado</b><span>#33415C</span></div></div>
+    <div class="sw"><i style="background:#5C677D"></i><div><b>Reservado</b><span>#5C677D</span></div></div>
+    <div class="sw"><i style="background:#7D8597"></i><div><b>Reservado</b><span>#7D8597</span></div></div>
     <div class="sw"><i style="background:#EF4444"></i><div><b>Crítico (marca)</b><span>#EF4444 · fundo #FEE2E2</span></div></div>
     <div class="sw"><i style="background:#F59E0B"></i><div><b>Atenção (marca)</b><span>#F59E0B · fundo #FEF3C7</span></div></div>
     <div class="sw"><i style="background:#10B981"></i><div><b>Atingida (marca)</b><span>#10B981 · fundo #DCFCE7</span></div></div>
@@ -238,9 +248,24 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
   </div>
 </section>
 
-<!-- 10. MENU, TOOLTIP, TOAST -->
+<!-- 10. NAVEGAÇÃO -->
+<section class="sec" aria-labelledby="s-nav">
+  <h2 id="s-nav">10. Navegação</h2>
+  <p class="d">O item da página atual fica em azul-marinho #002855 com texto branco (14,6:1); no modo escuro usa #0353A4 (7,6:1). Ele é marcado com <code>aria-current="page"</code>. Passar o mouse só clareia o fundo.</p>
+  <div class="card" style="max-width:320px"><section>
+    <nav class="nav-lateral" aria-label="Seções do painel">
+      <a href="#s-nav" aria-current="page" onclick="return false">Painel</a>
+      <a href="#s-nav" onclick="return false">Lançamentos</a>
+      <a href="#s-nav" onclick="return false">Ranking</a>
+      <a href="#s-nav" onclick="return false">Evolução</a>
+      <a href="#s-nav" onclick="return false">Administração</a>
+    </nav>
+  </section></div>
+</section>
+
+<!-- 11. MENU, TOOLTIP, TOAST -->
 <section class="sec" aria-labelledby="s-menu">
-  <h2 id="s-menu">10. Menu, dica e aviso rápido</h2>
+  <h2 id="s-menu">11. Menu, dica e aviso rápido</h2>
   <p class="d">Menu de ações por teclado, dica com explicação curta e aviso rápido (toast) que some sozinho.</p>
   <div class="card"><section class="row">
     <div id="dd" class="dropdown-menu">
@@ -262,9 +287,9 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
   <div id="toaster" class="toaster"></div>
 </section>
 
-<!-- 11. JANELAS -->
+<!-- 12. JANELAS -->
 <section class="sec" aria-labelledby="s-dlg">
-  <h2 id="s-dlg">11. Janelas</h2>
+  <h2 id="s-dlg">12. Janelas</h2>
   <p class="d">Janela de formulário e confirmação de ação destrutiva. Esc fecha, o foco fica preso dentro e volta ao botão de origem.</p>
   <div class="dlgwrap">
     <button type="button" class="btn" data-variant="outline" onclick="document.getElementById('dlg-form').showModal()">Editar meta</button>
@@ -290,9 +315,9 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
   </dialog>
 </section>
 
-<!-- 12. CARREGANDO -->
+<!-- 13. CARREGANDO -->
 <section class="sec" aria-labelledby="s-skel">
-  <h2 id="s-skel">12. Estado de carregamento</h2>
+  <h2 id="s-skel">13. Estado de carregamento</h2>
   <p class="d">Esqueleto no lugar do conteúdo enquanto os dados online chegam, sem números piscando.</p>
   <div class="card" aria-busy="true"><section class="grid" style="gap:10px">
     <div class="skeleton" style="height:14px;width:40%"></div>
