@@ -13,7 +13,7 @@ O salvamento calcula diferenças em relação aos registros carregados e envia a
 1. Entre com a conta cadastrada.
 2. O administrador cadastra lojas e vendedores em Admin.
 3. Administrador ou gestor registra resultados e metas.
-4. Em outro dispositivo, entre com a mesma conta. Use **Atualizar dados** para buscar alterações de outras sessões. Não há atualização em tempo real nesta versão.
+4. Em outro dispositivo, entre com a mesma conta. Toque no ícone de atualizar (setas circulares, no alto da tela, com a dica “Atualizar dados”) para buscar alterações de outras sessões. Não há atualização em tempo real nesta versão.
 5. **Sair** encerra a sessão desta aba. Backup exporta somente os dados permitidos ao perfil.
 
 ## Limitações explícitas
