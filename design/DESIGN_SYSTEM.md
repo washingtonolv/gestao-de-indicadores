@@ -1,10 +1,10 @@
 # Gestão de indicadores — Design system
 
-Versão 0.5 • Proposta visual • 03/10/2026
+Versão 0.6 • Proposta visual • 08/11/2026
 
 ## Refinamento pelas referências de dashboard
 
-As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A nova referência define preto #171717, laranja #FF5E2C, cinza-escuro #4D4D4D e cinza-claro #DEDEDE. Fundos claros, cartões translúcidos, bordas brancas e gradientes suaves dão leveza ao painel. O laranja fica restrito aos destaques e ações. Gráficos usam a paleta de indicadores: vermelho, amarelo e verde.
+As duas imagens fornecidas pelo usuário orientam a composição: navegação lateral compacta, cartões claros, números com hierarquia, gráfico principal amplo, medidor semicircular e módulos alinhados. A paleta atual (v0.6) usa cinzas neutros #F8F9FA a #212529 e uma escala de azuis a partir de #0466C8; a referência anterior (laranja #FF5E2C) foi substituída. Fundos claros, cartões translúcidos, bordas brancas e gradientes suaves dão leveza ao painel. O azul fica restrito aos destaques e ações. Gráficos usam a paleta de indicadores: vermelho, amarelo e verde.
 
 O painel passa a abrir primeiro. A navegação lateral mantém Painel, Design e Estados; em telas pequenas, transforma-se em navegação horizontal. Os cartões superiores mostram meta mensal, vendas, TM e PA. O valor faltante acompanha o medidor para evitar duplicar o atingimento em dois lugares.
 
@@ -18,17 +18,27 @@ Definir identidade visual, componentes, organização do painel e estados de int
 
 ## Direção visual
 
-Interface clara e leve. A preferência atual pela nova paleta e transparência substitui a distribuição anterior de cores sólidas. Preto para números e títulos; cinza-escuro para apoio; cinza-claro e branco translúcido nas superfícies. Vermelho, amarelo e verde continuam reservados ao significado dos resultados. O laranja da marca não indica atenção ou urgência.
+Interface clara e leve. A preferência atual pela nova paleta e transparência substitui a distribuição anterior de cores sólidas. Cinza quase preto para números e títulos; cinza-médio para apoio; cinza-claro e branco translúcido nas superfícies. Vermelho, amarelo e verde continuam reservados ao significado dos resultados. O azul da marca não indica atenção ou urgência.
 
 ## Cores
 
 | Token | HEX | Uso |
 | --- | --- | --- |
-| text | #171717 | Títulos, valores e controles |
-| text-support | #4D4D4D | Informações de apoio |
-| canvas | #DEDEDE | Base cinza-clara, suavizada com branco em gradiente |
+| text | #212529 | Títulos, valores e controles |
+| text-support | #495057 | Informações de apoio |
+| canvas | #DEE2E6 | Base cinza-clara, suavizada com branco em gradiente |
 | surface | #FFFFFFCC → #FFFFFF85 | Cartões translúcidos, com desfoque de fundo de 18 px |
-| brand | #FF5E2C | Identidade, ações e pequenos destaques |
+| brand | #0466C8 | Identidade, ação primária e pequenos destaques (texto branco 5,6:1) |
+| brand-hover | #0353A4 | Passar o mouse e links no modo claro |
+| brand-pressed | #023E7D | Botão pressionado |
+| brand-active-nav | #002855 | Item ativo do menu (no escuro, #0353A4) |
+| brand-disabled | #979DAC | Primário desabilitado, texto #212529 |
+| line | #CED4DA | Linhas de tabela e divisórias |
+| area-soft | #E9ECEF | Cabeçalho e rodapé de tabela, hover |
+| dark-bg | #001233 → #001845 | Fundo do modo escuro (degradê); cartões #001845 |
+| dark-line | #33415C | Linhas, áreas e hover no escuro |
+| dark-field | #5C677D | Borda de campos no escuro (3,0:1) |
+| dark-link | #6FA8F0 | Links e ícones no escuro (7,0:1 sobre #001845), fora da paleta Coolors |
 | border | #FFFFFFE0 | Contorno suave dos cartões |
 | control-border | #4D4D4D | Controles interativos |
 | urgent-mark | #FF0000 | Marca gráfica de urgência |
@@ -78,7 +88,7 @@ Não colocar texto sobre vermelho ou verde escuros. Usar texto preto profundo so
 | Barra de progresso | Escala de 0 a 100%; número exato ao lado. Acima de 100%, preencher a barra e mostrar o percentual real. |
 | Tabela de vendedoras | Nome, vendas, meta, percentual e status. Total separado, calculado por soma; não fazer média simples dos percentuais. |
 | Meta semanal | Semana, participação planejada e valor. Não confundir distribuição da meta com desempenho realizado. |
-| Botão | Rótulo com verbo. Primário laranja, secundário claro. Vermelho reservado a ação destrutiva explícita ou alerta. |
+| Botão | Rótulo com verbo. Primário azul, secundário claro. Vermelho reservado a ação destrutiva explícita ou alerta. |
 | Campo | Rótulo persistente, orientação curta e erro junto do campo. Placeholder não substitui rótulo. |
 | Estado de sistema | Carregando, vazio, erro, dado desatualizado e sem meta com mensagens diferentes. |
 
@@ -147,6 +157,6 @@ Validar as faixas de status, a comparação por período, as metas próprias de 
 
 ## Cores dos gráficos
 
-Vermelho #FF0000 para urgência, amarelo #FFE100 para atenção e verde #00FF00 para bom resultado. O medidor atual permanece amarelo (84,6%). A série de planejamento e as barras semanais usam verde como identificação visual, sem diagnosticar desempenho; o gráfico informa essa distinção. Nenhum gráfico usa o laranja da marca.
+Vermelho #FF0000 para urgência, amarelo #FFE100 para atenção e verde #00FF00 para bom resultado. O medidor atual permanece amarelo (84,6%). A série de planejamento e as barras semanais usam verde como identificação visual, sem diagnosticar desempenho; o gráfico informa essa distinção. Nenhum gráfico usa o azul da marca.
 
 O medidor calcula a cor pelo percentual exato: abaixo de 80% vermelho, de 80% até menos de 100% amarelo, a partir de 100% verde. Faixas continuam propostas. Contorno cinza-escuro delimita o arco claro; texto preto e legenda acompanham a cor.

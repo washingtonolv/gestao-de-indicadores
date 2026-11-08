@@ -48,22 +48,22 @@
 }
 
 html.dark{
-  --background:#111827;
+  --background:#001233;
   --foreground:#F8F9FA;
-  --card:rgba(31,41,55,.88);
+  --card:rgba(0,24,69,.9);
   --card-foreground:#F8F9FA;
-  --popover:#1F2937;
+  --popover:#001845;
   --popover-foreground:#F8F9FA;
-  --muted:#273449;
+  --muted:#33415C;
   --muted-foreground:#CED4DA;
-  --secondary:#273449;
+  --secondary:#33415C;
   --secondary-foreground:#F8F9FA;
-  --accent:#374151;
+  --accent:#33415C;
   --accent-foreground:#F8F9FA;
   --primary:#0466C8;
   --primary-foreground:#FFFFFF;
-  --border:#374151;
-  --input:#4B5563;
+  --border:#33415C;
+  --input:#5C677D;
   --ring:#F9FAFB;
   --destructive:#F87171;
 }
@@ -75,7 +75,7 @@ body{
   margin:0;min-height:100vh;color:var(--foreground);font-family:var(--font-sans);
   background:linear-gradient(160deg,#F8F9FA 0%,#DEE2E6 60%);background-attachment:fixed;
 }
-html.dark body{background:linear-gradient(160deg,#1B2433 0%,#111827 60%);background-attachment:fixed}
+html.dark body{background:linear-gradient(160deg,#001845 0%,#001233 60%);background-attachment:fixed}
 
 /* ---------- ajustes de produto sobre o Basecoat ---------- */
 /* área de toque mínima de 44 px */
@@ -98,9 +98,9 @@ html.dark body{background:linear-gradient(160deg,#1B2433 0%,#111827 60%);backgro
   border:1px solid rgba(255,255,255,.9);
   box-shadow:0 1px 2px rgba(23,23,23,.06),0 8px 24px rgba(23,23,23,.06);
 }
-html.dark .card{border-color:#374151}
+html.dark .card{border-color:#33415C}
 @media (prefers-reduced-transparency:reduce){.card{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
-  html.dark .card{background:#1F2937}}
+  html.dark .card{background:#001845}}
 
 
 /* ---------- badges de resultado: marca + rótulo, fundo opaco, texto escuro ---------- */
@@ -135,21 +135,21 @@ html.dark .card{border-color:#374151}
 hr,[role=separator]{border-color:#CED4DA}
 .progress{background:#DEE2E6}
 :root{--scrollbar-thumb:#ADB5BD}
-html.dark .table thead tr,html.dark .table tfoot tr{background:#273449}
-html.dark .table tbody tr:hover{background:#273449}
-html.dark .table th,html.dark .table td,html.dark hr,html.dark [role=separator]{border-color:#374151}
-html.dark .progress{background:#374151}
-html.dark{--scrollbar-thumb:#4B5563}
+html.dark .table thead tr,html.dark .table tfoot tr{background:#33415C}
+html.dark .table tbody tr:hover{background:#33415C}
+html.dark .table th,html.dark .table td,html.dark hr,html.dark [role=separator]{border-color:#33415C}
+html.dark .progress{background:#33415C}
+html.dark{--scrollbar-thumb:#5C677D}
 
 /* ---------- acento: escala de azuis (paleta Coolors) ----------
    #0466C8 ação primária · #0353A4 passar o mouse e links no claro · #023E7D pressionado
    #002855 item ativo do menu · #979DAC primário desabilitado
-   Reservados: #001845 #001233 #33415C #5C677D #7D8597 (modo escuro) */
+   Modo escuro: fundo #001233/#001845 · superfícies e linhas #33415C · bordas de campo #5C677D */
 .btn:not([data-variant]):not(:disabled):hover,.btn[data-variant=primary]:not(:disabled):hover{background:#0353A4}
 .btn:not([data-variant]):not(:disabled):active,.btn[data-variant=primary]:not(:disabled):active{background:#023E7D}
 .btn:not([data-variant]):disabled,.btn[data-variant=primary]:disabled{background:#979DAC;color:#212529;opacity:1}
 .btn[data-variant=link]{color:#0353A4}
-/* no escuro o azul da marca sobre o fundo dá só 3,2:1; links e ícones usam um tom mais claro (7,2:1), fora da paleta */
+/* no escuro o azul da marca sobre o fundo dá só 3,2:1; links e ícones usam um tom mais claro (7,0:1 sobre #001845), fora da paleta */
 html.dark .btn[data-variant=link]{color:#6FA8F0}
 .alert:not([data-resultado]):not([data-variant]){border-inline-start:5px solid #0466C8}
 .alert:not([data-resultado]):not([data-variant]) svg{color:#0353A4}
@@ -160,7 +160,7 @@ html.dark .alert:not([data-resultado]):not([data-variant]) svg{color:#6FA8F0}
 .nav-lateral a{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:var(--radius);color:var(--foreground);text-decoration:none;font-size:15px}
 .nav-lateral a:hover{background:#E9ECEF}
 .nav-lateral a[aria-current=page]{background:#002855;color:#FFFFFF;font-weight:600}
-html.dark .nav-lateral a:hover{background:#273449}
+html.dark .nav-lateral a:hover{background:#33415C}
 html.dark .nav-lateral a[aria-current=page]{background:#0353A4;color:#FFFFFF}
 </style>
 <style>
@@ -227,10 +227,10 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
     <div class="sw"><i style="background:#002855"></i><div><b>Item ativo do menu</b><span>#002855</span></div></div>
     <div class="sw"><i style="background:#979DAC"></i><div><b>Primário desabilitado</b><span>#979DAC</span></div></div>
     <div class="sw"><i style="background:#6FA8F0"></i><div><b>Link no modo escuro</b><span>#6FA8F0 · fora da paleta</span></div></div>
-    <div class="sw"><i style="background:#001845"></i><div><b>Reservado</b><span>#001845</span></div></div>
-    <div class="sw"><i style="background:#001233"></i><div><b>Reservado</b><span>#001233</span></div></div>
-    <div class="sw"><i style="background:#33415C"></i><div><b>Reservado</b><span>#33415C</span></div></div>
-    <div class="sw"><i style="background:#5C677D"></i><div><b>Reservado</b><span>#5C677D</span></div></div>
+    <div class="sw"><i style="background:#001845"></i><div><b>Escuro: cartões</b><span>#001845</span></div></div>
+    <div class="sw"><i style="background:#001233"></i><div><b>Escuro: fundo</b><span>#001233</span></div></div>
+    <div class="sw"><i style="background:#33415C"></i><div><b>Escuro: linhas e áreas</b><span>#33415C</span></div></div>
+    <div class="sw"><i style="background:#5C677D"></i><div><b>Escuro: borda de campo</b><span>#5C677D</span></div></div>
     <div class="sw"><i style="background:#7D8597"></i><div><b>Reservado</b><span>#7D8597</span></div></div>
     <div class="sw"><i style="background:#EF4444"></i><div><b>Crítico (marca)</b><span>#EF4444 · fundo #FEE2E2</span></div></div>
     <div class="sw"><i style="background:#F59E0B"></i><div><b>Atenção (marca)</b><span>#F59E0B · fundo #FEF3C7</span></div></div>
