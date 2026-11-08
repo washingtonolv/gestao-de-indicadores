@@ -149,6 +149,17 @@
       $('#goal-transfer-error').textContent = error.message;
     }
   };
+  $('#goal-template').onclick = async () => {
+    $('#goal-transfer-error').textContent = '';
+    try {
+      if (!ready && !demo) throw Error('Aguarde o carregamento dos dados.');
+      const csv = GoalTransfer.templateCsv(validateDB(clone()), {month: $('#month').value || today.slice(0, 7), storeId: goalImportScope()});
+      await request('download-goal-template', {csv});
+      notify('Modelo baixado. Preencha a coluna meta e importe o arquivo.');
+    } catch (error) {
+      $('#goal-transfer-error').textContent = error.message;
+    }
+  };
   $('#goal-import-file').onchange = async event => {
     const file = event.target.files[0];
     clearGoalImport();
@@ -164,7 +175,7 @@
       validateDB(result.next);
       pendingGoalImport = {csv, revision};
       const stats = result.stats;
-      $('#goal-import-summary').textContent = 'Arquivo com ' + stats.total + ' meta(s): ' + stats.created + ' nova(s), ' + stats.updated + ' atualizada(s) e ' + stats.unchanged + ' sem alteração. Metas fora do arquivo serão preservadas.';
+      $('#goal-import-summary').textContent = 'Arquivo com ' + stats.total + ' meta(s): ' + stats.created + ' nova(s), ' + stats.updated + ' atualizada(s) e ' + stats.unchanged + ' sem alteração.' + (stats.skipped ? ' ' + stats.skipped + ' linha(s) sem meta foram ignoradas.' : '') + ' Metas fora do arquivo serão preservadas.';
       $('#goal-import-confirm').disabled = stats.created + stats.updated === 0;
       $('#goal-import-preview').hidden = false;
     } catch (error) {
