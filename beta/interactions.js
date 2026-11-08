@@ -55,6 +55,11 @@
   else{nav.style.removeProperty('--nav-mobile-x');indicator.style.transform=`translate(${x}px, ${y}px)`;}
   indicator.style.opacity='1';
  }
+
+ const railToggle=effectsRoot.querySelector('.rail-toggle');
+ if(railToggle){const key='gi-rail-collapsed';let collapsed=false;try{collapsed=localStorage.getItem(key)==='1';}catch{}
+  const applyRail=()=>{effectsRoot.classList.toggle('rail-collapsed',collapsed);railToggle.setAttribute('aria-expanded',String(!collapsed));railToggle.setAttribute('aria-label',collapsed?'Mostrar menu':'Ocultar menu');railToggle.querySelector('span').textContent=collapsed?'Mostrar menu':'Ocultar menu';requestAnimationFrame(()=>{try{syncNav();}catch{}});};
+  railToggle.addEventListener('click',()=>{collapsed=!collapsed;try{localStorage.setItem(key,collapsed?'1':'0');}catch{}applyRail();});applyRail();}
  function animateCurrentView(){
   const active=effectsRoot.querySelector('.view:not([hidden])');if(!active||motionPreference.matches)return;
   active.classList.remove('view-entering');void active.offsetWidth;active.classList.add('view-entering');
