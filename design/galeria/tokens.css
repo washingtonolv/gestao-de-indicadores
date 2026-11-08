@@ -1,0 +1,155 @@
+/* Tokens do painel "Gestão de indicadores" aplicados sobre o Basecoat.
+   Fonte da paleta: design/DESIGN_SYSTEM.md. Estas regras ficam fora de @layer,
+   então vencem o CSS do Basecoat sem precisar de !important. */
+
+:root{
+  --font-sans: Inter, Arial, ui-sans-serif, system-ui, sans-serif;
+
+  /* superfícies e texto */
+  --background:#DEE2E6;
+  --foreground:#212529;
+  --card:rgba(255,255,255,.82);
+  --card-foreground:#212529;
+  --popover:#FFFFFF;
+  --popover-foreground:#212529;
+  --muted:#E9ECEF;
+  --muted-foreground:#495057;
+  --secondary:#FFFFFF;
+  --secondary-foreground:#212529;
+  --accent:#E9ECEF;
+  --accent-foreground:#212529;
+
+  /* acento (os 10%): azul só em ações e destaques; texto branco por contraste (5,6:1) */
+  --primary:#0466C8;
+  --primary-foreground:#FFFFFF;
+
+  /* controles e foco */
+  --border:#CED4DA;
+  --input:#4D4D4D;
+  --ring:#171717;
+  --radius:.625rem;                 /* 10 px: botões e campos */
+  --radius-card:1rem;               /* 16 px: cartões */
+  --destructive:#C20000;            /* branco sobre ele: 6:1 */
+
+  /* resultados (cores já usadas no painel: attainment.test.cjs) */
+  --r-critico-marca:#EF4444;  --r-critico-fundo:#FEE2E2;
+  --r-atencao-marca:#F59E0B;  --r-atencao-fundo:#FEF3C7;
+  --r-atingida-marca:#10B981; --r-atingida-fundo:#DCFCE7;
+  --r-neutro-marca:#4D4D4D;   --r-neutro-fundo:#E9ECEF;
+}
+
+html.dark{
+  --background:#111827;
+  --foreground:#F8F9FA;
+  --card:rgba(31,41,55,.88);
+  --card-foreground:#F8F9FA;
+  --popover:#1F2937;
+  --popover-foreground:#F8F9FA;
+  --muted:#273449;
+  --muted-foreground:#CED4DA;
+  --secondary:#273449;
+  --secondary-foreground:#F8F9FA;
+  --accent:#374151;
+  --accent-foreground:#F8F9FA;
+  --primary:#0466C8;
+  --primary-foreground:#FFFFFF;
+  --border:#374151;
+  --input:#4B5563;
+  --ring:#F9FAFB;
+  --destructive:#F87171;
+}
+
+/* ---------- base da página ---------- */
+html{color-scheme:light}
+html.dark{color-scheme:dark}
+body{
+  margin:0;min-height:100vh;color:var(--foreground);font-family:var(--font-sans);
+  background:linear-gradient(160deg,#F8F9FA 0%,#DEE2E6 60%);background-attachment:fixed;
+}
+html.dark body{background:linear-gradient(160deg,#1B2433 0%,#111827 60%);background-attachment:fixed}
+
+/* ---------- ajustes de produto sobre o Basecoat ---------- */
+/* área de toque mínima de 44 px */
+.btn:not([data-size]),.btn[data-size=lg],.btn[data-size=default]{min-height:44px}
+.btn[data-size=icon],.btn[data-size=icon-lg]{min-width:44px;min-height:44px}
+.input:not([type=checkbox]):not([type=radio]),.select,.textarea{min-height:44px;border-color:var(--input)}
+.textarea{min-height:96px}
+
+/* foco preto visível e afastado do controle */
+.btn:focus-visible,.input:focus-visible,.select:focus-visible,.textarea:focus-visible,
+[role=tab]:focus-visible,[role=menuitem]:focus-visible,a:focus-visible{
+  outline:2px solid var(--ring);outline-offset:3px;box-shadow:none
+}
+
+/* cartões translúcidos com raio de 16 px */
+.card{
+  border-radius:var(--radius-card);
+  background:var(--card);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 1px 2px rgba(23,23,23,.06),0 8px 24px rgba(23,23,23,.06);
+}
+html.dark .card{border-color:#374151}
+@media (prefers-reduced-transparency:reduce){.card{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
+  html.dark .card{background:#1F2937}}
+
+
+/* ---------- badges de resultado: marca + rótulo, fundo opaco, texto escuro ---------- */
+.badge[data-resultado]{
+  background:var(--fundo);color:#212529;border:1px solid rgba(23,23,23,.28);
+  font-weight:600;padding-inline:.6rem
+}
+.badge[data-resultado]::before{
+  content:"";width:.65rem;height:.65rem;border-radius:999px;background:var(--marca);
+  box-shadow:0 0 0 1.5px #4D4D4D;flex:none
+}
+[data-resultado=critico]{--marca:var(--r-critico-marca);--fundo:var(--r-critico-fundo)}
+[data-resultado=atencao]{--marca:var(--r-atencao-marca);--fundo:var(--r-atencao-fundo)}
+[data-resultado=atingida]{--marca:var(--r-atingida-marca);--fundo:var(--r-atingida-fundo)}
+[data-resultado=neutro]{--marca:var(--r-neutro-marca);--fundo:var(--r-neutro-fundo)}
+
+/* barra de progresso colorida pelo resultado; o número exato fica ao lado */
+.progress[data-resultado] span{background:var(--marca)}
+
+/* alertas por tom (fundo claro e texto escuro nos dois modos) */
+.alert[data-resultado]{background:var(--fundo);color:#212529;border-color:var(--marca);border-inline-start-width:5px}
+.alert[data-resultado] section{color:#212529}
+.alert[data-resultado] svg{color:#212529}
+
+
+/* ---------- cinzas de superfície (paleta Coolors) ---------- */
+/* #F8F9FA início do fundo · #E9ECEF cabeçalho/rodapé e áreas discretas · #DEE2E6 fundo e trilhas
+   #CED4DA linhas e divisórias · #ADB5BD só detalhes decorativos (não usar em texto) */
+.table thead tr,.table tfoot tr{background:#E9ECEF}
+.table tbody tr:hover{background:#F8F9FA}
+.table th,.table td{border-color:#CED4DA}
+hr,[role=separator]{border-color:#CED4DA}
+.progress{background:#DEE2E6}
+:root{--scrollbar-thumb:#ADB5BD}
+html.dark .table thead tr,html.dark .table tfoot tr{background:#273449}
+html.dark .table tbody tr:hover{background:#273449}
+html.dark .table th,html.dark .table td,html.dark hr,html.dark [role=separator]{border-color:#374151}
+html.dark .progress{background:#374151}
+html.dark{--scrollbar-thumb:#4B5563}
+
+/* ---------- acento: escala de azuis (paleta Coolors) ----------
+   #0466C8 ação primária · #0353A4 passar o mouse e links no claro · #023E7D pressionado
+   #002855 item ativo do menu · #979DAC primário desabilitado
+   Reservados: #001845 #001233 #33415C #5C677D #7D8597 (modo escuro) */
+.btn:not([data-variant]):not(:disabled):hover,.btn[data-variant=primary]:not(:disabled):hover{background:#0353A4}
+.btn:not([data-variant]):not(:disabled):active,.btn[data-variant=primary]:not(:disabled):active{background:#023E7D}
+.btn:not([data-variant]):disabled,.btn[data-variant=primary]:disabled{background:#979DAC;color:#212529;opacity:1}
+.btn[data-variant=link]{color:#0353A4}
+/* no escuro o azul da marca sobre o fundo dá só 3,2:1; links e ícones usam um tom mais claro (7,2:1), fora da paleta */
+html.dark .btn[data-variant=link]{color:#6FA8F0}
+.alert:not([data-resultado]):not([data-variant]){border-inline-start:5px solid #0466C8}
+.alert:not([data-resultado]):not([data-variant]) svg{color:#0353A4}
+html.dark .alert:not([data-resultado]):not([data-variant]) svg{color:#6FA8F0}
+
+/* navegação: item ativo em #002855 (14,6:1 com texto branco) */
+.nav-lateral{display:grid;gap:4px}
+.nav-lateral a{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:var(--radius);color:var(--foreground);text-decoration:none;font-size:15px}
+.nav-lateral a:hover{background:#E9ECEF}
+.nav-lateral a[aria-current=page]{background:#002855;color:#FFFFFF;font-weight:600}
+html.dark .nav-lateral a:hover{background:#273449}
+html.dark .nav-lateral a[aria-current=page]{background:#0353A4;color:#FFFFFF}
