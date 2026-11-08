@@ -1,5 +1,7 @@
 <form id="batch-form" class="card form-card" novalidate>
  <div class="section-head"><div><h2>Lançar resultados da loja</h2><p>Selecione a loja e preencha um ou vários vendedores. Escolha Diário ou Semanal e confira os totais antes de salvar.</p></div></div>
+ <ol id="batch-steps" class="batch-steps" aria-label="Etapas do lançamento"><li data-step="1" aria-current="step"><b>1</b> Loja e período</li><li data-step="2"><b>2</b> Resultados</li><li data-step="3"><b>3</b> Conferir e salvar</li></ol>
+ <p id="batch-step-label" class="batch-step-label" aria-live="polite">Passo 1 de 3</p>
  <fieldset id="batch-context" class="batch-context"><legend class="sr-only">Loja e período do lote</legend>
   <label>Loja<select id="batch-store" required><option value="">Selecione uma loja</option></select></label>
   <label>Tipo de lançamento<select id="batch-kind"><option value="weekly">Semanal · 7 dias úteis</option><option value="daily">Diário</option></select></label>
@@ -9,7 +11,7 @@
   <label id="batch-period-end-label">Acumulado até<input id="batch-period-end" type="date" min="2000-01-01" max="2099-12-31"></label>
   <label id="batch-date-label" hidden>Data<input id="batch-date" type="date" min="2000-01-01" max="2099-12-31"></label>
  </fieldset>
- <div class="actions"><button id="batch-load" type="button">Carregar vendedores</button><button id="batch-reset" type="button" hidden>Trocar loja ou período</button></div>
+ <div class="actions"><button id="batch-load" type="button" class="primary">Carregar vendedores</button><button id="batch-reset" type="button" hidden>Trocar loja ou período</button></div>
  <div id="batch-editor" hidden><p id="batch-period" class="batch-period"></p><p class="batch-help">Preencha o <strong>acumulado do período</strong>, sem somar novamente o que já foi salvo. Linhas totalmente vazias são ignoradas. Use 0 nos três campos para registrar ausência de resultado. Registros existentes serão atualizados, sem duplicar.</p>
   <div class="batch-table-wrap"><table class="batch-table"><thead><tr><th scope="col">Vendedor</th><th scope="col">Vendas líquidas (R$)</th><th scope="col">Atendimentos</th><th scope="col">Peças</th><th scope="col">TM</th><th scope="col">P.A.</th></tr></thead><tbody id="batch-rows"></tbody></table></div>
   <div id="batch-live" class="batch-totals" aria-live="polite"></div>
