@@ -1,0 +1,72 @@
+name: Testar e publicar
+
+# Em todo envio ao main que mexa no código-fonte:
+#   1. roda os testes (npm test)
+#   2. gera docs/index.html e design/prototipo.html (python scripts/build.py)
+#   3. se o resultado mudou, grava o commit automaticamente no main
+# O GitHub Pages serve a pasta docs/, então o site atualiza sozinho.
+#
+# Em Pull Requests: roda só os testes e o build (não grava nada).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'beta/**'
+      - 'scripts/**'
+      - 'supabase/**'
+      - 'design/prototipo.html'
+      - 'docs/manifest.webmanifest'
+      - 'docs/sw.js'
+      - 'docs/offline.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/build.yml'
+  pull_request:
+  workflow_dispatch:   # botão "Run workflow" na aba Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Instalar dependências
+        run: npm ci --ignore-scripts
+
+      - name: Testes
+        run: npm test
+
+      - name: Gerar docs/index.html
+        run: python scripts/build.py
+
+      - name: Gravar o resultado no main (só se mudou)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          if git diff --quiet -- docs design/prototipo.html; then
+            echo "Nada mudou no build. Nenhum commit necessário."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs design/prototipo.html
+          git commit -m "build: atualizar docs/index.html automaticamente [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
