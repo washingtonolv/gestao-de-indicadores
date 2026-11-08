@@ -88,7 +88,7 @@ html[data-theme=dark] #gi-beta #ranking-table th{background:linear-gradient(#046
 #gi-beta .chart-total{text-align:right;min-width:0}
 #gi-beta .chart-total strong{display:block;font-size:30px;font-weight:600;letter-spacing:-1px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text)}
 #gi-beta .chart-total small{display:block;margin-top:4px;font-size:12px;color:var(--text-support)}
-#gi-beta .chart-card #chart{border-radius:0 0 16px 16px;background:radial-gradient(ellipse 45% 55% at 12% 85%,#0466C81f,transparent),radial-gradient(ellipse 40% 60% at 88% 35%,#6FA8F02e,transparent)}
+#gi-beta .chart-card #chart{border-radius:0 0 16px 16px;background:radial-gradient(ellipse 45% 55% at 12% 85%,#0466C810,transparent),radial-gradient(ellipse 40% 60% at 88% 35%,#6FA8F018,transparent)}
 #gi-beta .chart-card[data-chart-mode=day] .chart-legend span:nth-child(2){display:none}
 #gi-beta #chart svg .chart-guide{stroke:#212529}
 #gi-beta #chart svg .chart-chip rect{fill:#FFFFFF;stroke:#CED4DA}
