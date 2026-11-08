@@ -26,7 +26,9 @@ await db.exec(entry(id(21),id(11),'2026-10-09','2026-10-11'));
 const original=(await rows('select id from public.gi_entries'))[0].id;
 await assert.rejects(()=>db.exec(entry(id(21),id(11),'2026-10-10','2026-10-10')),/Já existe lançamento/);
 await assert.rejects(()=>db.exec(entry(id(21),id(11),'2026-10-08','2026-10-09')),/mesmo bloco semanal/);
-await assert.rejects(()=>db.exec(entry(id(21),id(11),'2026-10-09','2026-10-16')),/período futuro/);
+// Data futura relativa a hoje (a regra compara com a data atual de São Paulo); datas fixas envelhecem.
+const future=new Date(Date.now()+3*864e5).toISOString().slice(0,10);
+await assert.rejects(()=>db.exec(entry(id(21),id(11),future,future)),/período futuro/);
 await db.exec(`update public.gi_entries set date='2026-10-14',cents=20000 where id='${original}'`);
 const updated=(await rows('select id,date,cents from public.gi_entries'))[0];
 assert.equal(updated.id,original);
