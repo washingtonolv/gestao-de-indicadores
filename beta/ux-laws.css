@@ -100,3 +100,7 @@ html[data-theme=dark] #gi-beta #chart svg .chart-chip rect{fill:#F5F5F5;stroke:#
 html[data-theme=dark] #gi-beta #chart svg .chart-chip text{fill:#171717}
 html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(.point-ring){stroke:#262626}
 @media(max-width:760px){#gi-beta .chart-total strong{font-size:24px}#gi-beta .chart-controls{padding:16px 16px 0}}
+
+/* alternador do gráfico (Acumulado | Por dia): tamanho compacto */
+#gi-beta .chart-controls .segments{padding:3px;gap:2px}
+#gi-beta .chart-controls .segments button{min-height:28px;padding:4px 12px;font-size:12px;border-radius:7px}
