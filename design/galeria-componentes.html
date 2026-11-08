@@ -28,9 +28,9 @@
   --accent:#F1F1F1;
   --accent-foreground:#171717;
 
-  /* marca: laranja só em ações e destaques; texto escuro por contraste (5,9:1) */
-  --primary:#FF5E2C;
-  --primary-foreground:#171717;
+  /* marca: azul só em ações e destaques; texto branco por contraste (4,9:1) */
+  --primary:#0077B6;
+  --primary-foreground:#FFFFFF;
 
   /* controles e foco */
   --border:rgba(23,23,23,.14);
@@ -60,8 +60,8 @@ html.dark{
   --secondary-foreground:#F9FAFB;
   --accent:#374151;
   --accent-foreground:#F9FAFB;
-  --primary:#FF5E2C;
-  --primary-foreground:#171717;
+  --primary:#0077B6;
+  --primary-foreground:#FFFFFF;
   --border:#374151;
   --input:#4B5563;
   --ring:#F9FAFB;
@@ -102,7 +102,7 @@ html.dark .card{border-color:#374151}
 @media (prefers-reduced-transparency:reduce){.card{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
   html.dark .card{background:#1F2937}}
 
-/* botão primário laranja: texto escuro, sem depender da cor sozinha */
+/* botão primário azul: texto branco, sem depender da cor sozinha */
 .btn:not([data-variant]):hover,.btn[data-variant=primary]:hover{filter:brightness(.95)}
 
 /* ---------- badges de resultado: marca + rótulo, fundo opaco, texto escuro ---------- */
@@ -126,6 +126,9 @@ html.dark .card{border-color:#374151}
 .alert[data-resultado]{background:var(--fundo);color:#171717;border-color:var(--marca);border-inline-start-width:5px}
 .alert[data-resultado] section{color:#171717}
 .alert[data-resultado] svg{color:#171717}
+
+/* no escuro, o azul da marca sobre o fundo dá só 3,6:1; links usam um tom mais claro (7,8:1) */
+html.dark .btn[data-variant=link]{color:#5BB5E8}
 </style>
 <style>
 .wrap{max-width:1120px;margin:0 auto;padding:24px 16px 80px}
@@ -154,7 +157,6 @@ tfoot td{font-weight:700}
 caption{caption-side:top}
 .card>footer{gap:12px}
 .nota{font-size:13px;color:var(--muted-foreground);margin-top:8px}
-.aviso-topo{margin:20px 0 0}
 code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
 .dlgwrap{display:flex;flex-wrap:wrap;gap:12px}
 @media (max-width:600px){h1{font-size:24px}.kpi-v{font-size:24px}}
@@ -174,21 +176,15 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
   </button>
 </header>
 
-<div class="alert aviso-topo" data-resultado="atencao" role="note">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-  <h2>Decisão pendente: cor do modo escuro</h2>
-  <section>O painel atual usa azul (#3B82F6) como destaque no modo escuro; o DESIGN_SYSTEM.md define o laranja #FF5E2C como cor da marca. Esta galeria usa o laranja nos dois modos. Se preferir manter o azul no escuro, é uma linha nos tokens.</section>
-</div>
-
 <!-- 1. CORES -->
 <section class="sec" aria-labelledby="s-cores">
   <h2 id="s-cores">1. Cores e tokens</h2>
-  <p class="d">Cada cor tem um papel fixo. O laranja é só marca e ação, nunca significa atenção. Vermelho, amarelo e verde ficam reservados ao resultado. Texto escuro sobre o laranja dá contraste de 5,9:1; texto branco daria 3,1:1.</p>
+  <p class="d">Cada cor tem um papel fixo. O azul é só marca e ação e nunca indica resultado. Vermelho, amarelo e verde ficam reservados ao resultado. Texto branco sobre o azul dá contraste de 4,9:1 (texto escuro daria só 3,7:1).</p>
   <div class="grid g4">
     <div class="sw"><i style="background:#171717"></i><div><b>Texto</b><span>#171717</span></div></div>
     <div class="sw"><i style="background:#4D4D4D"></i><div><b>Texto de apoio / bordas de campo</b><span>#4D4D4D</span></div></div>
     <div class="sw"><i style="background:#DEDEDE"></i><div><b>Fundo</b><span>#DEDEDE</span></div></div>
-    <div class="sw"><i style="background:#FF5E2C"></i><div><b>Marca e ações</b><span>#FF5E2C</span></div></div>
+    <div class="sw"><i style="background:#0077B6"></i><div><b>Marca e ações</b><span>#0077B6</span></div></div>
     <div class="sw"><i style="background:#EF4444"></i><div><b>Crítico (marca)</b><span>#EF4444 · fundo #FEE2E2</span></div></div>
     <div class="sw"><i style="background:#F59E0B"></i><div><b>Atenção (marca)</b><span>#F59E0B · fundo #FEF3C7</span></div></div>
     <div class="sw"><i style="background:#10B981"></i><div><b>Atingida (marca)</b><span>#10B981 · fundo #DCFCE7</span></div></div>

@@ -19,9 +19,9 @@
   --accent:#F1F1F1;
   --accent-foreground:#171717;
 
-  /* marca: laranja só em ações e destaques; texto escuro por contraste (5,9:1) */
-  --primary:#FF5E2C;
-  --primary-foreground:#171717;
+  /* marca: azul só em ações e destaques; texto branco por contraste (4,9:1) */
+  --primary:#0077B6;
+  --primary-foreground:#FFFFFF;
 
   /* controles e foco */
   --border:rgba(23,23,23,.14);
@@ -51,8 +51,8 @@ html.dark{
   --secondary-foreground:#F9FAFB;
   --accent:#374151;
   --accent-foreground:#F9FAFB;
-  --primary:#FF5E2C;
-  --primary-foreground:#171717;
+  --primary:#0077B6;
+  --primary-foreground:#FFFFFF;
   --border:#374151;
   --input:#4B5563;
   --ring:#F9FAFB;
@@ -93,7 +93,7 @@ html.dark .card{border-color:#374151}
 @media (prefers-reduced-transparency:reduce){.card{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}
   html.dark .card{background:#1F2937}}
 
-/* botão primário laranja: texto escuro, sem depender da cor sozinha */
+/* botão primário azul: texto branco, sem depender da cor sozinha */
 .btn:not([data-variant]):hover,.btn[data-variant=primary]:hover{filter:brightness(.95)}
 
 /* ---------- badges de resultado: marca + rótulo, fundo opaco, texto escuro ---------- */
@@ -117,3 +117,6 @@ html.dark .card{border-color:#374151}
 .alert[data-resultado]{background:var(--fundo);color:#171717;border-color:var(--marca);border-inline-start-width:5px}
 .alert[data-resultado] section{color:#171717}
 .alert[data-resultado] svg{color:#171717}
+
+/* no escuro, o azul da marca sobre o fundo dá só 3,6:1; links usam um tom mais claro (7,8:1) */
+html.dark .btn[data-variant=link]{color:#5BB5E8}
