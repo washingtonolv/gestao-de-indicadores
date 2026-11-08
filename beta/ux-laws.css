@@ -78,6 +78,6 @@ html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import){bac
 #gi-beta :is(#goal-export,#goal-template,#goal-import):not(:disabled):hover,
 html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
 
-/* cabeçalho fixo do ranking: azul claro (#0466C8 a 20% sobre o fundo), sólido para não deixar o conteúdo aparecer por baixo */
-#gi-beta #ranking-table th{background:#CDE0F4;color:#212529}
-html[data-theme=dark] #gi-beta #ranking-table th{background:#1F3346;color:#F5F5F5}
+/* cabeçalho fixo do ranking: azul claro a 20% translúcido, com desfoque do conteúdo que passa por baixo */
+#gi-beta #ranking-table th{background:linear-gradient(#0466C833,#0466C833),#FFFFFFB3;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#212529}
+html[data-theme=dark] #gi-beta #ranking-table th{background:linear-gradient(#0466C833,#0466C833),#262626B3;color:#F5F5F5}
