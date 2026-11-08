@@ -113,3 +113,11 @@ html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(
 #gi-beta #gauge #gauge-progress{stroke:url(#gauge-grad)}
 #gi-beta .gauge-card .legend i{background:var(--text-muted,#868E96);border-color:transparent}
 #gi-beta .gauge-card .legend [data-status-band]{color:var(--text-support)}
+
+/* formato dos botões: pílula (totalmente arredondados), como na referência */
+#gi-beta button:not(.rail nav button){border-radius:999px;padding-inline:18px}
+#gi-beta :is(.segments,.admin-tabs){border-radius:999px}
+#gi-beta :is(.segments,.admin-tabs) button,#gi-beta .chart-controls .segments button{border-radius:999px;padding-inline:14px}
+#gi-beta .chart-controls .segments button{padding-inline:10px}
+#gi-beta .has-sliding-pill>.segment-pill{border-radius:999px}
+#gi-beta .history-actions button{padding-inline:14px}
