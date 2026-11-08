@@ -86,7 +86,7 @@ html[data-theme=dark] #gi-beta #ranking-table th{background:linear-gradient(#046
 #gi-beta .chart-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 22px 0}
 #gi-beta .chart-card .chart-head{padding-top:16px;align-items:flex-end}
 #gi-beta .chart-total{text-align:right;min-width:0}
-#gi-beta .chart-total strong{display:block;font-size:30px;font-weight:600;letter-spacing:-1px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text)}
+#gi-beta .chart-total strong{display:block;font-size:29px;font-weight:600;letter-spacing:-1px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--text)}
 #gi-beta .chart-total small{display:block;margin-top:4px;font-size:12px;color:var(--text-support)}
 #gi-beta .chart-card #chart{border-radius:0 0 16px 16px;background:radial-gradient(ellipse 45% 55% at 12% 85%,#0466C80A,transparent),radial-gradient(ellipse 40% 60% at 88% 35%,#6FA8F010,transparent)}
 #gi-beta .chart-card[data-chart-mode=day] .chart-legend span:nth-child(2){display:none}
@@ -103,11 +103,11 @@ html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(
 
 /* alternador do gráfico (Acumulado | Por dia): tamanho compacto */
 #gi-beta .chart-controls .segments{padding:2px;gap:2px;border-radius:8px}
-#gi-beta .chart-controls .segments button{min-height:20px;height:20px;padding:0 10px;font-size:11px;line-height:1;border-radius:6px}
+#gi-beta .chart-controls .segments button{min-height:19px;height:19px;padding:0 10px;font-size:12px;line-height:1;border-radius:6px}
 
 /* card Atingimento da meta: anel com degradê azul (cor do botão); a cor de resultado fica só no selo */
-#gi-beta #gauge{max-width:210px}
-#gi-beta #gauge #gauge-value{font-size:23px;font-weight:600}
+#gi-beta #gauge{max-width:230px}
+#gi-beta #gauge #gauge-value{font-size:26px;font-weight:600}
 #gi-beta #gauge .svg-label{font-size:11px}
 #gi-beta #gauge .gauge-track{stroke:var(--track,#DEE2E6)}
 #gi-beta #gauge #gauge-progress{stroke:url(#gauge-grad)}
