@@ -60,6 +60,19 @@
  if(railToggle){const key='gi-rail-collapsed';let collapsed=false;try{collapsed=localStorage.getItem(key)==='1';}catch{}
   const applyRail=()=>{effectsRoot.classList.toggle('rail-collapsed',collapsed);railToggle.setAttribute('aria-expanded',String(!collapsed));railToggle.setAttribute('aria-label',collapsed?'Mostrar menu':'Ocultar menu');railToggle.querySelector('span').textContent=collapsed?'Mostrar menu':'Ocultar menu';requestAnimationFrame(()=>{try{syncNav();}catch{}});};
   railToggle.addEventListener('click',()=>{collapsed=!collapsed;try{localStorage.setItem(key,collapsed?'1':'0');}catch{}applyRail();});applyRail();}
+
+ function collapsible(containerSel,itemSel,limit,label){
+  const box=effectsRoot.querySelector(containerSel);if(!box)return;let expanded=false;
+  const btn=document.createElement('button');btn.type='button';btn.className='show-more';
+  const apply=()=>{const items=[...box.querySelectorAll(itemSel)];const fold=items.length>limit+2;items.forEach((el,i)=>{el.hidden=fold&&!expanded&&i>=limit;});
+   box.querySelectorAll(':scope > section').forEach(group=>{group.hidden=!group.querySelector(itemSel+':not([hidden])');});
+   const extra=fold?items.length-limit:0;btn.hidden=!fold;btn.textContent=expanded?'Mostrar menos':'Mostrar mais '+extra+' '+label;btn.setAttribute('aria-expanded',String(expanded));};
+  btn.onclick=()=>{expanded=!expanded;apply();};
+  (box.closest('table')||box).after(btn);apply();
+  new MutationObserver(apply).observe(box,{childList:true,subtree:true});
+ }
+ collapsible('#evo-results','.seller-card',5,'vendedores');
+ collapsible('#ranking-body','tr',10,'posições');
  function animateCurrentView(){
   const active=effectsRoot.querySelector('.view:not([hidden])');if(!active||motionPreference.matches)return;
   active.classList.remove('view-entering');void active.offsetWidth;active.classList.add('view-entering');
