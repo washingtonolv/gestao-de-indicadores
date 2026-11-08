@@ -128,3 +128,28 @@ html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(
 #gi-beta #evo-chart .chart-bar{transition:opacity 150ms}
 #gi-beta #evo-chart [data-evo-point][data-active=true] .chart-bar{filter:brightness(.9)}
 html[data-theme=dark] #gi-beta #evo-chart .evo-dot{stroke:#262626}
+
+/* menu lateral (desktop): painel com rótulos, grupos e item ativo suave */
+@media(min-width:761px) and (min-height:501px){
+#gi-beta{grid-template-columns:232px minmax(0,1fr)}
+#gi-beta .rail{align-items:stretch;padding:20px 12px}
+#gi-beta .rail .logo{align-self:flex-start;margin:0 0 8px 8px}
+#gi-beta .rail nav{display:flex;flex-direction:column;gap:2px;justify-items:stretch}
+#gi-beta .rail nav>.nav-indicator{display:none!important}
+#gi-beta .rail nav button{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:40px;padding:8px 12px;border-radius:10px;text-align:left;font-size:14px;font-weight:500;color:var(--text-support);transition:background 150ms,color 150ms}
+#gi-beta .rail nav button svg{width:20px;height:20px;margin:0;flex:none}
+#gi-beta .rail nav button span{position:static!important;width:auto!important;max-width:none;padding:0;background:transparent;color:inherit;border-radius:0;font-size:14px!important;font-weight:inherit;opacity:1;transform:none;pointer-events:auto}
+#gi-beta .rail nav button:hover span,#gi-beta .rail nav button:focus-visible span{transform:none}
+#gi-beta .rail nav button:hover{background:var(--track);color:var(--text)}
+#gi-beta .rail nav button[aria-current=page]{background:var(--track)!important;color:var(--text)!important;font-weight:600}
+#gi-beta .rail nav button[aria-current=page] svg{stroke:var(--text)}
+#gi-beta .rail nav button:nth-of-type(1),#gi-beta .rail nav button:nth-of-type(4){margin-top:30px}
+#gi-beta .rail nav button:nth-of-type(4){margin-top:44px}
+#gi-beta .rail nav button:nth-of-type(1)::before,#gi-beta .rail nav button:nth-of-type(4)::before{position:absolute;left:12px;top:-24px;font-size:11px;font-weight:600;letter-spacing:.2px;color:var(--text-support);opacity:.75}
+#gi-beta .rail nav button:nth-of-type(1)::before{content:'Análise'}
+#gi-beta .rail nav button:nth-of-type(4)::before{content:'Gestão'}
+#gi-beta .rail nav button:nth-of-type(4)::after{content:'';position:absolute;left:12px;right:12px;top:-34px;border-top:1px solid var(--divider)}
+html[data-theme=dark] #gi-beta .rail nav button:hover{background:#333333}
+html[data-theme=dark] #gi-beta .rail nav button[aria-current=page]{background:#333333!important;color:#FFFFFF!important}
+html[data-theme=dark] #gi-beta .rail nav button[aria-current=page] svg{stroke:#FFFFFF}
+}
