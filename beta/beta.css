@@ -16,8 +16,8 @@
 #gi-beta nav button{color:var(--text-secondary)}
 #gi-beta nav button[aria-current=page]{color:var(--brand-primary);background:#05966912}
 #gi-beta nav svg{display:block;width:24px;height:24px;margin:auto;stroke:currentColor;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round}
-#gi-beta button.primary{background:var(--brand-primary);border-color:var(--brand-primary);color:#071F18}
-#gi-beta button.primary:hover{background:#047857;color:#fff}
+#gi-beta button.primary{background:var(--brand-primary);border-color:var(--brand-primary);color:#FFFFFF}
+#gi-beta button.primary:hover{background:#0353A4;color:#fff}
 #gi-beta :is(button,input,select):focus-visible{outline-color:var(--brand-primary)}
 #gi-beta #gauge-outline{stroke:none}
 #gi-beta .track span{box-shadow:none}
