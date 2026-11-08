@@ -35,10 +35,8 @@ Interface clara e leve. A preferência atual pela nova paleta e transparência s
 | brand-disabled | #979DAC | Primário desabilitado, texto #212529 |
 | line | #CED4DA | Linhas de tabela e divisórias |
 | area-soft | #E9ECEF | Cabeçalho e rodapé de tabela, hover |
-| dark-bg | #001233 → #001845 | Fundo do modo escuro (degradê); cartões #001845 |
-| dark-line | #33415C | Linhas, áreas e hover no escuro |
-| dark-field | #5C677D | Borda de campos no escuro (3,0:1) |
-| dark-link | #6FA8F0 | Links e ícones no escuro (7,0:1 sobre #001845), fora da paleta Coolors |
+| dark-bg | #111827 | Fundo do modo escuro; cartões #1F2937, linhas #374151 |
+| dark-link | #6FA8F0 | Links e ícones no escuro (7,2:1 sobre #111827), fora da paleta Coolors |
 | border | #FFFFFFE0 | Contorno suave dos cartões |
 | control-border | #4D4D4D | Controles interativos |
 | urgent-mark | #FF0000 | Marca gráfica de urgência |
