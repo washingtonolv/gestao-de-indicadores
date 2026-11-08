@@ -12,7 +12,7 @@
  const finishSave=(button,success)=>{
   if(!button)return;
   button.classList.remove('is-saving');button.disabled=false;
-  if(success){button.classList.add('is-saved');button.textContent='✓ Salvo';setTimeout(()=>restore(button),2500);}
+  if(success){button.classList.add('is-saved');button.innerHTML='<svg class="mi mi-check" viewBox="0 -960 960 960" aria-hidden="true"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg> Salvo';setTimeout(()=>restore(button),2500);}
   else restore(button);
  };
  const restore=button=>{if(!button?.isConnected)return;button.textContent=button.dataset.effectText||'Salvar';button.classList.remove('is-saving','is-saved');button.disabled=false;button.style.minWidth='';delete button.dataset.effectSaving;delete button.dataset.effectText;};

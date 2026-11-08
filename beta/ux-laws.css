@@ -1,7 +1,7 @@
 /* Ajustes das 20 leis de UX. Carregado por último para prevalecer sobre os demais estilos. */
 
 /* Regra 2 (Fitts): alvos de toque de pelo menos 44 px também nos controles segmentados. */
-#gi-beta :is(.segments,.admin-tabs) button{min-width:48px}
+#gi-beta :is(.segments,.admin-tabs) button{padding-inline:14px}
 #gi-beta .chart-hit{pointer-events:all}
 
 /* Regra 7 (Von Restorff): só uma ação principal por tela. Com o estado vazio na tela,
@@ -32,4 +32,23 @@
  #gi-beta #batch-form{overflow:visible;overflow:clip}
  #gi-beta #batch-editor>.actions{position:sticky;bottom:calc(74px + env(safe-area-inset-bottom));z-index:5;margin:0 -16px;padding:12px 16px;background:var(--rail,#FAFAF9);border-top:1px solid var(--divider)}
  #gi-beta #batch-editor>.actions .primary{width:100%}
+}
+
+/* Ícones Material Symbols (Google, Apache 2.0), embutidos como SVG: contorno no normal, preenchido no item ativo. */
+#gi-beta svg.mi{width:24px;height:24px;fill:currentColor;stroke:none;flex:none}
+#gi-beta nav svg.mi-fill{display:none}
+#gi-beta nav [aria-current=page] svg.mi-out{display:none}
+#gi-beta nav [aria-current=page] svg.mi-fill{display:block}
+#gi-beta svg.mi-add,#gi-beta svg.mi-check{width:20px;height:20px;vertical-align:-4px}
+#gi-beta #new-entry{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+#gi-beta #new-entry svg.mi-add{margin:0;vertical-align:baseline}
+@media(prefers-reduced-motion:no-preference){
+ @keyframes mi-fill-in{0%{transform:scale(.6);opacity:.3}60%{transform:scale(1.18);opacity:1}100%{transform:scale(1)}}
+ @keyframes mi-check-in{from{transform:scale(.4) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+ #gi-beta nav [aria-current=page] svg.mi-fill{animation:mi-fill-in 320ms cubic-bezier(.2,.9,.3,1.2)}
+ #gi-beta nav button svg.mi{transition:transform 180ms}
+ #gi-beta nav button:hover svg.mi-out{transform:translateY(-2px)}
+ #gi-beta svg.mi-add{transition:transform 220ms}
+ #gi-beta button:hover svg.mi-add{transform:rotate(90deg)}
+ #gi-beta svg.mi-check{animation:mi-check-in 260ms ease-out}
 }
