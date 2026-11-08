@@ -58,3 +58,11 @@
 #gi-beta .goal-template-help summary{display:flex;align-items:center;min-height:44px;cursor:pointer;font-weight:600;color:var(--text-primary)}
 #gi-beta .goal-template-help ol{margin:4px 0 0;padding-left:20px;display:grid;gap:8px;line-height:1.5}
 #gi-beta .goal-template-help code{font-family:monospace;background:var(--track,#E6E6E4);color:var(--text-primary);padding:1px 5px;border-radius:5px}
+
+/* botões de ação (CTA) sempre azuis, texto branco (5,6:1) */
+#gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-ranking-detail]),
+#gi-beta:has(#empty:not([hidden])) #new-entry.primary,
+html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-ranking-detail]){background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
+#gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-ranking-detail]):not(:disabled):hover,
+#gi-beta:has(#empty:not([hidden])) #new-entry.primary:not(:disabled):hover,
+html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,#new-entry,[data-evo-seller],[data-ranking-detail]):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
