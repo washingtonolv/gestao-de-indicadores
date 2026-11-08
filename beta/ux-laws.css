@@ -131,25 +131,37 @@ html[data-theme=dark] #gi-beta #evo-chart .evo-dot{stroke:#262626}
 
 /* menu lateral (desktop): painel com rótulos, grupos e item ativo suave */
 @media(min-width:761px) and (min-height:501px){
-#gi-beta{grid-template-columns:232px minmax(0,1fr)}
-#gi-beta .rail{align-items:stretch;padding:20px 12px}
-#gi-beta .rail .logo{align-self:flex-start;margin:0 0 8px 8px}
-#gi-beta .rail nav{display:flex;flex-direction:column;gap:2px;justify-items:stretch}
-#gi-beta .rail nav>.nav-indicator{display:none!important}
-#gi-beta .rail nav button{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:40px;padding:8px 12px;border-radius:10px;text-align:left;font-size:14px;font-weight:500;color:var(--text-support);transition:background 150ms,color 150ms}
-#gi-beta .rail nav button svg{width:20px;height:20px;margin:0;flex:none}
-#gi-beta .rail nav button span{position:static!important;width:auto!important;max-width:none;padding:0;background:transparent;color:inherit;border-radius:0;font-size:14px!important;font-weight:inherit;opacity:1;transform:none;pointer-events:auto}
-#gi-beta .rail nav button:hover span,#gi-beta .rail nav button:focus-visible span{transform:none}
-#gi-beta .rail nav button:hover{background:var(--track);color:var(--text)}
-#gi-beta .rail nav button[aria-current=page]{background:var(--track)!important;color:var(--text)!important;font-weight:600}
-#gi-beta .rail nav button[aria-current=page] svg{stroke:var(--text)}
-#gi-beta .rail nav button:nth-of-type(1),#gi-beta .rail nav button:nth-of-type(4){margin-top:30px}
-#gi-beta .rail nav button:nth-of-type(4){margin-top:44px}
-#gi-beta .rail nav button:nth-of-type(1)::before,#gi-beta .rail nav button:nth-of-type(4)::before{position:absolute;left:12px;top:-24px;font-size:11px;font-weight:600;letter-spacing:.2px;color:var(--text-support);opacity:.75}
-#gi-beta .rail nav button:nth-of-type(1)::before{content:'Análise'}
-#gi-beta .rail nav button:nth-of-type(4)::before{content:'Gestão'}
-#gi-beta .rail nav button:nth-of-type(4)::after{content:'';position:absolute;left:12px;right:12px;top:-34px;border-top:1px solid var(--divider)}
-html[data-theme=dark] #gi-beta .rail nav button:hover{background:#333333}
-html[data-theme=dark] #gi-beta .rail nav button[aria-current=page]{background:#333333!important;color:#FFFFFF!important}
-html[data-theme=dark] #gi-beta .rail nav button[aria-current=page] svg{stroke:#FFFFFF}
+#gi-beta:not(.rail-collapsed){grid-template-columns:232px minmax(0,1fr)}
+#gi-beta:not(.rail-collapsed) .rail{align-items:stretch;padding:20px 12px}
+#gi-beta:not(.rail-collapsed) .rail .logo{align-self:flex-start;margin:0 0 8px 8px}
+#gi-beta:not(.rail-collapsed) .rail nav{display:flex;flex-direction:column;gap:2px;justify-items:stretch}
+#gi-beta:not(.rail-collapsed) .rail nav>.nav-indicator{display:none!important}
+#gi-beta:not(.rail-collapsed) .rail nav button{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:40px;padding:8px 12px;border-radius:10px;text-align:left;font-size:14px;font-weight:500;color:var(--text-support);transition:background 150ms,color 150ms}
+#gi-beta:not(.rail-collapsed) .rail nav button svg{width:20px;height:20px;margin:0;flex:none}
+#gi-beta:not(.rail-collapsed) .rail nav button span{position:static!important;width:auto!important;max-width:none;padding:0;background:transparent;color:inherit;border-radius:0;font-size:14px!important;font-weight:inherit;opacity:1;transform:none;pointer-events:auto}
+#gi-beta:not(.rail-collapsed) .rail nav button:hover span,#gi-beta:not(.rail-collapsed) .rail nav button:focus-visible span{transform:none}
+#gi-beta:not(.rail-collapsed) .rail nav button:hover{background:var(--track);color:var(--text)}
+#gi-beta:not(.rail-collapsed) .rail nav button[aria-current=page]{background:var(--track)!important;color:var(--text)!important;font-weight:600}
+#gi-beta:not(.rail-collapsed) .rail nav button[aria-current=page] svg{stroke:var(--text)}
+#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(1),#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(4){margin-top:30px}
+#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(4){margin-top:44px}
+#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(1)::before,#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(4)::before{position:absolute;left:12px;top:-24px;font-size:11px;font-weight:600;letter-spacing:.2px;color:var(--text-support);opacity:.75}
+#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(1)::before{content:'Análise'}
+#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(4)::before{content:'Gestão'}
+#gi-beta:not(.rail-collapsed) .rail nav button:nth-of-type(4)::after{content:'';position:absolute;left:12px;right:12px;top:-34px;border-top:1px solid var(--divider)}
+html[data-theme=dark] #gi-beta:not(.rail-collapsed) .rail nav button:hover{background:#333333}
+html[data-theme=dark] #gi-beta:not(.rail-collapsed) .rail nav button[aria-current=page]{background:#333333!important;color:#FFFFFF!important}
+html[data-theme=dark] #gi-beta:not(.rail-collapsed) .rail nav button[aria-current=page] svg{stroke:#FFFFFF}
+}
+
+/* botão ocultar/mostrar menu */
+#gi-beta .rail-toggle{display:none}
+@media(min-width:761px) and (min-height:501px){
+#gi-beta .rail-toggle{display:flex;align-items:center;gap:12px;margin-top:18px;width:100%;min-height:40px;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--text-support);font-size:13px;font-weight:500;text-align:left;cursor:pointer}
+#gi-beta .rail-toggle svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;transition:transform 200ms}
+#gi-beta .rail-toggle:hover{background:var(--track);color:var(--text)}
+#gi-beta.rail-collapsed .rail-toggle{width:48px;height:48px;padding:0;justify-content:center;align-self:center}
+#gi-beta.rail-collapsed .rail-toggle svg{transform:rotate(180deg)}
+#gi-beta.rail-collapsed .rail-toggle span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+html[data-theme=dark] #gi-beta .rail-toggle:hover{background:#333333}
 }
