@@ -15,17 +15,17 @@
   --font-sans: Inter, Arial, ui-sans-serif, system-ui, sans-serif;
 
   /* superfícies e texto */
-  --background:#DEDEDE;
+  --background:#DEE2E6;
   --foreground:#212529;
   --card:rgba(255,255,255,.82);
   --card-foreground:#212529;
   --popover:#FFFFFF;
   --popover-foreground:#212529;
-  --muted:#EDEDED;
+  --muted:#E9ECEF;
   --muted-foreground:#495057;
   --secondary:#FFFFFF;
   --secondary-foreground:#212529;
-  --accent:#F1F1F1;
+  --accent:#E9ECEF;
   --accent-foreground:#212529;
 
   /* marca: azul só em ações e destaques; texto branco por contraste (4,9:1) */
@@ -33,7 +33,7 @@
   --primary-foreground:#FFFFFF;
 
   /* controles e foco */
-  --border:rgba(23,23,23,.14);
+  --border:#CED4DA;
   --input:#4D4D4D;
   --ring:#171717;
   --radius:.625rem;                 /* 10 px: botões e campos */
@@ -44,7 +44,7 @@
   --r-critico-marca:#EF4444;  --r-critico-fundo:#FEE2E2;
   --r-atencao-marca:#F59E0B;  --r-atencao-fundo:#FEF3C7;
   --r-atingida-marca:#10B981; --r-atingida-fundo:#DCFCE7;
-  --r-neutro-marca:#4D4D4D;   --r-neutro-fundo:#F3F4F6;
+  --r-neutro-marca:#4D4D4D;   --r-neutro-fundo:#E9ECEF;
 }
 
 html.dark{
@@ -73,7 +73,7 @@ html{color-scheme:light}
 html.dark{color-scheme:dark}
 body{
   margin:0;min-height:100vh;color:var(--foreground);font-family:var(--font-sans);
-  background:linear-gradient(160deg,#F7F7F7 0%,#DEDEDE 60%);background-attachment:fixed;
+  background:linear-gradient(160deg,#F8F9FA 0%,#DEE2E6 60%);background-attachment:fixed;
 }
 html.dark body{background:linear-gradient(160deg,#1B2433 0%,#111827 60%);background-attachment:fixed}
 
@@ -129,6 +129,21 @@ html.dark .card{border-color:#374151}
 
 /* no escuro, o azul da marca sobre o fundo dá só 3,6:1; links usam um tom mais claro (7,8:1) */
 html.dark .btn[data-variant=link]{color:#5BB5E8}
+
+/* ---------- cinzas de superfície (paleta Coolors) ---------- */
+/* #F8F9FA início do fundo · #E9ECEF cabeçalho/rodapé e áreas discretas · #DEE2E6 fundo e trilhas
+   #CED4DA linhas e divisórias · #ADB5BD só detalhes decorativos (não usar em texto) */
+.table thead tr,.table tfoot tr{background:#E9ECEF}
+.table tbody tr:hover{background:#F8F9FA}
+.table th,.table td{border-color:#CED4DA}
+hr,[role=separator]{border-color:#CED4DA}
+.progress{background:#DEE2E6}
+:root{--scrollbar-thumb:#ADB5BD}
+html.dark .table thead tr,html.dark .table tfoot tr{background:#273449}
+html.dark .table tbody tr:hover{background:#273449}
+html.dark .table th,html.dark .table td,html.dark hr,html.dark [role=separator]{border-color:#374151}
+html.dark .progress{background:#374151}
+html.dark{--scrollbar-thumb:#4B5563}
 </style>
 <style>
 .wrap{max-width:1120px;margin:0 auto;padding:24px 16px 80px}
@@ -184,12 +199,15 @@ code{font-size:12.5px;background:var(--muted);padding:1px 6px;border-radius:6px}
     <div class="sw"><i style="background:#212529"></i><div><b>Texto principal</b><span>#212529 · escuro: #F8F9FA</span></div></div>
     <div class="sw"><i style="background:#495057"></i><div><b>Texto de apoio</b><span>#495057 · escuro: #CED4DA</span></div></div>
     <div class="sw"><i style="background:#4D4D4D"></i><div><b>Borda dos campos</b><span>#4D4D4D</span></div></div>
-    <div class="sw"><i style="background:#DEDEDE"></i><div><b>Fundo</b><span>#DEDEDE</span></div></div>
+    <div class="sw"><i style="background:#DEE2E6"></i><div><b>Fundo</b><span>#DEE2E6 · início do degradê #F8F9FA</span></div></div>
+    <div class="sw"><i style="background:#E9ECEF"></i><div><b>Áreas discretas</b><span>#E9ECEF · cabeçalho e rodapé de tabela</span></div></div>
+    <div class="sw"><i style="background:#CED4DA"></i><div><b>Linhas e divisórias</b><span>#CED4DA</span></div></div>
+    <div class="sw"><i style="background:#ADB5BD"></i><div><b>Detalhe decorativo</b><span>#ADB5BD · nunca em texto</span></div></div>
     <div class="sw"><i style="background:#0077B6"></i><div><b>Marca e ações</b><span>#0077B6</span></div></div>
     <div class="sw"><i style="background:#EF4444"></i><div><b>Crítico (marca)</b><span>#EF4444 · fundo #FEE2E2</span></div></div>
     <div class="sw"><i style="background:#F59E0B"></i><div><b>Atenção (marca)</b><span>#F59E0B · fundo #FEF3C7</span></div></div>
     <div class="sw"><i style="background:#10B981"></i><div><b>Atingida (marca)</b><span>#10B981 · fundo #DCFCE7</span></div></div>
-    <div class="sw"><i style="background:#F3F4F6"></i><div><b>Neutro / sem meta</b><span>#F3F4F6 · marca #4D4D4D</span></div></div>
+    <div class="sw"><i style="background:#E9ECEF"></i><div><b>Neutro / sem meta</b><span>#E9ECEF · marca #4D4D4D</span></div></div>
   </div>
 </section>
 
