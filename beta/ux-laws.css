@@ -71,3 +71,9 @@ html[data-theme=dark] #gi-beta :is(#ranking-export,#evo-export,#seller-goal-add,
 #gi-beta .segments button[aria-pressed=true],#gi-beta .admin-tabs button[aria-pressed=true]{background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
 #gi-beta .has-sliding-pill>.segment-pill,html[data-theme=dark] #gi-beta .has-sliding-pill>.segment-pill{background:#0466C8;box-shadow:none}
 #gi-beta .has-sliding-pill>button[aria-pressed=true],html[data-theme=dark] #gi-beta .has-sliding-pill>button[aria-pressed=true]{color:#FFFFFF;font-weight:600}
+
+/* importar/exportar metas: botões de ação azuis */
+#gi-beta :is(#goal-export,#goal-template,#goal-import),
+html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import){background:#0466C8;border-color:#0466C8;color:#FFFFFF;font-weight:600}
+#gi-beta :is(#goal-export,#goal-template,#goal-import):not(:disabled):hover,
+html[data-theme=dark] #gi-beta :is(#goal-export,#goal-template,#goal-import):not(:disabled):hover{background:#0353A4;border-color:#0353A4;color:#FFFFFF}
