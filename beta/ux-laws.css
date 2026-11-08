@@ -165,3 +165,31 @@ html[data-theme=dark] #gi-beta:not(.rail-collapsed) .rail nav button[aria-curren
 #gi-beta.rail-collapsed .rail-toggle span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 html[data-theme=dark] #gi-beta .rail-toggle:hover{background:#333333}
 }
+
+/* Inter: regras tipográficas (Figma "Inter — 01 a 04") */
+#gi-beta{font-family:Inter,Arial,sans-serif;font-size:14px;line-height:20px;letter-spacing:0;font-weight:400}
+/* Título / H3 (página) e H4 (seções): 32/40 e 24/32, peso 600, tracking -0,6 e -0,3 px */
+#gi-beta h1{font-size:32px;line-height:40px;font-weight:600;letter-spacing:-.6px;margin:8px 0}
+#gi-beta h2{font-size:24px;line-height:32px;font-weight:600;letter-spacing:-.3px}
+#gi-beta .ranking-highlight h2{font-size:16px;line-height:24px;letter-spacing:0;font-weight:600}
+/* Sobretítulo 12/16 · 600 · tracking 1,2 (caixa alta) */
+#gi-beta .eyebrow,#gi-beta .history-group{font:600 12px/16px Inter,Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+/* Texto / Corpo 16/24 e Apoio 14/20 */
+#gi-beta .page-heading p,#gi-beta .section-head p{font-size:16px;line-height:24px}
+#gi-beta .section-head p{font-size:14px;line-height:20px}
+/* Legenda 12/16 · 400 */
+#gi-beta small,#gi-beta .chart-detail,#gi-beta .chart-legend{font-size:12px;line-height:16px;letter-spacing:0}
+#gi-beta :is(#chart,#evo-chart) text,html[data-theme=dark] #gi-beta :is(#chart,#evo-chart) text{font-family:Inter,Arial,sans-serif;font-size:12px;letter-spacing:0}
+/* Interface / Rótulo 14/20 · 600 (rótulos e botões); valor 16/24 · 400 */
+#gi-beta label{font-size:14px;line-height:20px;font-weight:600;gap:8px}
+#gi-beta :is(input,select,textarea){font-size:14px;line-height:20px;font-weight:400}
+#gi-beta button{font-size:14px;line-height:20px;font-weight:600;letter-spacing:0}
+#gi-beta .rail nav button,#gi-beta .rail-toggle{font-weight:500}
+#gi-beta .rail nav button[aria-current=page]{font-weight:600}
+/* Interface / Link 16/24 · 500, com sublinhado (não depender só da cor) */
+#gi-beta a{font-weight:500;text-decoration:underline;text-underline-offset:3px}
+/* telas estreitas: preserve os pesos, reduza o título; corpo segue 16/24 */
+@media(max-width:759px){
+#gi-beta h1{font-size:24px;line-height:32px;letter-spacing:-.3px}
+#gi-beta h2{font-size:20px;line-height:28px}
+}
