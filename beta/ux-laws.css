@@ -94,7 +94,7 @@ html[data-theme=dark] #gi-beta #ranking-table th{background:linear-gradient(#046
 #gi-beta #chart svg .chart-chip rect{fill:#FFFFFF;stroke:#CED4DA}
 #gi-beta #chart svg .chart-chip text{fill:#212529;font:600 12px Inter,Arial}
 #gi-beta #chart .chart-point circle:not(.point-ring){opacity:0;transition:opacity 150ms}
-#gi-beta #chart .chart-point[data-active=true] circle:not(.point-ring){opacity:1;fill:#0466C8;stroke:#FFFFFF;stroke-width:2.5;r:6}
+#gi-beta #chart .chart-point[data-active=true] circle:not(.point-ring){opacity:1;fill:#0466C8;stroke:#FFFFFF;stroke-width:2;r:5}
 html[data-theme=dark] #gi-beta #chart svg .chart-guide{stroke:#F5F5F5}
 html[data-theme=dark] #gi-beta #chart svg .chart-chip rect{fill:#F5F5F5;stroke:#F5F5F5}
 html[data-theme=dark] #gi-beta #chart svg .chart-chip text{fill:#171717}
