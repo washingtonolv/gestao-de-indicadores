@@ -104,3 +104,12 @@ html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(
 /* alternador do gráfico (Acumulado | Por dia): tamanho compacto */
 #gi-beta .chart-controls .segments{padding:2px;gap:2px;border-radius:8px}
 #gi-beta .chart-controls .segments button{min-height:20px;height:20px;padding:0 10px;font-size:11px;line-height:1;border-radius:6px}
+
+/* card Atingimento da meta: anel com degradê azul (cor do botão); a cor de resultado fica só no selo */
+#gi-beta #gauge{max-width:210px}
+#gi-beta #gauge #gauge-value{font-size:23px;font-weight:600}
+#gi-beta #gauge .svg-label{font-size:11px}
+#gi-beta #gauge .gauge-track{stroke:var(--track,#DEE2E6)}
+#gi-beta #gauge #gauge-progress{stroke:url(#gauge-grad)}
+#gi-beta .gauge-card .legend i{background:var(--text-muted,#868E96);border-color:transparent}
+#gi-beta .gauge-card .legend [data-status-band]{color:var(--text-support)}
