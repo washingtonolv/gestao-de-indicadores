@@ -121,3 +121,10 @@ html[data-theme=dark] #gi-beta #chart .chart-point[data-active=true] circle:not(
 #gi-beta .chart-controls .segments button{padding-inline:10px}
 #gi-beta .has-sliding-pill>.segment-pill{border-radius:999px}
 #gi-beta .history-actions button{padding-inline:14px}
+
+/* gráfico da Evolução: pontos só no destaque, barras azuis */
+#gi-beta #evo-chart .evo-dot{opacity:0;transition:opacity 150ms}
+#gi-beta #evo-chart [data-evo-point][data-active=true] .evo-dot,#gi-beta #evo-chart [data-evo-point]:focus-visible .evo-dot{opacity:1}
+#gi-beta #evo-chart .chart-bar{transition:opacity 150ms}
+#gi-beta #evo-chart [data-evo-point][data-active=true] .chart-bar{filter:brightness(.9)}
+html[data-theme=dark] #gi-beta #evo-chart .evo-dot{stroke:#262626}
