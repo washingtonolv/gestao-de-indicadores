@@ -16,8 +16,9 @@ class FrameParser(HTMLParser):
 page = read('design/prototipo.html')
 parser = FrameParser(); parser.feed(page)
 inner = parser.inner.replace("__CODEX_VISUALIZATION_WIDGET_STATE__", "{}")
-css = read('beta/beta.css') + '\n' + read('beta/admin.css') + '\n' + read('beta/evolution.css') + '\n' + read('beta/theme.css') + '\n' + read('beta/redesign.css') + '\n' + read('beta/interactions.css') + '\n' + read('beta/batch-entry.css') + '\n' + read('beta/ranking.css') + '\n' + read('beta/seller-lifecycle.css') + '\n' + read('beta/ux-laws.css')
-inner, count = re.subn(r'<style>#gi-beta\{.*?</style>', lambda m: '<style>' + css + '</style>', inner, count=1, flags=re.S)
+FONT_CSS = read('beta/fonts.css').replace('__INTER_WOFF2__', __import__('base64').b64encode((ROOT / 'beta/fonts/inter-latin-wght-normal.woff2').read_bytes()).decode())
+css = FONT_CSS + '\n' + read('beta/beta.css') + '\n' + read('beta/admin.css') + '\n' + read('beta/evolution.css') + '\n' + read('beta/theme.css') + '\n' + read('beta/redesign.css') + '\n' + read('beta/interactions.css') + '\n' + read('beta/batch-entry.css') + '\n' + read('beta/ranking.css') + '\n' + read('beta/seller-lifecycle.css') + '\n' + read('beta/ux-laws.css')
+inner, count = re.subn(r'<style>(?:@font-face\{[^}]*\}\s*)?#gi-beta\{.*?</style>', lambda m: '<style>' + css + '</style>', inner, count=1, flags=re.S)
 assert count == 1
 start = inner.index('<div id="gi-beta"')
 end = inner.index('<script>function validateDB', start)
@@ -40,6 +41,7 @@ page = page[:start] + '<script>' + schema + '\n' + bundle.replace('</script', '<
 head_end = page.index('</head>')
 page = page[:head_end].replace('connect-src blob: data:;', 'connect-src blob: data: https://wyvtuvmsgncllwxxotjp.supabase.co;') + page[head_end:]
 head, tail = page[:page.index('</head>')], page[page.index('</head>'):]
+head = re.sub(r'\s*<style id="gi-font">.*?</style>', '', head, flags=re.S) + '\n<style id="gi-font">' + FONT_CSS + '</style>'
 for directive in ['img-src', 'worker-src', 'connect-src', 'script-src']:
     head = re.sub(r'(' + directive + r') (?!\x27self\x27)', r"\1 'self' ", head)
 if 'manifest-src' not in head:
