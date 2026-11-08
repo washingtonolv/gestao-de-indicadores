@@ -201,3 +201,16 @@ html[data-theme=dark] #gi-beta:has(#targets:not([hidden])) #new-entry:not(:disab
 #gi-beta .show-more{display:block;margin:12px auto 0;min-height:44px;padding:0 20px;border:1px solid var(--divider);background:transparent;color:var(--brand);font-weight:600}
 html[data-theme=dark] #gi-beta .show-more{color:#6FA8F0}
 @media(max-width:759px){#gi-beta .show-more{width:100%}}
+
+/* erros: campo destacado e mensagem com ícone, perto do formulário */
+#gi-beta :is(input,select,textarea)[aria-invalid=true]{border-color:#DC2626;box-shadow:0 0 0 3px #DC262622}
+#gi-beta :is(.error,#goal-error):not(:empty){display:flex;gap:8px;align-items:flex-start;color:#B91C1C;font-size:14px;line-height:20px;font-weight:500}
+#gi-beta :is(.error,#goal-error):not(:empty):before{content:'!';flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;background:#B91C1C;color:#FFFFFF;font-size:12px;font-weight:700;line-height:18px;text-align:center}
+html[data-theme=dark] #gi-beta :is(.error,#goal-error):not(:empty){color:#FCA5A5}
+html[data-theme=dark] #gi-beta :is(.error,#goal-error):not(:empty):before{background:#FCA5A5;color:#191919}
+html[data-theme=dark] #gi-beta :is(input,select,textarea)[aria-invalid=true]{border-color:#FCA5A5;box-shadow:0 0 0 3px #FCA5A533}
+/* celular: ação principal da Visão geral ao alcance do polegar, acima da barra de navegação */
+@media(max-width:759px){
+#gi-beta:has(#dashboard:not([hidden])) #new-entry{position:fixed;left:16px;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:900;width:auto;min-height:52px;margin:0;box-shadow:0 10px 24px -8px #0466C8aa}
+#gi-beta:has(#dashboard:not([hidden])) main{padding-bottom:calc(176px + env(safe-area-inset-bottom))}
+}
