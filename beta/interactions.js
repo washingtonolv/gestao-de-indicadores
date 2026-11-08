@@ -73,6 +73,21 @@
  }
  collapsible('#evo-results','.seller-card',5,'vendedores');
  collapsible('#ranking-body','tr',10,'posições');
+
+ /* erros: marca os campos inválidos do formulário e leva o foco ao primeiro */
+ const errorBoxes=effectsRoot.querySelectorAll('.error[role=alert],#goal-error');
+ errorBoxes.forEach(box=>{
+  new MutationObserver(()=>{
+   const form=box.closest('form')||box.parentElement;if(!form)return;
+   const text=box.textContent.trim();
+   const fields=[...form.querySelectorAll('input,select,textarea')].filter(f=>!f.hidden&&f.type!=='hidden');
+   if(!text){fields.forEach(f=>f.removeAttribute('aria-invalid'));return;}
+   const bad=fields.filter(f=>!f.checkValidity()||(f.required&&!f.value.trim()));
+   bad.forEach(f=>{f.setAttribute('aria-invalid','true');if(box.id)f.setAttribute('aria-describedby',box.id);});
+   if(bad[0]&&!form.contains(document.activeElement.closest?.('input,select,textarea')))bad[0].focus({preventScroll:false});
+  }).observe(box,{childList:true,characterData:true,subtree:true});
+ });
+ effectsRoot.addEventListener('input',event=>{const f=event.target;if(f.matches?.('[aria-invalid=true]'))f.removeAttribute('aria-invalid');});
  function animateCurrentView(){
   const active=effectsRoot.querySelector('.view:not([hidden])');if(!active||motionPreference.matches)return;
   active.classList.remove('view-entering');void active.offsetWidth;active.classList.add('view-entering');
