@@ -44,7 +44,7 @@ for directive in ['img-src', 'worker-src', 'connect-src', 'script-src']:
     head = re.sub(r'(' + directive + r') (?!\x27self\x27)', r"\1 'self' ", head)
 if 'manifest-src' not in head:
     head = head.replace("object-src 'none';", "manifest-src 'self'; object-src 'none';")
-head = re.sub(r'<!-- PWA_HEAD -->.*?<!-- /PWA_HEAD -->\s*', '', head, flags=re.S)
+head = re.sub(r'\s*<!-- PWA_HEAD -->.*?<!-- /PWA_HEAD -->\s*', '', head, flags=re.S)
 page = head + '\n<!-- PWA_HEAD -->\n' + read('beta/pwa-head.html') + '\n<!-- /PWA_HEAD -->\n' + tail
 for name in ['design/prototipo.html', 'docs/index.html']:
     (ROOT / name).write_text(page + '\n', encoding='utf-8')
