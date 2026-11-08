@@ -16,7 +16,7 @@ class FrameParser(HTMLParser):
 page = read('design/prototipo.html')
 parser = FrameParser(); parser.feed(page)
 inner = parser.inner.replace("__CODEX_VISUALIZATION_WIDGET_STATE__", "{}")
-css = read('beta/beta.css') + '\n' + read('beta/admin.css') + '\n' + read('beta/evolution.css') + '\n' + read('beta/theme.css') + '\n' + read('beta/redesign.css') + '\n' + read('beta/interactions.css') + '\n' + read('beta/batch-entry.css') + '\n' + read('beta/ranking.css') + '\n' + read('beta/seller-lifecycle.css')
+css = read('beta/beta.css') + '\n' + read('beta/admin.css') + '\n' + read('beta/evolution.css') + '\n' + read('beta/theme.css') + '\n' + read('beta/redesign.css') + '\n' + read('beta/interactions.css') + '\n' + read('beta/batch-entry.css') + '\n' + read('beta/ranking.css') + '\n' + read('beta/seller-lifecycle.css') + '\n' + read('beta/ux-laws.css')
 inner, count = re.subn(r'<style>#gi-beta\{.*?</style>', lambda m: '<style>' + css + '</style>', inner, count=1, flags=re.S)
 assert count == 1
 start = inner.index('<div id="gi-beta"')

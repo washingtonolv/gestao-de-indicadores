@@ -1,0 +1,35 @@
+/* Ajustes das 20 leis de UX. Carregado por último para prevalecer sobre os demais estilos. */
+
+/* Regra 2 (Fitts): alvos de toque de pelo menos 44 px também nos controles segmentados. */
+#gi-beta :is(.segments,.admin-tabs) button{min-width:48px}
+#gi-beta .chart-hit{pointer-events:all}
+
+/* Regra 7 (Von Restorff): só uma ação principal por tela. Com o estado vazio na tela,
+   a ação principal é a do próprio cartão; o atalho do cabeçalho fica discreto. */
+#gi-beta:has(#empty:not([hidden])) #new-entry.primary{background:var(--bg-card);border-color:#DCDCDA;color:var(--text-primary)}
+
+/* Regra 4 (Proximidade): título do lançamento alinhado com os campos (sem recuo duplo). */
+#gi-beta #batch-form>.section-head{padding:0}
+
+/* Regra 11 (Gradiente de objetivo): etapas do lançamento em lote. */
+#gi-beta .batch-steps{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:20px 0 8px;padding:0}
+#gi-beta .batch-steps li{display:flex;align-items:center;gap:8px;min-height:36px;padding:6px 14px 6px 8px;border:1px solid var(--border-color,var(--divider));border-radius:999px;font-size:12px;color:var(--text-secondary)}
+#gi-beta .batch-steps li b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--track,#E6E6E4);color:var(--text-primary);font-size:12px}
+#gi-beta .batch-steps li[aria-current=step]{border-color:var(--text-primary);color:var(--text-primary);font-weight:600}
+#gi-beta .batch-steps li[aria-current=step] b{background:var(--text-primary);color:var(--bg-card)}
+#gi-beta .batch-steps li[data-done=true] b{background:var(--success);color:#071F18;font-size:0}
+#gi-beta .batch-steps li[data-done=true] b:after{content:"✓";font-size:12px;font-weight:700}
+#gi-beta .batch-step-label{margin:0 0 4px;font-size:12px}
+@media(min-width:760px){#gi-beta .batch-step-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}}
+
+@media(max-width:759px){
+ /* Mostra só a etapa atual por extenso; as outras ficam como bolinhas numeradas. */
+ #gi-beta .batch-steps li:not([aria-current=step]){font-size:0;gap:0;padding:6px}
+ #gi-beta .batch-steps li:not([aria-current=step]) b{font-size:12px}
+ #gi-beta .batch-steps li[data-done=true]:not([aria-current=step]) b{font-size:0}
+ #gi-beta .batch-steps li[data-done=true]:not([aria-current=step]) b:after{font-size:12px}
+ /* Regra 8 (Fitts): a ação principal do lançamento fica ao alcance do polegar, acima da barra de navegação. */
+ #gi-beta #batch-form{overflow:visible;overflow:clip}
+ #gi-beta #batch-editor>.actions{position:sticky;bottom:calc(74px + env(safe-area-inset-bottom));z-index:5;margin:0 -16px;padding:12px 16px;background:var(--rail,#FAFAF9);border-top:1px solid var(--divider)}
+ #gi-beta #batch-editor>.actions .primary{width:100%}
+}
