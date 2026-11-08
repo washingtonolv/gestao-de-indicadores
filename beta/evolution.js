@@ -1,4 +1,4 @@
-function evoData(){const d=validateDB(data());if(demo)d.admin.sellerGoals=d.admin.sellers.map((s,i)=>({sellerId:s.id,month:currentMonth,cents:[4500000,4300000,4000000][i]||4000000}));return d;}
+function evoData(){const d=validateDB(data());return d;}
 function evoRows(d,seller,store){return d.entries.filter(e=>(!store||same(e.store,store))&&(!seller||(same(e.seller,seller.name)&&d.admin.stores.some(s=>s.id===seller.storeId&&same(s.name,e.store)))));}
 function evoCompare(value,old,format){const delta=evolutionDelta(value,old);return delta===null?'Sem base de comparação anterior':`${delta>0?'+':''}${num(delta)}% · anterior ${format(old)}`;}
 function renderEvolution(){

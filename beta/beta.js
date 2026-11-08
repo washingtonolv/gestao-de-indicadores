@@ -37,7 +37,42 @@
  const normal=s=>s.trim().replace(/\s+/g,' ');const same=(a,b)=>a.localeCompare(b,'pt-BR',{sensitivity:'accent'})===0;
  function canonical(value,existing){const n=normal(value);return existing.find(x=>same(x,n))||n;}
  const clone=()=>structuredClone(db);
- function sample(){return {version:1,goals:[{month:currentMonth,store:'Loja exemplo',cents:12800000}],entries:[{id:'demo1',date:currentMonth+'-01',store:'Loja exemplo',seller:'Ana Beatriz',cents:3825019,orders:350,pieces:790},{id:'demo2',date:currentMonth+'-02',store:'Loja exemplo',seller:'Carla Souza',cents:3650000,orders:340,pieces:770},{id:'demo3',date:currentMonth+'-03',store:'Loja exemplo',seller:'Juliana Lima',cents:3360000,orders:319,pieces:720}]};}
+ const demoMonth=(()=>{const d=new Date(Number(currentMonth.slice(0,4)),Number(currentMonth.slice(5))-2,1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');})();
+ let sampleCache=null;
+ function sample(){
+  if(sampleCache&&sampleCache.key===today)return structuredClone(sampleCache.data);
+  let seed=20260;const rnd=()=>(seed=(seed*1664525+1013904223)%4294967296)/4294967296;
+  const stores=[
+   {id:'demo-s1',name:'Loja Centro',base:5200,sellers:['Ana Beatriz','Carla Souza','Juliana Lima','Marcos Vieira']},
+   {id:'demo-s2',name:'Loja Shopping Norte',base:6400,sellers:['Patrícia Gomes','Rafael Nunes','Camila Torres','Diego Martins','Larissa Rocha']},
+   {id:'demo-s3',name:'Loja Praia',base:4300,sellers:['Fernanda Alves','Bruno Cardoso','Tatiane Freitas']}
+  ];
+  const [y,m]=currentMonth.split('-').map(Number),months=[-2,-1,0].map(o=>{const d=new Date(y,m-1+o,1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');});
+  const entries=[],goals=[],admin={stores:[],sellers:[],users:[],audit:[],sellerGoals:[],sellerDailyGoals:[]};
+  stores.forEach(st=>{
+   admin.stores.push({id:st.id,name:st.name,active:true});
+   st.sellers.forEach((name,i)=>{
+    const sid=st.id+'-v'+(i+1),skill=0.8+rnd()*0.5;
+    admin.sellers.push({id:sid,name,storeId:st.id,active:true});
+    months.forEach((mo,mi)=>{
+     const last=new Date(Number(mo.slice(0,4)),Number(mo.slice(5)),0).getDate();let total=0,worked=0,workable=0;
+     for(let d=1;d<=last;d++){
+      const date=mo+'-'+String(d).padStart(2,'0'),dow=new Date(date+'T12:00:00').getDay();if(dow!==0)workable++;
+      if(date>today||dow===0)continue;
+      const growth=1+mi*0.04,weekend=dow===6?1.35:dow===5?1.15:1;
+      const cents=Math.round(st.base*skill*growth*weekend*(0.7+rnd()*0.6))*100+Math.round(rnd()*99);
+      const orders=Math.max(1,Math.round(cents/100/(118+rnd()*45))),pieces=Math.round(orders*(1.9+rnd()*0.9));
+      entries.push({id:`demo-${sid}-${date}`,date,store:st.name,seller:name,cents,orders,pieces});total+=cents;worked++;
+     }
+     const factor=[0.96,1.03,0.93,1.08,0.99][(i+mi)%5];
+     admin.sellerGoals.push({sellerId:sid,month:mo,cents:Math.max(1,Math.round(total/worked*workable*factor/1000000))*1000000});
+    });
+   });
+   months.forEach((mo,mi)=>{const sum=admin.sellerGoals.filter(g=>g.month===mo&&g.sellerId.startsWith(st.id+'-')).reduce((a,g)=>a+g.cents,0);goals.push({month:mo,store:st.name,cents:sum});});
+  });
+  entries.sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:0);
+  const data={version:1,goals,entries,admin};sampleCache={key:today,data};return structuredClone(data);
+ }
  const data=()=>demo?sample():db;
  function filtered(){return data().entries.filter(e=>e.date.startsWith($('#month').value)&&(!$('#store').value||e.store===$('#store').value));}
  function options(){const d=data(),a=validateDB(d).admin,selected=$('#store').value,stores=[...new Set([...d.entries,...d.goals].map(e=>e.store).concat(a.stores.filter(x=>x.active).map(x=>x.name)))].sort();$('#store').innerHTML='<option value="">Todas as lojas</option>'+stores.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');$('#store').value=stores.includes(selected)?selected:'';$('#stores-list').innerHTML=a.stores.filter(x=>x.active).map(x=>x.name).map(s=>`<option value="${esc(s)}"></option>`).join('');$('#sellers-list').innerHTML=[...new Set(a.sellers.filter(x=>x.active&&a.stores.some(t=>t.id===x.storeId&&t.active)).map(x=>x.name))].map(s=>`<option value="${esc(s)}"></option>`).join('');}
@@ -115,7 +150,7 @@
  $('#entry-form').onsubmit=async e=>{e.preventDefault();$('#entry-error').textContent='';try{const next=clone(),registry=adminState(),id=$('#entry-id').value||crypto.randomUUID(),store=canonical($('#entry-store').value,[...next.entries,...next.goals].map(x=>x.store).concat(registry.stores.map(x=>x.name))),seller=canonical($('#entry-seller').value,next.entries.filter(x=>same(x.store,store)).map(x=>x.seller).concat(registry.sellers.filter(x=>registry.stores.some(t=>t.id===x.storeId&&same(t.name,store))).map(x=>x.name))),record={id,updatedAt:new Date().toISOString(),date:$('#entry-date').value,store,seller,cents:amount($('#entry-sales').value),orders:Number($('#entry-orders').value),pieces:Number($('#entry-pieces').value)};if($('#entry-kind').value==='weekly'){const range=weeklyEntryRange({month:$('#entry-month').value,week:$('#entry-week').value,periodStart:$('#entry-period-start').value,periodEnd:$('#entry-period-end').value},today);record.periodStart=range.start;record.date=range.end;}if(!$('#entry-id').value){const a=adminState(),st=a.stores.find(x=>same(x.name,record.store));if(st&&!st.active)throw Error('Esta loja está arquivada. Reative o cadastro na Administração.');if(st&&a.sellers.some(x=>x.storeId===st.id&&same(x.name,record.seller)&&!x.active))throw Error('Este vendedor está arquivado. Reative o cadastro na Administração.');}if(!entrySellerChoices(validateDB(data()).admin,record.store,next.entries.find(e=>e.id===$('#entry-id').value&&same(e.store,record.store))?.seller||'').includes(record.seller))throw Error('Selecione um vendedor vinculado à loja escolhida.');if((record.periodStart||record.date)>today)throw Error('O lançamento não pode ter uma data futura.');if(record.orders===0&&(record.cents>0||record.pieces>0))throw Error('Informe ao menos um atendimento para vendas ou peças registradas.');if(next.entries.some(x=>x.id!==id&&(x.periodStart||x.date)<=record.date&&(record.periodStart||record.date)<=x.date&&same(x.store,store)&&same(x.seller,seller)))throw Error('Já existe um lançamento diário ou semanal deste vendedor no período. Edite o registro existente para evitar duplicidade.');const index=next.entries.findIndex(x=>x.id===id);if(index<0)next.entries.push(record);else next.entries[index]=record;await save(next,(index<0?'Registrou':'Editou')+' resultado de '+record.seller);recentlySavedId=index<0?id:'';$('#month').value=record.date.slice(0,7);$('#store').value=record.store;page=0;render();resetEntry();notify('Lançamento salvo. Indicadores atualizados.');if(recentlySavedId)setTimeout(()=>{recentlySavedId='';},2100);}catch(error){$('#entry-error').textContent=error.message;}};
  $('#goal-form').onsubmit=async e=>{e.preventDefault();$('#goal-error').textContent='';try{const next=clone(),registry=adminState(),g={month:$('#goal-month').value,store:canonical($('#goal-store').value,[...next.entries,...next.goals].map(x=>x.store).concat(registry.stores.map(x=>x.name))),cents:amount($('#goal-value').value)};if(adminState().stores.some(x=>same(x.name,g.store)&&!x.active))throw Error('Esta loja está arquivada. Reative o cadastro na Administração.');if(g.cents<=0)throw Error('A meta deve ser maior que zero.');const index=next.goals.findIndex(x=>x.month===g.month&&same(x.store,g.store));if(index<0)next.goals.push(g);else next.goals[index]=g;await save(next,(index<0?'Cadastrou':'Editou')+' meta de '+g.store);$('#month').value=g.month;render();notify('Meta salva. Indicadores atualizados.');}catch(error){$('#goal-error').textContent=error.message;}};
  $('#month').value=currentMonth;$('#goal-month').value=currentMonth;$('#month').onchange=()=>{if(!/^20\d{2}-(0[1-9]|1[0-2])$/.test($('#month').value))$('#month').value=currentMonth;page=0;animationIntent=true;render();};$('#store').onchange=()=>{page=0;animationIntent=true;render();};$('#previous').onclick=()=>{page--;renderHistory(filtered());};$('#next').onclick=()=>{page++;renderHistory(filtered());};
- $('#demo').onclick=()=>{demo=!demo;animationIntent=true;$('#month').value=currentMonth;$('#store').value='';page=0;resetEntry();render();notify(demo?'Explorando dados fictícios. Seus dados permanecem guardados.':'De volta aos seus dados.');};
+ $('#demo').onclick=()=>{demo=!demo;animationIntent=true;$('#month').value=demo?demoMonth:currentMonth;$('#store').value='';page=0;resetEntry();render();notify(demo?'Explorando dados fictícios. Seus dados permanecem guardados.':'De volta aos seus dados.');};
  $('#export').onclick=async()=>{try{if(demo)throw Error('Saia do exemplo para exportar seus dados.');acceptCloud(await request('export'));render();notify('Backup preparado. Confira o arquivo na pasta de downloads.');}catch(e){notice(e.message);}};
  $('#restore-file').onchange=async e=>{pendingRestore=null;$('#restore-preview').hidden=true;$('#restore-error').textContent='';try{const file=e.target.files[0];if(!file)return;if(file.size>2000000)throw Error('Arquivo maior que o limite de 2 MB.');pendingRestore=validateDB(JSON.parse(await file.text()));$('#restore-summary').textContent=`Este backup contém ${pendingRestore.entries.length} lançamento(s) e ${pendingRestore.goals.length} meta(s), ${pendingRestore.admin.stores.length} loja(s), ${pendingRestore.admin.sellers.length} vendedor(es) e ${pendingRestore.admin.users.length} usuário(s) e ${pendingRestore.admin.sellerGoals.length} meta(s) individual(is) mensal(is) e ${pendingRestore.admin.sellerDailyGoals.length} meta(s) diária(s). Os cadastros administrativos também serão substituídos. Ao confirmar, os ${db.entries.length} lançamento(s) e ${db.goals.length} meta(s) atuais serão substituídos. Baixe um backup antes se quiser preservá-los.`;$('#restore-preview').hidden=false;}catch(error){$('#restore-error').textContent=error instanceof SyntaxError?'O arquivo não contém JSON válido.':error.message;}};
  $('#restore-cancel').onclick=()=>{pendingRestore=null;$('#restore-preview').hidden=true;$('#restore-file').value='';};$('#restore-confirm').onclick=async()=>{try{throw Error('A restauração local está desativada no modo online. Seus backups continuam preservados.');if(!pendingRestore)return;await save(pendingRestore,'Restaurou backup');$('#restore-cancel').click();resetEntry();notify('Backup restaurado e salvo neste navegador.');}catch(e){$('#restore-error').textContent=e.message;}};
